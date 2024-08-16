@@ -7,6 +7,8 @@ export const GeneralesProvider = ({children}) => {
     const [ widthWin, setWidthWin ] = useState(window.innerWidth);
     const [ heightWin, setHeightWin ] = useState(window.innerHeight);
 
+    console.log("ancho", window.innerWidth )
+    console.log("alto", window.innerHeight )
   
     useEffect(() => {
         const handleResize = () => {

@@ -18,7 +18,9 @@ export default function BadgeHamb
   return (
     <IconButton aria-label="cart">
       <StyledBadge badgeContent={0} color="secondary">
-        <i>💎</i>        
+        <i>💎</i>
+      
+        
       </StyledBadge>
     </IconButton>
   );

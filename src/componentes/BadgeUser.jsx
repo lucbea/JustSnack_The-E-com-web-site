@@ -1,9 +1,13 @@
 
+import * as React from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import { TransitionEfect } from './TransitionEfect';
 import { ThemeCustom } from '../context/ThemeCustom';
-import { BiUserX  } from "react-icons/bi";
+import { RiUserUnfollowLine,  RiUserFollowLine } from "react-icons/ri";
+import { BiUserCheck, BiUserX  } from "react-icons/bi";
+// import { } from "react-icons/bi";
+// import { } from "react-icons/ri";
 
 
 const theme = ThemeCustom()
@@ -27,6 +31,7 @@ export const BadgeUser = () => {
               color: theme.palette.primary.grisOsc,
               fontWeight:'400',
               transition: 'transform 0.3s',
+            //   padding:'10px',
               '&:hover': {
                 transform: 'scale(1.1)',
                 backgroundColor: theme.palette.primary.hoverBtn,

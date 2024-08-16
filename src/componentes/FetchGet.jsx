@@ -1,4 +1,39 @@
 
+// import { useEffect } from "react";
+
+// export const useFetchGet = ({ URL, setProducts, pag, setPagTotal, isLoading, setIsLoading }) => {
+//   console.log(URL);
+  
+
+//   useEffect(() => {
+//     fetch(URL)
+//       .then((res) => {
+//         if (!res.ok) {
+//           throw new Error("El fetch está con error");
+//         }
+//         return res.json();
+//       })
+      
+//       .then((data) => {
+//         setProducts(data.products);
+//         // setPagTotal(data.info.pages)
+//         setPagTotal(1)
+       
+//       })
+//       .catch((error) => {
+//         console.error("Error del fetch:", error);
+//         console.log("Modal ::::::: abrir porque no hay resultados");
+//       });
+//       console.log("Estoy en spinner");
+//       setTimeout(() => {
+//         setIsLoading(false);
+//         // setProducts("");
+//       }, 5000);
+//   }, [pag, URL]);
+
+// };
+
+
 import { useEffect } from "react";
 
 export const useFetchGet = ({ URL, setProducts, pag, setPagTotal, isLoading, setIsLoading }) => {

@@ -1,9 +1,85 @@
+/* :root {
+ 
+} */
+
+
+
 body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 280px;
   min-height: 100vh;
+}
+
+
+/* button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+} */
+/* button:hover {
+  border-color: #646cff;
+} */
+/* button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+} */
+
+/* .cont__princip__efect {
+  
+} */
+
+/* .content__efect{
+  height: 40px;
+  line-height: 40px;
+  width: 40px;
+} */
+
+/* .efect__span { */
+  
+    /* color: #fff; Color del corazón (blanco) */
+    /* font-size: 20px; Tamaño del corazón */
+    /* line-height: 50px; Alineación vertical del corazón */
+
+  /* border-radius: 50%;
+  height: 5px;
+  width: 5px; */
+  /* background-color: #fff; */
+  /* display: inline-block;
+  vertical-align: middle;
+} */
+
+/* .efect {
+  cursor:pointer;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  background-color: rgba(36,37,40,.18);
+  height: 50px;
+  line-height: 50px;
+  width: 50px;
+  z-index: 2;
+  -webkit-transition: -webkit-transform .3s cubic-bezier(.23,1,.32,1);
+  transition: -webkit-transform .3s cubic-bezier(.23,1,.32,1);
+  -o-transition: transform .3s cubic-bezier(.23,1,.32,1);
+  transition: transform .3s cubic-bezier(.23,1,.32,1);
+  transition: transform .3s cubic-bezier(.23,1,.32,1),-webkit-transform .3s cubic-bezier(.23,1,.32,1);
+  -webkit-animation: 3s infinite dotsScale;
+  animation: 3s infinite dotsScale;
+}
+
+.icono__efect__svg{
+  stroke: #8f8f60;
+  stroke-width: 10%;
+  fill: #fff;
+  width: 45px;
 }
 
 @keyframes dotsScale {
@@ -18,4 +94,13 @@ body {
   }
 }
 
-
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+ 
+  button {
+    background-color: #f9f9f9;
+  }
+} */

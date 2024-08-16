@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 
 import { TransitionEfect } from './TransitionEfect';
 import { ThemeCustom } from '../context/ThemeCustom';
+import { PiShoppingCart } from "react-icons/pi";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { BsCart } from "react-icons/bs";
 
 import { OrdenShopContext } from '../context/OrdenShop';
@@ -29,6 +31,8 @@ export default function BadgeShop() {
 
   useEffect(() => {
     const cantItemsAux = ordenCarro.reduce((acum, o) => acum + o.cantidadPedida, 0);
+    console.log("UseEffect - cantItems", cantItems, ordenCarro.length, ordenCarro, "cantItemsAux:", cantItemsAux)
+    // console.log("badge - cantItemsAux", cantItemsAux)
     setBadgeCount(cantItemsAux);
   }, [cantItems, ordenCarro ]);
 
@@ -55,5 +59,6 @@ export default function BadgeShop() {
           }} />
         </TransitionEfect>
       </StyledBadge>
+
   );
 }
