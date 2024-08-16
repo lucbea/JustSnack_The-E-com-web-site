@@ -21,16 +21,19 @@ export default function NavAppBar() {
   const stHeader = StyleHeader({ theme });
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const { ordenCarro, setOrdenCarro, totalCarro } = useContext(OrdenShopContext);
+  const { ordenCarro, setOrdenCarro, totalCarro, setAgregarCarro } = useContext(OrdenShopContext);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => setAnchorEl(event.currentTarget);
   const handleCarMenuClose = () => setMobileMoreAnchorEl(null);
   const handleCarMenuOpen = (event) => setMobileMoreAnchorEl(event.currentTarget);
-  const handleRemoveItem = (item) => setOrdenCarro(ordenCarro.filter(o => o.id !== item.id));
+  const handleRemoveItem = (item) => {
+    setOrdenCarro(ordenCarro.filter(o => o.id !== item.id))
+    setAgregarCarro();
+  };
   const handleModifCantItem = (item, cantPedida) => {
-    if (isNaN(cantPedida) || cantPedida <= 0) return; 
+    if (isNaN(cantPedida) || cantPedida <= 0) return;
     const totalItem = parseFloat((item.price * cantPedida).toFixed(2));
     setOrdenCarro(ordenCarro.map(o =>
       o.id === item.id ? { ...item, cantidadPedida: cantPedida, totalItem } : o
@@ -39,21 +42,21 @@ export default function NavAppBar() {
 
   const handleIncrement = (item) => {
     const itemEncont = ordenCarro.find(o => o.id === item.id);
-    if (!itemEncont) return; 
+    if (!itemEncont) return;
     const cantPedAux = itemEncont.cantidadPedida + 1;
     if (itemEncont.stock >= cantPedAux) handleModifCantItem(item, cantPedAux);
   };
 
   const handleDecrement = (item) => {
     const itemEncont = ordenCarro.find(o => o.id === item.id);
-    if (!itemEncont) return; 
+    if (!itemEncont) return;
     const cantPedAux = itemEncont.cantidadPedida - 1;
     if (cantPedAux > 0) handleModifCantItem(item, cantPedAux);
   };
 
   const handleTextChange = (item, cantPed) => {
     const itemEncont = ordenCarro.find(o => o.id === item.id);
-    if (!itemEncont) return; 
+    if (!itemEncont) return;
     const cantPedAux = Math.min(cantPed, item.stock);
     handleModifCantItem(item, cantPedAux);
   }
@@ -99,7 +102,7 @@ export default function NavAppBar() {
                       >
                         <FiMinus style={{ color: 'black', fontSize: "16px", margin: "3px" }} />
                       </Button>
-                      <TextField 
+                      <TextField
                         type="number"
                         variant="outlined"
                         value={item.cantidadPedida || ''}
@@ -132,20 +135,23 @@ export default function NavAppBar() {
                       Stock: <span style={{ color: theme.palette.primary.grisCarroFont, fontSize: '12px' }}>{item.stock}</span>
                     </Box>
                   </Box>
-                </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '75px' }}>
-                  <p style={{ ...stHeader.parrafo, textAlign: 'center' }}>Total del ítem:</p>
-                  <span style={stHeader.span}>{item.totalItem || '0.00'}</span>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <IconButton onClick={() => handleRemoveItem(item)} color="inherit">
-                    <BadgeTrash />
-                  </IconButton>
+
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '75px' }}>
+                    <p style={{ ...stHeader.parrafo, textAlign: 'center' }}>Total del ítem:</p>
+                    <span style={stHeader.span}>{item.totalItem || '0.00'}</span>
+                  </Box>
                 </Box>
               </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <IconButton onClick={() => handleRemoveItem(item)} color="inherit">
+                  <BadgeTrash />
+                </IconButton>
               </Box>
-            </MenuItem>
-          ))
+
+            </Box>
+
+          </MenuItem>
+        ))
       ) : (
         <MenuItem>No hay órdenes</MenuItem>
       )}

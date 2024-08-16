@@ -7,10 +7,13 @@ export const StyleHeader = ({ theme }) => {
         },
 
         contenItem: {
+            // backgroundColor: 'pink',
             display: 'flex',
             flexWrap: 'wrap', // Permite que los elementos se envuelvan en múltiples filas
             gap: '10px',     // Espaciado entre elementos
+            // padding: '10px',
             minWidth: '244px',
+            
         },
 
         contenEncab: {
@@ -20,12 +23,15 @@ export const StyleHeader = ({ theme }) => {
             width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
+            // height: '100px',
+            // backgroundColor: theme.palette.primary.dorado,
         },
 
         contenImg: {
             width: '50px',
             height: '50px',
-            flewGrow: '1', 
+            flewGrow: '1',
+           
         },
 
         img: {
@@ -33,7 +39,10 @@ export const StyleHeader = ({ theme }) => {
         },
 
         contenTotDatos: {
-        
+            // `@media (maxWidth: ${theme.brakpoints.sm})`: {
+            //     display: 'flex',
+            //     flexDirection: 'column',
+            // },
         },
 
         contenTit: {
@@ -96,6 +105,7 @@ export const StyleHeader = ({ theme }) => {
             position: 'sticky',
             top: '-1px',
             zIndex: 1,
+            // backgroundColor: theme.palette.primary.bgTableHead,
             '@media (max-width: 650px)': {
                 position: 'relative',
                 height: '0px',
@@ -115,6 +125,7 @@ export const StyleHeader = ({ theme }) => {
             height: '35px',
             width: '50%',
             fontSize: '14px',
+            // color: theme.palette.primary.textColor,
             borderBottom: '0px solid #00000000',
             '@media (max-width: 650px)': {
                 display: 'none',

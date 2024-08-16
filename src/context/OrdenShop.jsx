@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import  { createContext, useEffect, useState } from "react";
 
 export const OrdenShopContext = createContext();
 
@@ -7,6 +7,7 @@ export const OrdenShopProvider = ({children}) => {
     const [ quitarCarro, setQuitarCarro ] = useState([]);
     const [ ordenCarro, setOrdenCarro ] = useState([]);
     const [ vaciarCarro, setVaciarCarro ] = useState(false);
+    // const [ variaCantItems, setVariaCantItems ] = useState(true);
     const [ cantItems, setCantItems ] = useState(0);
     let cantCarroAux = 0;
     const [totalCarro, setTotalCarro] = useState(0);
@@ -19,13 +20,14 @@ export const OrdenShopProvider = ({children}) => {
             const resultado = ordenCarro.filter((o) => o.id === agregarCarro.id)
             resultado.length === 0 ? ordenesAux.push(agregarCarro) : null;  
             setOrdenCarro(ordenesAux);
+            // setAgregarCarro();
         }
         const cantItemsAux = ordenCarro.reduce((acum, o) => acum + o.cantidadPedida, 0);
         setCantItems(cantItemsAux)
     }, [agregarCarro, quitarCarro])
 
     return (
-        <OrdenShopContext.Provider value = {{ordenCarro, setOrdenCarro, agregarCarro, setAgregarCarro, quitarCarro, setQuitarCarro, vaciarCarro, setVaciarCarro,      cantItems, setCantItems, totalCarro, setTotalCarro, actualImport, setActualImport, cantCarroAux }}  >
+        <OrdenShopContext.Provider value = {{ordenCarro, setOrdenCarro, agregarCarro, setAgregarCarro, quitarCarro, setQuitarCarro, vaciarCarro, setVaciarCarro, cantItems, setCantItems, totalCarro, setTotalCarro, actualImport, setActualImport, cantCarroAux }}  >
             { children }
         </OrdenShopContext.Provider>
     )
