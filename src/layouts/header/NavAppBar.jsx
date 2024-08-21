@@ -1,5 +1,7 @@
 
+
 import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for routing
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,6 +13,7 @@ import BadgeHamb from '../../componentes/BadgeHamb';
 import BadgeShop from '../../componentes/BadgeShop';
 import { BadgeUser } from '../../componentes/BadgeUser';
 import { OrdenShopContext } from '../../context/OrdenShop';
+import { UserContext } from '../../context/Users';
 import { Button, TextField } from '@mui/material';
 import { StyleHeader } from './StyleHeader';
 import BadgeTrash from '../../componentes/BadgeTrash';
@@ -19,8 +22,11 @@ import { FiMinus, FiPlus } from "react-icons/fi";
 export default function NavAppBar() {
   const theme = ThemeCustom();
   const stHeader = StyleHeader({ theme });
+  const navigate = useNavigate(); // Initialize useNavigate
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to manage login status
+  const { user, setUser } = useContext(UserContext);
   const { ordenCarro, setOrdenCarro, totalCarro, setAgregarCarro } = useContext(OrdenShopContext);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -29,9 +35,10 @@ export default function NavAppBar() {
   const handleCarMenuClose = () => setMobileMoreAnchorEl(null);
   const handleCarMenuOpen = (event) => setMobileMoreAnchorEl(event.currentTarget);
   const handleRemoveItem = (item) => {
-    setOrdenCarro(ordenCarro.filter(o => o.id !== item.id))
+    setOrdenCarro(ordenCarro.filter(o => o.id !== item.id));
     setAgregarCarro();
   };
+
   const handleModifCantItem = (item, cantPedida) => {
     if (isNaN(cantPedida) || cantPedida <= 0) return;
     const totalItem = parseFloat((item.price * cantPedida).toFixed(2));
@@ -59,7 +66,15 @@ export default function NavAppBar() {
     if (!itemEncont) return;
     const cantPedAux = Math.min(cantPed, item.stock);
     handleModifCantItem(item, cantPedAux);
-  }
+  };
+
+  const handleLogin = () => {
+    navigate('/signin'); // Navigate to SignIn page
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
 
   const renderCarShop = (
     <Menu
@@ -158,6 +173,7 @@ export default function NavAppBar() {
     </Menu>
   );
 
+
   const renderMobileMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -169,10 +185,20 @@ export default function NavAppBar() {
       onClose={() => setAnchorEl(null)}
       sx={{ top: '48px' }}
     >
-      <MenuItem onClick={() => setAnchorEl(null)}>Profile</MenuItem>
-      <MenuItem onClick={() => setAnchorEl(null)}>My account</MenuItem>
+      {isLoggedIn
+        ? [
+            <MenuItem key="perfil" onClick={() => setAnchorEl(null)}>Perfil</MenuItem>,
+            <MenuItem key="cuenta" onClick={() => setAnchorEl(null)}>Mi cuenta</MenuItem>,
+            <MenuItem key="logout" onClick={() => { setAnchorEl(null); handleLogout(); }}>Cerrar sesión</MenuItem>
+          ]
+        : [
+            <MenuItem key="login" onClick={handleLogin}>Iniciar sesión</MenuItem>,
+            <MenuItem key="signup" onClick={() => { setAnchorEl(null); navigate('/signup'); }}>Registrarse</MenuItem>
+          ]
+      }
     </Menu>
   );
+  
 
   return (
     <AppBar position="static" sx={{ position: 'fixed', top: '0', left: '0', zIndex: 20, display: 'flex', justifyContent: 'center', minWidth: '280px' }}>
@@ -180,7 +206,7 @@ export default function NavAppBar() {
         <h1 style={{ fontSize: '28px' }}>JusT<span style={{ marginLeft: '3px', fontSize: '24px' }}>snacK</span></h1>
       </Box>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', zIndex: '30' }}>
-        <IconButton size="large" edge="start" aria-label="open drawer" sx={{ mr: 2, color: theme.palette.primary.grisMuyOsc, '&:hover': { backgroundColor: theme.palette.primary.hoverBtn } }}>
+        <IconButton size="large" edge="start" aria-label="open drawer" onClick={handleProfileMenuOpen} sx={{ mr: 2, color: theme.palette.primary.grisMuyOsc, '&:hover': { backgroundColor: theme.palette.primary.hoverBtn } }}>
           <BadgeHamb />
         </IconButton>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginInline: '10px', gap: '20px', width: 'auto' }}>
@@ -197,4 +223,3 @@ export default function NavAppBar() {
     </AppBar>
   );
 }
-

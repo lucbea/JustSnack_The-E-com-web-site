@@ -15,8 +15,10 @@ export const ThemeCustom = () => {
         transparent: '#00000000',
         grisCarroFont: '#737373',
         sombra: '0px 0px 10px #9b9696',
-        rojo: '#0000FF',
-        azul: '#FF0000',
+        btnReg: '#6a6e8c',
+        rojo: '#b0273c',
+        verde: '#228563',
+        azul: '#23609c',
         borde: '1px solid #737373',
       },
       secondary: {
@@ -29,6 +31,8 @@ export const ThemeCustom = () => {
         fondo: '#17161696',
       },
     },
+
+
     typography: {
       fontFamily: [
         'Roboto',
