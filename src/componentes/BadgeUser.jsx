@@ -1,14 +1,12 @@
 
-import * as React from 'react';
+import React, { useContext } from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import { TransitionEfect } from './TransitionEfect';
 import { ThemeCustom } from '../context/ThemeCustom';
-import { RiUserUnfollowLine,  RiUserFollowLine } from "react-icons/ri";
-import { BiUserCheck, BiUserX  } from "react-icons/bi";
-// import { } from "react-icons/bi";
-// import { } from "react-icons/ri";
-
+import { PiUserCircleLight } from "react-icons/pi";
+import { PiUserCircleCheckLight } from "react-icons/pi";
+import { UserContext } from '../context/Users';
 
 const theme = ThemeCustom()
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -21,6 +19,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export const BadgeUser = () => {
+  const { isLoggedIn } = useContext(UserContext);
     return (
         <StyledBadge badgeContent={0}>
           <TransitionEfect
@@ -37,7 +36,7 @@ export const BadgeUser = () => {
                 backgroundColor: theme.palette.primary.hoverBtn,
               }
             }}>
-          <BiUserX style={{ fontSize:'28px', color:theme.palette.primary.grisMuyOsc, backgroundColor: theme.palette.primary.transparent }}/>
+            {isLoggedIn? <PiUserCircleCheckLight style={{ fontSize:'32px', color:theme.palette.primary.grisMuyOsc, backgroundColor: theme.palette.primary.transparent }}/> : <PiUserCircleLight style={{ fontSize:'32px', color:theme.palette.primary.grisMuyOsc, backgroundColor: theme.palette.primary.transparent }}/>}
         </TransitionEfect>
           </StyledBadge >
     )

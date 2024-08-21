@@ -4,10 +4,7 @@ import { styled } from '@mui/material/styles';
 
 import { TransitionEfect } from './TransitionEfect';
 import { ThemeCustom } from '../context/ThemeCustom';
-import { PiShoppingCart } from "react-icons/pi";
-import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { BsCart } from "react-icons/bs";
-
 import { OrdenShopContext } from '../context/OrdenShop';
 
 const theme = ThemeCustom()
@@ -37,8 +34,8 @@ export default function BadgeShop() {
   }, [cantItems, ordenCarro ]);
 
   return (
-   
-      <StyledBadge badgeContent={badgeCount}>
+
+      <StyledBadge badgeContent={badgeCount} sx={{paddingInline:'4px',}}>
         <TransitionEfect
           sx={{
             width: 'auto',
@@ -53,9 +50,9 @@ export default function BadgeShop() {
             }
           }}>
           < BsCart style={{
-            fontSize: '26px',
+            fontSize: '25px',
             color: theme.palette.primary.grisMuyOsc,
-            backgroundColor: theme.palette.primary.transparent, 
+            backgroundColor: theme.palette.primary.transparent,
           }} />
         </TransitionEfect>
       </StyledBadge>

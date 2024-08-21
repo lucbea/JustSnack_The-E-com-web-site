@@ -3,7 +3,7 @@ import  { createContext, useEffect, useState } from "react";
 export const UserContext = createContext();
 
 export const UserProvider = ({children}) => {
-    const [ isLoggedIn, setIsLoggedIn ] = useState();
+    const [ isLoggedIn, setIsLoggedIn ] = useState(false);
     const [ user, setUser ] = useState({nombre:"", clave:""})
    
     // const [ variaCantItems, setVariaCantItems ] = useState(true);

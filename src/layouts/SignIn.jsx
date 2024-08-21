@@ -1,5 +1,6 @@
 
-import * as React from 'react';
+
+import React, { useContext } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,37 +15,44 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ThemeCustom } from "../context/ThemeCustom";
-import { componentCustom } from '../context/ComponentCustom';
+import { ComponentCustom } from '../context/ComponentCustom';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/Users';
 
-
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            <Link color="inherit" href="/">
-                JustSnack
-            </Link>{' '}
-            {'Copyright © '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
     const theme = ThemeCustom();
-    const component = componentCustom();
-    // const navigate = useNavigate();
+    const component = ComponentCustom();
+    const { isLoggedIn, setIsLoggedIn, user, setUser } = useContext(UserContext);
+    const navigate = useNavigate();
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-        
+        const email = data.get('email');
+        const password = data.get('password');
+
+        // Obtener datos del localStorage
+        const userJson = localStorage.getItem('user');
+        if (userJson) {
+            const user = JSON.parse(userJson);
+            // Verificar si el usuario existe y las credenciales coinciden
+            if (user.email === email && user.password === password) {
+                console.log('Inicio de sesión exitoso');
+                setIsLoggedIn (true);
+                setUser ( email, password );
+                console.log ( user, isLoggedIn );
+                navigate('/home'); // Redirigir a la página de inicio (ajusta la ruta según tu aplicación)
+            } else {
+                console.log('Correo electrónico o contraseña incorrectos');
+                // Aquí podrías mostrar un mensaje de error en el UI
+            }
+        } else {
+            console.log('No se encontraron datos de usuario en el almacenamiento local');
+            // Aquí podrías mostrar un mensaje de error en el UI
+        }
     };
 
     return (
@@ -65,7 +73,7 @@ export default function SignIn() {
                     <Typography component="h1" variant="h5">
                         Iniciar sesión
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, justifyContent:'flex-start' }}>
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, justifyContent: 'flex-start' }}>
                         <TextField
                             margin="normal"
                             required
@@ -77,16 +85,16 @@ export default function SignIn() {
                             autoFocus
                             InputProps={{
                                 sx: {
-                                  fontSize: '15px',
-                                  paddingBlock: '2px',
-                                  ...component.bordeInp,
+                                    fontSize: '15px',
+                                    paddingBlock: '2px',
+                                    ...component.bordeInp,
                                 }
-                              }}
-                              InputLabelProps={{
+                            }}
+                            InputLabelProps={{
                                 sx: {
-                                  fontSize: '12px',
+                                    fontSize: '12px',
                                 }
-                              }}
+                            }}
                         />
                         <TextField
                             margin="normal"
@@ -99,60 +107,75 @@ export default function SignIn() {
                             autoComplete="current-password"
                             InputProps={{
                                 sx: {
-                                  fontSize: '15px',
-                                  paddingBlock: '2px',
-                                  ...component.bordeInp,
+                                    fontSize: '15px',
+                                    paddingBlock: '2px',
+                                    ...component.bordeInp,
                                 }
-                              }}
-                              InputLabelProps={{
+                            }}
+                            InputLabelProps={{
                                 sx: {
-                                  fontSize: '12px',
+                                    fontSize: '12px',
                                 }
-                              }}
+                            }}
                         />
-                        <Box sx={{width:'100%', ml:1 ,textAlign:'left'}}>
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Recordarme"
-                            sx={{
-                                '& .MuiFormControlLabel-label': {
-                                  fontSize: '10px', 
-                                },
-                                '& .MuiCheckbox-root': {
-                               
-                                  '&.Mui-checked': {
-                                    color: theme.palette.primary.azul, 
-                                  },
-                                },
-                              }}
-                        />
+                        <Box sx={{ width: '100%', ml: 1, textAlign: 'left' }}>
+                            <FormControlLabel
+                                control={<Checkbox value="remember" color="primary" />}
+                                label="Recordarme"
+                                sx={{
+                                    '& .MuiFormControlLabel-label': {
+                                        fontSize: '10px',
+                                    },
+                                    '& .MuiCheckbox-root': {
+                                        '&.Mui-checked': {
+                                            color: theme.palette.primary.azul,
+                                        },
+                                    },
+                                }}
+                            />
                         </Box>
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 2, mb: 1.5, backgroundColor:theme.palette.primary.btnReg, '&:hover': {
-            bgcolor: theme.palette.primary.azul} }}  >
+                            sx={{ mt: 2, mb: 1.5, backgroundColor: theme.palette.primary.btnReg, '&:hover': {
+                                bgcolor: theme.palette.primary.azul
+                            } }}
+                        >
                             Iniciar sesión
                         </Button>
                         <Grid container sx={{ flexDirection: 'column' }}>
-                            {/* <Grid item xs>
-                                <Link href="#" variant="body2">
+                            <Grid item xs>
+                                <Button sx={{
+                                    color: theme.palette.primary.btnReg,
+                                    bgcolor: theme.palette.primary.transparent,
+                                    textTransform: 'capitalize',
+                                    '&:hover': {
+                                        color: theme.palette.primary.azul,
+                                        fontWeight: '700',
+                                        bgcolor: theme.palette.primary.transparent
+                                    }
+                                }}>
                                     ¿Olvidaste tu contraseña?
-                                </Link>
-                            </Grid> */}
-                            <Grid item sx={{cursor:'pointer'}}>
-
-                            <Button  sx={{color: theme.palette.primary.btnReg, bgcolor:theme.palette.primary.transparent, textTransform: 'capitalize', '&:hover': {
-            color: theme.palette.primary.azul, fontWeight:'900', bgcolor: theme.palette.primary.transparent}}}>
-
+                                </Button>
+                            </Grid>
+                            <Grid item sx={{ cursor: 'pointer' }}>
+                                <Button sx={{
+                                    color: theme.palette.primary.btnReg,
+                                    bgcolor: theme.palette.primary.transparent,
+                                    textTransform: 'capitalize',
+                                    '&:hover': {
+                                        color: theme.palette.primary.azul,
+                                        fontWeight: '900',
+                                        bgcolor: theme.palette.primary.transparent
+                                    }
+                                }}>
                                     ¿No tienes cuenta? Regístrate
                                 </Button>
                             </Grid>
                         </Grid>
                     </Box>
                 </Box>
-                {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
             </Container>
         </ThemeProvider>
     );
