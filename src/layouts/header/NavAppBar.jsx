@@ -24,9 +24,8 @@ export default function NavAppBar() {
   const stHeader = StyleHeader({ theme });
   const navigate = useNavigate(); // Initialize useNavigate
   const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to manage login status
-  const { user, setUser } = useContext(UserContext);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);// State to manage login status
+  const { isLoggedIn, setIsLoggedIn, user, setUser } = useContext(UserContext);
   const { ordenCarro, setOrdenCarro, totalCarro, setAgregarCarro } = useContext(OrdenShopContext);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

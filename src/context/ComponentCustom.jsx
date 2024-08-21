@@ -60,7 +60,7 @@
 import { createTheme } from '@mui/material/styles';
 import { ThemeCustom } from '../context/ThemeCustom';
 
-export const componentCustom = () => {
+export const ComponentCustom = () => {
     const theme = ThemeCustom();
     return createTheme({
         components: {
@@ -86,7 +86,7 @@ export const componentCustom = () => {
                             fontSize: '8px',
                         },
                     },
-                    error: {
+                   "&.Mui-error": {
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderColor: theme.palette.primary.rojo, // Color del borde en estado de error
                         },

@@ -646,27 +646,15 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ThemeCustom } from "../context/ThemeCustom";
-import { componentCustom } from '../context/ComponentCustom';
+import { ComponentCustom } from '../context/ComponentCustom';
 import FormHelperText from '@mui/material/FormHelperText';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props} sx={{ fontSize: '10px' }}>
-      <Link color="inherit" href="/" sx={{ fontSize: '14px', fontWeight: 900 }}>
-        JustSnack
-      </Link>{' '}
-      {'Copyright © '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
   const theme = ThemeCustom();
-  const component = componentCustom();
+  const component = ComponentCustom();
   const navigate = useNavigate();
 
   const [values, setValues] = useState({
@@ -929,7 +917,6 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        {/* <Copyright sx={{ mt: 4 }} /> */}
       </Container>
     </ThemeProvider>
   );
