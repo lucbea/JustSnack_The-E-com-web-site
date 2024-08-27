@@ -1,5 +1,5 @@
 
-import SignIn from "../layouts/SignIn";
+import SignIn from "../layouts/main/SignIn";
 
 
 export const IniciarSesion = () => {

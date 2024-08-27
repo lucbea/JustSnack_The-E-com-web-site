@@ -1,12 +1,13 @@
 
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import { TransitionEfect } from './TransitionEfect';
 import { ThemeCustom } from '../context/ThemeCustom';
+import { OrdenShopContext } from '../context/OrdenShop';
 import { PiUserCircleLight } from "react-icons/pi";
 import { PiUserCircleCheckLight } from "react-icons/pi";
-import { UserContext } from '../context/Users';
+
 
 const theme = ThemeCustom()
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -19,7 +20,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export const BadgeUser = () => {
-  const { isLoggedIn } = useContext(UserContext);
+  const { isLoggedIn } = useContext(OrdenShopContext);
     return (
         <StyledBadge badgeContent={0}>
           <TransitionEfect
