@@ -64,6 +64,8 @@ export const ComponentCustom = () => {
     const theme = ThemeCustom();
     return createTheme({
         components: {
+            colorTexto: {
+               color: theme.palette.primary.azul},
             MuiTextField: {
                 styleOverrides: {
                     root: {
@@ -81,12 +83,21 @@ export const ComponentCustom = () => {
                             '& .MuiInputBase-input': {
                                 padding: '5px 14px',
                             },
+                            '& .MuiInputAdornment-root': {
+                                display: 'none', // Oculta el adornment que contiene el ícono del ojo
+                            },
                         },
                         '& .MuiFormHelperText-root': {
                             fontSize: '8px',
                         },
                     },
-                   "&.Mui-error": {
+                    '& .MuiInputLabel-shrink': {
+                        // Estilos para el label cuando está enfocado
+                        color: theme.palette.primary.azul, 
+                        fontSize:'6px',
+                        transform:'translate(14px, -9px) scale(0.5)',
+                    },
+                    "&.Mui-error": {
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderColor: theme.palette.primary.rojo, // Color del borde en estado de error
                         },

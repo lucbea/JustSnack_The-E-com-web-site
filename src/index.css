@@ -10,7 +10,25 @@ body {
   place-items: center;
   min-width: 280px;
   min-height: 100vh;
+ 
 }
+/* 
+input:-webkit-autofill {
+  background-color: pink !important;
+  color: black !important;
+}
+
+/* Estilos para autofill en Firefox */
+/* input:-moz-autofill {
+  background-color: pink !important;
+  color: black !important;
+} */
+
+/* Estilos para autofill en Safari (internos) */
+/* input:-internal-autofill-selected {
+  background-color: pink !important;
+  color: black !important;
+} */ 
 
 
 /* button {

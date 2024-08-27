@@ -1,5 +1,5 @@
 
-import SignUp from "../layouts/SignUp";
+import SignUp from "../layouts/main/SignUp";
 
 
 export const Registrarse = () => {

@@ -24,13 +24,19 @@ const StyledBadge = styled(Badge)(() => ({
 
 export default function BadgeShop() {
   const [badgeCount, setBadgeCount] = useState(0);
-  const { ordenCarro, cantItems, agregarCarro, quitarCarro } = useContext(OrdenShopContext)
-
+  const { ordenCarro, cantItems, agregarCarro, quitarCarro, setTotalCarro } = useContext(OrdenShopContext)
+ 
   useEffect(() => {
+    let totalAuxCarro =0;
     const cantItemsAux = ordenCarro.reduce((acum, o) => acum + o.cantidadPedida, 0);
     console.log("UseEffect - cantItems", cantItems, ordenCarro.length, ordenCarro, "cantItemsAux:", cantItemsAux)
     // console.log("badge - cantItemsAux", cantItemsAux)
     setBadgeCount(cantItemsAux);
+    totalAuxCarro = ordenCarro.reduce((acum, o) => acum + (o.totalItem || 0), 0);
+    console.log("estoy en BadgeShop - totalAux:", totalAuxCarro)
+    setTotalCarro(totalAuxCarro);
+    // const cantItemsAux = ordenCarro.reduce((acum, o) => acum + o.cantidadPedida, 0);
+    // setCantItems(cantItemsAux)
   }, [cantItems, ordenCarro ]);
 
   return (
