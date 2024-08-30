@@ -28,9 +28,6 @@ export  const Home = ({products}) => {
       {/* <Slider /> */}
       {showProducts? (
         <Grilla products={products} />
-        // <Box sx={{ height: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        //   <img style={{ height: '40px' }} src={spinner} alt="spinner" />
-        // </Box>
       ) : (null)}
     </div>
   );

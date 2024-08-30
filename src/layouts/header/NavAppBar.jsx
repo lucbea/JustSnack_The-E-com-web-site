@@ -18,6 +18,7 @@ import { StyleHeader } from './StyleHeader';
 import BadgeTrash from '../../componentes/BadgeTrash';
 import { FiMinus, FiPlus } from "react-icons/fi";
 import Grilla from '../main/Grid';
+import { PiUserCircleCheckLight } from "react-icons/pi";
 
 export default function NavAppBar() {
   const theme = ThemeCustom();
@@ -25,7 +26,7 @@ export default function NavAppBar() {
   const navigate = useNavigate(); // Initialize useNavigate
   
   
-  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, setAgregarCarro, setQuitarCarro, handleIniciarCompra, handleLogin, handleLogout, handlePerfil, isLoggedIn, setIsLoggedIn, user, setUser } = useContext(OrdenShopContext);
+  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, setAgregarCarro, setQuitarCarro, vaciarCarro, setVaciarCarro, vaciarCarrito, handleIniciarCompra, handleLogin, handleLogout, handlePerfil, isLoggedIn, setIsLoggedIn, user, setUser } = useContext(OrdenShopContext);
   const isMenuOpenUser = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isCarrOpen = Boolean(anclaMenuCarr);
@@ -75,8 +76,11 @@ export default function NavAppBar() {
       o.id === item.id ? { ...item, cantidadPedida: cantPedida, totalItem } : o
     );
     const totalCompra = updatedOrdenCarro.reduce((acc, o) => acc + (o.totalItem || 0), 0);
+  
     setOrdenCarro(updatedOrdenCarro);
-    setTotalCarro(totalCompra);
+    setTotalCarro(totalCompra);  
+    console.log("ordenCarro:", updatedOrdenCarro,"***",ordenCarro, "totalCarro:", totalCompra, "***", totalCarro)
+    
     setAgregarCarro();
     setQuitarCarro();
     setModifItemCarro(item);
@@ -220,7 +224,7 @@ export default function NavAppBar() {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => handleIniciarCompra()}
+            onClick={(e) => handleIniciarCompra(e.currentTarget)}
             sx={{ ...stHeader.btnFooterCarro }}
           >
             Iniciar compra
@@ -274,8 +278,8 @@ export default function NavAppBar() {
 
       {isLoggedIn
         ? [
-          <MenuItem key="perfil" onClick={handlePerfil}>Perfil</MenuItem>,
-          <MenuItem key="cuenta" onClick={() => setMobileMoreAnchorEl(null)}>Mi cuenta</MenuItem>,
+          // <MenuItem key="perfil" onClick={handlePerfil}>Perfil</MenuItem>,
+          <MenuItem key="cuenta" onClick={() => setMobileMoreAnchorEl(null)}>Mis órdenes</MenuItem>,
           <MenuItem key="logout" onClick={() => { setMobileMoreAnchorEl(null); handleLogout(); }}>Cerrar sesión</MenuItem>
         ]
         : [
@@ -297,12 +301,13 @@ export default function NavAppBar() {
         </IconButton>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginInline: '0px', gap: '20px', width: 'auto' }}>
           <IconButton size="large" aria-label="shop" aria-controls="carr-shop-menu-mobile" aria-haspopup="true" onClick={handleCarMenuOpen} color="inherit" sx={{marginInline: {xs:'0px', sm:'1px'}, width:'52px', height:'52px', '&:hover': { backgroundColor: theme.palette.primary.hoverBtn } }}>
-            <BadgeShop total={totalCarro} />
+            <BadgeShop />
           </IconButton>
           <IconButton size="large" edge="end" aria-label="account of current user" aria-controls="primary-search-account-menu" aria-haspopup="true" onClick={handleProfileUser} color="inherit" sx={{ display:{xs:'none', sm:'flex'}, color: theme.palette.primary.grisMuyOsc, '&:hover': { backgroundColor: theme.palette.primary.hoverBtn } }}>
             <BadgeUser />
           </IconButton>
         </Box>
+        {isLoggedIn ? (<Box sx={{ display:{xs:'flex', sm:'none'}, alignItems:'center', position:'absolute', top:'53px', left:'13px'}}><PiUserCircleCheckLight/><p style={{fontSize:'10px', paddingLeft:'6px'}}>Sesión iniciada</p></Box>) :null}
       </Toolbar>
       {renderMobileMenu}
       {renderCarShop}

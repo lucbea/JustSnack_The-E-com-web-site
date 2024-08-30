@@ -23,7 +23,7 @@ const defaultTheme = createTheme();
 export default function SignIn() {
     const theme = ThemeCustom();
     const component = ComponentCustom();
-    const {isLoggedIn,  setIsLoggedIn, setUser } = useContext(OrdenShopContext);
+    const { btnIniciarCompra, setBtnIniciarCompra, isLoggedIn, setIsLoggedIn, setUser, auxAnclaMenuCarr, setAuxAnclaMenuCarr, InicSesion } = useContext(OrdenShopContext);
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -49,32 +49,37 @@ export default function SignIn() {
     };
 
     const handleSubmit = (event) => {
-        if (!isLoggedIn) { 
+        if (!isLoggedIn) {
             console.log("no está logueado, procedo al loguin")
-        event.preventDefault();
-        const { email, password } = values;
+            event.preventDefault();
+            const { email, password } = values;
 
-        // Obtener datos del localStorage
-        const userJson = localStorage.getItem('user');
-        if (userJson) {
-            const user = JSON.parse(userJson);
-            // Verificar si el usuario existe y las credenciales coinciden
-            if (user.email === email && user.password === password) {
-                console.log('Inicio de sesión exitoso');
-                setIsLoggedIn(true);
-                setUser(email, password);
-                navigate('/');
-                setErrorMessage('');
+            // Obtener datos del localStorage
+            const userJson = localStorage.getItem('user');
+            if (userJson) {
+                const user = JSON.parse(userJson);
+                // Verificar si el usuario existe y las credenciales coinciden
+                if (user.email === email && user.password === password) {
+                    console.log('Inicio de sesión exitoso');
+                    setIsLoggedIn(true);
+                    setUser(email, password);
+                    navigate('/');
+                    setErrorMessage('');
+                    setBtnIniciarCompra(false);
+                } else {
+                    setIsLoggedIn(false);
+                    setErrorMessage('Datos incorrectos');
+                }
             } else {
                 setIsLoggedIn(false);
                 setErrorMessage('Datos incorrectos');
+                console.log('No se encontraron datos de usuario en el almacenamiento local');
             }
-        } else {
-            setIsLoggedIn(false);
-            setErrorMessage('Datos incorrectos');
-            console.log('No se encontraron datos de usuario en el almacenamiento local');
-        }
-    } else { console.log ("está logueado")}
+        } else { console.log("está logueado") }
+        console.log("LogIn - auxAnclaMenuCarr:", auxAnclaMenuCarr)
+        if (auxAnclaMenuCarr) {
+            console.log("LogIn - auxAnclaMenuCarr:", auxAnclaMenuCarr)
+        } 
     };
 
     const handleSignUpRedirect = () => {
@@ -85,6 +90,12 @@ export default function SignIn() {
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
+                {btnIniciarCompra && (
+                    <Box>
+                        Debe iniciar sesión para proseguir con la compra.
+                    </Box>
+                )}
+
                 <Box
                     sx={{
                         marginTop: '8px',
@@ -248,18 +259,18 @@ export default function SignIn() {
                         </Box>
                         <Button
                             type="submit"
-                            fullWidth
+                            // fullWidth
                             variant="contained"
                             sx={{
-                                mt: 2, mb: 2, backgroundColor: theme.palette.primary.btnReg, '&:hover': {
-                                    bgcolor: theme.palette.primary.azul
+                                marginTop: '16px', marginBottom: '16px', backgroundColor: theme.palette.primary.btnReg, marginInline:'auto', maxWidth: '216px', '&:hover': {
+                                    bgcolor: theme.palette.primary.azul, 
                                 }
                             }}
                         >
                             Iniciar sesión
                         </Button>
-                        <Grid container sx={{ flexDirection: 'column', marginBlock: '20px' }}>
-                            <Grid item xs>
+                        <Box sx={{ flexDirection: 'column', marginBottom: '20px' }}>
+                            {/* <Box xs>
                                 <Button sx={{
                                     paddingBlock: '0px',
                                     color: theme.palette.primary.btnReg,
@@ -273,8 +284,8 @@ export default function SignIn() {
                                 }}>
                                     ¿Olvidaste tu contraseña?
                                 </Button>
-                            </Grid>
-                            <Grid item sx={{ cursor: 'pointer' }}>
+                            </Box> */}
+                            <Box sx={{ cursor: 'pointer' }}>
                                 <Button
                                     onClick={handleSignUpRedirect}
                                     sx={{
@@ -291,8 +302,8 @@ export default function SignIn() {
                                 >
                                     <span style={{ fontSize: '8px', marginRight: '4px' }}>¿No tienes cuenta? </span> Regístrate
                                 </Button>
-                            </Grid>
-                        </Grid>
+                            </Box>
+                        </Box>
                     </Box>
                 </Box>
             </Container>

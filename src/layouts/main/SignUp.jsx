@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -20,6 +20,8 @@ import { ComponentCustom } from '../../context/ComponentCustom';
 import FormHelperText from '@mui/material/FormHelperText';
 // import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'; // Iconos para mostrar/ocultar contraseña
 import { VscEyeClosed, VscEye } from "react-icons/vsc";
+import { v4 as uuidv4 } from 'uuid';
+import { OrdenShopContext } from '../../context/OrdenShop';
 
 const defaultTheme = createTheme();
 
@@ -27,6 +29,7 @@ export default function SignUp() {
   const theme = ThemeCustom();
   const component = ComponentCustom();
   const navigate = useNavigate();
+  const { user, setUser } = useContext(OrdenShopContext);
 
   const [values, setValues] = useState({
     nombre: '',
@@ -89,7 +92,6 @@ export default function SignUp() {
   const handleSubmitRegister = (event) => {
     event.preventDefault();
     console.log("ingresé a handleSubmit registro")
-    // Validar los campos
     const newErrors = {
       nombre: values.nombre ? (values.nombre.length >= 4 ? '' : 'Mínimo 4 caracteres.') : 'El nombre es obligatorio.',
       apellido: values.apellido ? (values.apellido.length >= 4 ? '' : 'Mínimo 4 caracteres.') : 'El apellido es obligatorio.',
@@ -124,6 +126,7 @@ export default function SignUp() {
     const notific = values.check ? 'true' : 'false';
   
     const userReg = {
+      userId: uuidv4(),
       nombre: values.nombre,
       apellido: values.apellido,
       email: values.email,
@@ -132,9 +135,12 @@ export default function SignUp() {
     };
   
     const userRegJson = JSON.stringify(userReg);
+    console.log("userRegJson:", userRegJson)
   
     // Guardar el nuevo usuario en localStorage
     localStorage.setItem('user', userRegJson);
+    setUser(userReg);
+    console.log(user)
     navigate('/signIn'); // Redirigir al inicio de sesión
   };
   
