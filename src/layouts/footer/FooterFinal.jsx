@@ -12,11 +12,11 @@ import { StyleFooter } from './StyleFooter';
 
 function Copyright({ theme }) {
   return (
-    <Typography  sx={{
-      fontSize:'8px',
+    <Typography sx={{
+      fontSize: '8px',
       color: theme.palette.primary.manteca,
       marginBottom: '6px',
-      marginTop: {xs:'0px', sm:'6px'},
+      marginTop: { xs: '0px', sm: '6px' },
     }} >
       {'Copyright © '}
       <span style={{
@@ -72,7 +72,7 @@ function CopyrightLB({ theme }) {
 export default function FooterFinal() {
   const theme = ThemeCustom();
   const stFooter = StyleFooter({ theme });
-  const {isLoggedIn, setIsLoggedIn, user, setUser } = useContext(OrdenShopContext);
+  const { isLoggedIn, setIsLoggedIn, user, setUser } = useContext(OrdenShopContext);
   return (
     <>
       <Box
@@ -80,7 +80,7 @@ export default function FooterFinal() {
       >
         <Box
           component="footer"
-          sx={{ ...stFooter.footer}}
+          sx={{ ...stFooter.footer }}
         >
           <Box >
             <Box sx={{ ...stFooter.contenEnlacesPage }}>
@@ -90,10 +90,15 @@ export default function FooterFinal() {
               <Box sx={{ ...stFooter.boxEnlacePage }}>
                 <Link to="/productos" style={{ ...stFooter.enlace }}>PRODUCTOS</Link>
               </Box>
-              {!(isLoggedIn) && ( 
+              {(isLoggedIn) ?
+                <Box sx={{ ...stFooter.boxEnlacePage }}>
+                  <Link to="/signIn" style={{ ...stFooter.enlace }}>Sesión iniciada</Link>
+                </Box>
+               : 
               <Box sx={{ ...stFooter.boxEnlacePage }}>
                 <Link to="/signIn" style={{ ...stFooter.enlace }}>Iniciar sesión</Link>
-              </Box>)}
+              </Box>
+            }
             </Box>
             <Box sx={{ ...stFooter.contRedes }}>
               <Box sx={{ ...stFooter.bordeIconoRed }}>
