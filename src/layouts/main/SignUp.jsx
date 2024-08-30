@@ -61,7 +61,6 @@ export default function SignUp() {
 
   const validateField = (name, value) => {
     let error = '';
-
     switch (name) {
       case 'nombre':
         if (!value) error = 'El nombre es obligatorio.';
@@ -89,60 +88,142 @@ export default function SignUp() {
     }));
   };
 
+  // const handleSubmitRegister = (event) => {
+  //   event.preventDefault();
+  //   console.log("ingresé a handleSubmit registro")
+  //   const newErrors = {
+  //     nombre: values.nombre ? (values.nombre.length >= 4 ? '' : 'Mínimo 4 caracteres.') : 'El nombre es obligatorio.',
+  //     apellido: values.apellido ? (values.apellido.length >= 4 ? '' : 'Mínimo 4 caracteres.') : 'El apellido es obligatorio.',
+  //     email: values.email ? (values.email.includes('@') ? '' : 'El correo electrónico debe contener "@"') : 'El correo electrónico es obligatorio.',
+  //     password: values.password ? (values.password.length >= 8 ? '' : 'Mínimo 8 caracteres.') : 'La contraseña es obligatoria.'
+  //   };
+  
+  //   setErrors(newErrors);
+  //   if (Object.values(newErrors).some(error => error !== '')) {
+  //     return; // Si hay errores, no proceder
+  //   }
+  
+  //   // Obtener los usuarios registrados desde localStorage
+  //   const usersLSJsonArray = localStorage.getItem('user');
+  //   let existeUsers = null;
+  //   if (usersLSJsonArray) {
+  //     existeUsers = JSON.parse(usersLSJsonArray);
+  //   }
+  
+  //   const isEmailRegistered = existeUsers.some(user => user.email === values.email);
+  //   if (isEmailRegistered) {
+  //       console.log("el correo está registrado");
+  //       setErrors(prevErrors => ({
+  //           ...prevErrors,
+  //           email: 'El correo electrónico ya está registrado. Inicie sesión.'
+  //       }));
+  //       return; // Detener el registro si el correo ya está registrado
+  //   }
+  
+  //   // Si no hay errores y el correo no está registrado, proceder con el registro
+  //   const notific = values.check ? 'true' : 'false';
+  // const userReg = {
+  //       userId: uuidv4(),
+  //       nombre: values.nombre,
+  //       apellido: values.apellido,
+  //       email: values.email,
+  //       password: values.password,
+  //       notificaciones: notific,
+  //   };
+
+  //   // Agregar el nuevo usuario al array de usuarios registrados
+  //   existeUsers.push(userReg);
+
+  //   // Guardar el array actualizado en localStorage
+  //   const usersRegJson = JSON.stringify(existeUsers);
+  //   localStorage.setItem('users', usersRegJson);
+
+  //   // Guardar el usuario actual en un nuevo elemento llamado 'usuarioActual'
+  //   localStorage.setItem('usuarioActual', JSON.stringify(userReg));
+
+  //   console.log("userRegJson:", JSON.stringify(userReg));
+  //   console.log("Usuarios actualizados en localStorage:", usersRegJson);
+
+  //   navigate('/signIn'); // Redirigir al inicio de sesión
+  // };
+
   const handleSubmitRegister = (event) => {
     event.preventDefault();
-    console.log("ingresé a handleSubmit registro")
+    console.log("ingresé a handleSubmit registro");
+
+    // Validaciones
     const newErrors = {
-      nombre: values.nombre ? (values.nombre.length >= 4 ? '' : 'Mínimo 4 caracteres.') : 'El nombre es obligatorio.',
-      apellido: values.apellido ? (values.apellido.length >= 4 ? '' : 'Mínimo 4 caracteres.') : 'El apellido es obligatorio.',
-      email: values.email ? (values.email.includes('@') ? '' : 'El correo electrónico debe contener "@"') : 'El correo electrónico es obligatorio.',
-      password: values.password ? (values.password.length >= 8 ? '' : 'Mínimo 8 caracteres.') : 'La contraseña es obligatoria.'
+        nombre: values.nombre ? (values.nombre.length >= 4 ? '' : 'Mínimo 4 caracteres.') : 'El nombre es obligatorio.',
+        apellido: values.apellido ? (values.apellido.length >= 4 ? '' : 'Mínimo 4 caracteres.') : 'El apellido es obligatorio.',
+        email: values.email ? (values.email.includes('@') ? '' : 'El correo electrónico debe contener "@"') : 'El correo electrónico es obligatorio.',
+        password: values.password ? (values.password.length >= 8 ? '' : 'Mínimo 8 caracteres.') : 'La contraseña es obligatoria.'
     };
-  
+
     setErrors(newErrors);
-  
     if (Object.values(newErrors).some(error => error !== '')) {
-      return; // Si hay errores, no proceder
+        return; // Si hay errores, no proceder
     }
-  
+
     // Obtener los usuarios registrados desde localStorage
-    const existeUserJson = localStorage.getItem('user');
-    let existeUser = null;
-    if (existeUserJson) {
-      existeUser = JSON.parse(existeUserJson);
+    const usersLSJsonArray = localStorage.getItem('users'); // Modificación aquí: Cambiado 'user' a 'users'
+    let existeUsers = []; // Inicializar como un array vacío por defecto
+    if (usersLSJsonArray) {
+        try {
+            existeUsers = JSON.parse(usersLSJsonArray);
+            if (!Array.isArray(existeUsers)) { // Modificación aquí: Verificación si es un array
+                // Si los datos no son un array, reinicializar como array vacío
+                existeUsers = [];
+            }
+        } catch (error) {
+            // Modificación aquí: Manejo de errores en caso de fallo en el parseo
+            console.error("Error al parsear 'users' del localStorage:", error);
+            existeUsers = [];
+        }
     }
-  
+
     // Verificar si el correo ya está registrado
-    if (existeUser && existeUser.email === values.email) {
-      console.log("el correo está registrado")
-      setErrors(prevErrors => ({
-        ...prevErrors,
-        email: 'El correo electrónico ya está registrado. Inicie sesión.'
-      }));
-      return; // Detener el registro si el correo ya está registrado
+    const isEmailRegistered = existeUsers.some(user => user.email === values.email); // Modificación aquí: Verificación en el array
+    if (isEmailRegistered) {
+        console.log("el correo está registrado");
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            email: 'El correo electrónico ya está registrado. Inicie sesión.'
+        }));
+        return; // Detener el registro si el correo ya está registrado
     }
-  
+
     // Si no hay errores y el correo no está registrado, proceder con el registro
     const notific = values.check ? 'true' : 'false';
-  
+
     const userReg = {
-      userId: uuidv4(),
-      nombre: values.nombre,
-      apellido: values.apellido,
-      email: values.email,
-      password: values.password,
-      notificaciones: notific,
+        userId: uuidv4(),
+        nombre: values.nombre,
+        apellido: values.apellido,
+        email: values.email,
+        password: values.password,
+        notificaciones: notific,
     };
-  
-    const userRegJson = JSON.stringify(userReg);
-    console.log("userRegJson:", userRegJson)
-  
-    // Guardar el nuevo usuario en localStorage
-    localStorage.setItem('user', userRegJson);
-    setUser(userReg);
-    console.log(user)
-    navigate('/signIn'); // Redirigir al inicio de sesión
-  };
+
+    // Modificación aquí: Agregar el nuevo usuario al array de usuarios registrados
+    existeUsers.push(userReg);
+
+    // Guardar el array actualizado en localStorage
+    const usersRegJson = JSON.stringify(existeUsers); // Modificación aquí: Guardar en 'users'
+    localStorage.setItem('users', usersRegJson); // Modificación aquí: Guardar en 'users'
+
+    // Guardar el usuario actual en un nuevo elemento llamado 'usuarioActual'
+    localStorage.setItem('usuarioActual', JSON.stringify(userReg));
+
+    console.log("userRegJson:", JSON.stringify(userReg));
+    console.log("Usuarios actualizados en localStorage:", usersRegJson);
+
+    // Navegar al inicio de sesión
+    navigate('/signIn');
+};
+
+
+
+
   
 
   return (

@@ -32,14 +32,14 @@ export const StyleFooter = ({ theme }) => {
             flexDirection: { xs: 'row', sm: 'column' },
             position: { xs: 'relative', sm: 'absolute' },
             left: '0px',
-            gap: {xs:'20px', sm:'3px'},
+            gap: {xs:'5px', sm:'3px'},
             // cursor: 'pointer',
         },
 
         boxEnlacePage: {
             display: 'flex',
-            fontSize: '12px',
-            width: '75px',
+            fontSize: {xs:'10px', sm:'13px'},
+            width: {xs:'80px', sm:'90px'},
             justifyContent: { xs: 'center', sm:'flex-start'},
             color: theme.palette.primary.manteca,
             '&:hover': {
@@ -50,7 +50,8 @@ export const StyleFooter = ({ theme }) => {
 
         enlace: {
             textDecoration: 'none',
-            color: 'inherit',         
+            color: 'inherit',  
+            fontSize:'inherit',       
         },
 
         contRedes: {

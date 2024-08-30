@@ -295,7 +295,7 @@ export default function NavAppBar() {
       <Box sx={{ position: 'fixed', top: '-12px', left: '0px', zIndex: '10', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', minWidth: '280px', backgroundColor: theme.palette.primary.main, }}>
         <h1 style={{ fontSize: '28px', marginTop:'20px', marginBottom:'5px' }}>JusT<span style={{ marginLeft: '3px', fontSize: '24px', marginTop:'20px', marginBottom:'5px' }}>snacK</span></h1>
       </Box>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', zIndex: '30', paddingInline:'5px' }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', zIndex: '30', paddingInline:'15px' }}>
         <IconButton size="large" edge="start" aria-label="open drawer" onClick={handleMenuOpen} sx={{ ml: 0, color: theme.palette.primary.grisMuyOsc, '&:hover': { backgroundColor: theme.palette.primary.hoverBtn } }}>
           <BadgeHamb />
         </IconButton>

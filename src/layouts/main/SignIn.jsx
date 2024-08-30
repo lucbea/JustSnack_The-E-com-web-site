@@ -48,43 +48,100 @@ export default function SignIn() {
         }));
     };
 
+    // const handleSubmit = (event) => {
+    //     if (!isLoggedIn) {
+    //         console.log("no está logueado, procedo al loguin")
+    //         event.preventDefault();
+    //         const { email, password } = values;
+
+    //         // Obtener datos del localStorage
+    //         const userJson = localStorage.getItem('user');
+    //         if (userJson) {
+    //             const user = JSON.parse(userJson);
+    //             // Verificar si el usuario existe y las credenciales coinciden
+    //             if (user.email === email && user.password === password) {
+    //                 console.log('Inicio de sesión exitoso');
+    //                 setIsLoggedIn(true);
+    //                 setUser(email, password);
+    //                 navigate('/');
+    //                 setErrorMessage('');
+    //                 setBtnIniciarCompra(false);
+    //             } else {
+    //                 setIsLoggedIn(false);
+    //                 setErrorMessage('Datos incorrectos');
+    //             }
+    //         } else {
+    //             setIsLoggedIn(false);
+    //             setErrorMessage('Datos incorrectos');
+    //             console.log('No se encontraron datos de usuario en el almacenamiento local');
+    //         }
+    //     } else { console.log("está logueado") }
+    //     console.log("LogIn - auxAnclaMenuCarr:", auxAnclaMenuCarr)
+    //     if (auxAnclaMenuCarr) {
+    //         console.log("LogIn - auxAnclaMenuCarr:", auxAnclaMenuCarr)
+    //     } 
+    // };
+
+    // const handleSignUpRedirect = () => {
+    //     navigate('/signUp');
+    // };
+
+
     const handleSubmit = (event) => {
         if (!isLoggedIn) {
-            console.log("no está logueado, procedo al loguin")
+            console.log("no está logueado, procedo al loguin");
             event.preventDefault();
             const { email, password } = values;
-
+    
             // Obtener datos del localStorage
-            const userJson = localStorage.getItem('user');
-            if (userJson) {
-                const user = JSON.parse(userJson);
-                // Verificar si el usuario existe y las credenciales coinciden
-                if (user.email === email && user.password === password) {
-                    console.log('Inicio de sesión exitoso');
-                    setIsLoggedIn(true);
-                    setUser(email, password);
-                    navigate('/');
-                    setErrorMessage('');
-                    setBtnIniciarCompra(false);
-                } else {
-                    setIsLoggedIn(false);
-                    setErrorMessage('Datos incorrectos');
+            const usersJsonArray = localStorage.getItem('users'); // Modificación aquí: Cambiado de 'user' a 'users'
+            let users = [];
+            if (usersJsonArray) {
+                try {
+                    users = JSON.parse(usersJsonArray);
+                    if (!Array.isArray(users)) {
+                        // Si los datos no son un array, reinicializar como array vacío
+                        users = [];
+                    }
+                } catch (error) {
+                    console.error("Error al parsear 'users' del localStorage:", error);
+                    users = [];
                 }
+            }
+    
+            // Verificar si el usuario existe y las credenciales coinciden
+            const user = users.find(user => user.email === email && user.password === password);
+            if (user) {
+                console.log('Inicio de sesión exitoso');
+                setIsLoggedIn(true);
+    
+                // Guardar el usuario en 'usuarioActual'
+                localStorage.setItem('usuarioActual', JSON.stringify(user));
+    
+                // Opcional: También podrías actualizar el estado del usuario
+                setUser(user); // Asumiendo que 'setUser' espera un objeto de usuario completo
+    
+                navigate('/'); // Redirigir al inicio
+                setErrorMessage('');
+                setBtnIniciarCompra(false);
             } else {
                 setIsLoggedIn(false);
                 setErrorMessage('Datos incorrectos');
-                console.log('No se encontraron datos de usuario en el almacenamiento local');
             }
-        } else { console.log("está logueado") }
-        console.log("LogIn - auxAnclaMenuCarr:", auxAnclaMenuCarr)
+        } else {
+            console.log("está logueado");
+        }
+        console.log("LogIn - auxAnclaMenuCarr:", auxAnclaMenuCarr);
         if (auxAnclaMenuCarr) {
-            console.log("LogIn - auxAnclaMenuCarr:", auxAnclaMenuCarr)
-        } 
+            console.log("LogIn - auxAnclaMenuCarr:", auxAnclaMenuCarr);
+        }
     };
-
+    
     const handleSignUpRedirect = () => {
         navigate('/signUp');
     };
+    
+    
 
     return (
         <ThemeProvider theme={defaultTheme}>
