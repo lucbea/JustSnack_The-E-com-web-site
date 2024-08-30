@@ -1,11 +1,12 @@
+
+//TarjetaLiked.jsx
 import React, { useState, useContext, useEffect } from 'react';
-import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -13,30 +14,30 @@ import { red } from '@mui/material/colors';
 import { IoIosArrowDown } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
 import { BsCartPlus } from "react-icons/bs";
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { OrdenShopContext } from '../context/OrdenShop';
 import { ThemeCustom } from "../context/ThemeCustom";
 
 
 export default function TarjetaLiked({ product }) {
     const theme = ThemeCustom();
+    const navigate = useNavigate();
     // const [liked, setLiked] = useState(false);
-    const { hayItemsCarro, setHayItemsCarro, itemsCarro, setItemsCarro, agregarCarro, setAgregarCarro, setQuitarCarro, setModifItemCarro, ordenCarro, setOrdenCarro, cantItems, setCantItems } = useContext(OrdenShopContext)
+    const { hayItemsCarro, setHayItemsCarro, itemsCarro, setItemsCarro, agregarCarro, setAgregarCarro, setQuitarCarro, setModifItemCarro, ordenCarro, setOrdenCarro, cantItems, setCantItems, setMostrarProduct } = useContext(OrdenShopContext)
 
-    const handleCarShop = (product) => {
-        console.log("entré a handleCardShop", product.id)
-        product.cantidadPedida = 1;
-        product.totalItem = product.price;
-        setAgregarCarro(product);
-        setQuitarCarro();
-        setModifItemCarro();
-        setHayItemsCarro(true)
-        console.log("Estoy en TarjetaLiked - handleCarShop agregarCarro:", agregarCarro, ordenCarro)
-        // setLiked(!liked);
+    
+
+    const handleMas = (product) => {
+        console.log("debo mostrar más", product)
+        setMostrarProduct(product)
+            // navigate(`/product:${product.id}`);
+            navigate(`/product/${product.id}`);
+        
     }
 
     return (
-        <Card sx={{ maxWidth: '345px', minWidth: '238px', position: 'relative', height: 'auto', justifycontent: 'space-between', '&:hover': { boxShadow: theme.cardStyle.shadow } }}
+       
+        <Card onClick={()=> handleMas(product)} sx={{ cursor:'pointer', maxWidth: '345px', minWidth: '238px', position: 'relative', height: 'auto', justifycontent: 'space-between', '&:hover': { boxShadow: theme.cardStyle.shadow } }}
         >
             <CardMedia
                 component="img"
@@ -55,21 +56,15 @@ export default function TarjetaLiked({ product }) {
                                 {product.id}
                             </Avatar>
                         }
-                        // action={
-                        //     <IconButton aria-label="settings">
-                        //         {/* <MoreVertIcon /> */}
-                        //     </IconButton>
-                        // }
                     />
                     <CardContent sx={{ paddingBlock: '0px' }}>
                         <Typography variant="body1" color="text.secondary" sx={{ fontSize: '12px' }}>
                             {product.description}
                         </Typography>
                     </CardContent>
-                    <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between', paddingInline: '1rem' }}>
-                        <IconButton
-                            // const e={personaje.id}
-                            // value = e.target.value
+                    <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between', paddingInline: '1rem', height:'60px' }}>
+                    <Typography sx={{ fontSize: '28px', position:'absolute', bottom:'0px', marginBottom:'15px', width:'100%', textAlign:'center'}}>{product.price}</Typography>
+                        {/* <IconButton
                             sx={{
                                 '&:focus': {
                                     outline: '0px solid #00000000'
@@ -90,17 +85,19 @@ export default function TarjetaLiked({ product }) {
                                 // <FaHeart
                                 sx={{
                                     outline: 'none',
-                                    // stroke: liked ? '#af9f6d' : 'blue', // Borde azul cuando liked es falso
-                                    // strokeWidth: liked ? '23px' : '1px', // Grosor del borde ajustado a 1px cuando liked es falso
-                                    // fill: liked ? '#af9f6d' : 'pink' // Relleno rosa cuando liked es falso
                                 }}
                             />
-                        </IconButton>
+                           
+                        </IconButton> */}
+                        {/* <Box>
+                            <Button onClick={() =>handleMas(product)} sx={{color:theme.palette.primary.dorado, cursor:'pointer', zIndex:'10' }}>VER  MÁS</Button>
+                        </Box> */}
                     </CardActions>
+                    
                 </Box>
             </Box>
             
-            <Typography sx={{ fontSize: '28px', position:'absolute', bottom:'0px', marginBottom:'15px', width:'100%', textAlign:'center'}}>{product.price}</Typography>
+         
 
         </Card>
     );

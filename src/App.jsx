@@ -1,4 +1,5 @@
 
+//App.jsx
 import { useState, useEffect } from 'react'
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import { AppBar, Box, CssBaseline, Grid, Link } from '@mui/material';
@@ -24,9 +25,12 @@ import { IniciarSesion }  from './pages/IniciarSesion';
 import { Inicio } from './pages/Inicio';
 import { Productos }  from './pages/Productos';
 import { Registrarse } from './pages/Registrarse';
+import { Product } from './pages/Product';
 import  Ckeckout  from './layouts/finalCompra/Checkout'
 import FooterFinal from './layouts/footer/FooterFinal';
 import './App.css';
+import { PagoCompra } from './pages/PagoCompra';
+
 
 
 
@@ -54,14 +58,16 @@ function App() {
             <NavAppBar />
             {/* <HearthEfect /> */}
             
-            <main style={{ paddingTop: '78px' }}>
+            <main style={{ marginTop: '78px', marginBottom:'90px' }}>
               <Routes>
-                <Route path="/" element={  <Inicio products={products}/> } />  
-                {/* <Route path="/products" element={ <Productos products={products}/> } /> */}
-                <Route path="/signIn" element={  <IniciarSesion/> } />                
-                <Route path="/signUp" element={  <Registrarse/> } />
+                <Route path="/" element={<Inicio products={products}/> } />  
+                <Route path="/signIn" element={ <IniciarSesion/> } />                
+                <Route path="/signUp" element={ <Registrarse/> } />
                 <Route path="/productos" element={ <Productos products={products}/> } />
-                {/* <Route path="/product:id " element={  <Registrarse/> } /> */}
+                <Route path="/product/:id" element={<Product products={products} />} />
+                <Route path="/compra" element={ <PagoCompra/> } />
+
+                {/* <Route path="/product/:{mostrarProduct.id}" element={<Product product={mostrarProduct} />} /> */}
                 <Route path="*" element={<Error404/>}/>
                 </Routes> 
             </main>
