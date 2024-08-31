@@ -45,7 +45,7 @@ export const UserOrders = () => {
         return <div>Cargando órdenes...</div>;
     }
     return (
-        <Box component={Paper} sx={{marginBottom:'5px'}}>
+        <Box component={Paper} sx={{marginBottom:'5px', maxWidth:'600px', margin:'auto'}}>
             <Box sx={{ minWidth: '248px',  }}>
                 <Box>
                     {orders.map((order) => (
