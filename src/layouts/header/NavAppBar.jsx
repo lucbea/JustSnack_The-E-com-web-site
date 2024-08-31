@@ -26,7 +26,7 @@ export default function NavAppBar() {
   const navigate = useNavigate(); // Initialize useNavigate
   
   
-  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, setAgregarCarro, setQuitarCarro, vaciarCarro, setVaciarCarro, vaciarCarrito, handleIniciarCompra, handleLogin, handleLogout, handlePerfil, isLoggedIn, setIsLoggedIn, user, setUser } = useContext(OrdenShopContext);
+  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, setAgregarCarro, setQuitarCarro, vaciarCarro, setVaciarCarro, vaciarCarrito, handleIniciarCompra, handleLogin, handleLogout, isLoggedIn, setIsLoggedIn, user, setUser } = useContext(OrdenShopContext);
   const isMenuOpenUser = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isCarrOpen = Boolean(anclaMenuCarr);
@@ -108,6 +108,13 @@ export default function NavAppBar() {
     handleModifCantItem(item, cantPedAux);
   };
 
+  const handleMisOrdenes = () => {
+    setAnchorEl(null);
+    setMobileMoreAnchorEl(null);
+    setAnclaMenuCarr(null);
+    console.log("voy a userOrders")
+    navigate('/userOrders');
+  }
  
   
 
@@ -115,7 +122,7 @@ export default function NavAppBar() {
     <Menu
       // anchorEl={mobileMoreAnchorEl}
       anchorEl={anclaMenuCarr}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
       id="carr-shop-menu-mobile"
       keepMounted
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -124,8 +131,8 @@ export default function NavAppBar() {
       sx={{
         backgroundColor: theme.palette.modal.fondo,
         overflowY: 'auto',
-        
-        '& .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper': { top: '60px !important', right: '16px !important', maxWidth:'720px' },
+        // left:'16px',
+        '& .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper': { top: '60px !important', right: '16px !important', maxWidth:'700px', border:'2px solid red' },
         '& .MuiMenu-list': { position: 'relative', paddingBlock:'5px', display: 'flex',
           justifyContent: 'center',
           flexDirection: 'column', }
@@ -213,7 +220,7 @@ export default function NavAppBar() {
             </MenuItem>
           ))        
       ) : (
-        <MenuItem>No hay órdenes</MenuItem>
+        <MenuItem>Sin productos seleccionados.</MenuItem>
       )}
        {hayItemsCarro && ( 
         <MenuItem sx={{...stHeader.footerCarro }}>
@@ -250,8 +257,7 @@ export default function NavAppBar() {
     >
       {isLoggedIn
         ? [
-          // <MenuItem key="perfil" onClick={() => setAnchorEl(null)}>Perfil</MenuItem>,
-          <MenuItem key="cuenta" onClick={() => setAnchorEl(null)}>Mis órdenes</MenuItem>,
+          <MenuItem key="cuenta" onClick={() => handleMisOrdenes()}>Mis órdenes de compra</MenuItem>,
           <MenuItem key="logout" onClick={() => { setAnchorEl(null); handleLogout(); }}>Cerrar sesión</MenuItem>
         ]
         : [
@@ -277,15 +283,14 @@ export default function NavAppBar() {
       <MenuItem key="productos" onClick={handleNavigateToProducts}>Productos</MenuItem>
 
       {isLoggedIn
-        ? [
-          // <MenuItem key="perfil" onClick={handlePerfil}>Perfil</MenuItem>,
-          <MenuItem key="cuenta" onClick={() => setMobileMoreAnchorEl(null)}>Mis órdenes</MenuItem>,
+        ? <Box sx={{display:{xs:'block', sm:'none'}}}>
+          <MenuItem key="cuenta" onClick={handleMisOrdenes}>Mis órdenes de compra</MenuItem>
           <MenuItem key="logout" onClick={() => { setMobileMoreAnchorEl(null); handleLogout(); }}>Cerrar sesión</MenuItem>
-        ]
-        : [
-          <MenuItem key="login" onClick={handleLogin}>Iniciar sesión</MenuItem>,
+          </Box>
+        : <Box sx={{display:{xs:'block', sm:'none'}}}>
+          <MenuItem key="login" onClick={handleLogin}>Iniciar sesión</MenuItem>
           <MenuItem key="signup" onClick={() => { setMobileMoreAnchorEl(null); navigate('/signup'); }}>Registrarse</MenuItem>
-        ]
+          </Box>
       }
     </Menu>
   );
@@ -307,7 +312,7 @@ export default function NavAppBar() {
             <BadgeUser />
           </IconButton>
         </Box>
-        {isLoggedIn ? (<Box sx={{ display:{xs:'flex', sm:'none'}, alignItems:'center', position:'absolute', top:'53px', left:'13px'}}><PiUserCircleCheckLight/><p style={{fontSize:'10px', paddingLeft:'6px'}}>Sesión iniciada</p></Box>) :null}
+        {/* {isLoggedIn ? (<Box sx={{ display:{xs:'flex', sm:'none'}, alignItems:'center', position:'absolute', top:'52px', left:'23px'}}><PiUserCircleCheckLight/><p style={{fontSize:'10px', paddingLeft:'6px'}}>Sesión iniciada</p></Box>) :null} */}
       </Toolbar>
       {renderMobileMenu}
       {renderCarShop}

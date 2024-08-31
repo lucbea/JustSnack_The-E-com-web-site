@@ -43,7 +43,8 @@ export const OrdenShopProvider = ({ children }) => {
             setAnclaMenuCarr(null);
             return;
         }
-        let userLSJson = localStorage.getItem('user', JSON.stringify(user));
+        let userLSJson = localStorage.getItem('usuarioActual', JSON.stringify(user));
+        console.log("userLSJson ********************:", userLSJson)
         if (userLSJson) {
             userLS = JSON.parse(userLSJson);
             console.log("USERLS.id:",userLS, userLS.userId)
