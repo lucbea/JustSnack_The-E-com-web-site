@@ -28,7 +28,9 @@ import  Ckeckout  from './layouts/finalCompra/Checkout'
 import FooterFinal from './layouts/footer/FooterFinal';
 import './App.css';
 import { PagoCompra } from './pages/PagoCompra';
-import { OrdenesUsuario } from './pages/OrdenesUsuario'
+import { OrdenesUsuario } from './pages/OrdenesUsuario';
+
+import '@splidejs/react-splide/css';
 
 
 
