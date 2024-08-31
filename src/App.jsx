@@ -15,8 +15,6 @@ import SignIn from './layouts/main/SignIn';
 import { ThemeCustom } from "./context/ThemeCustom";
 import { OrdenShopProvider } from './context/OrdenShop';
 
-// import { Nav } from './layouts/header/Nav';
-// import { HearthEfect } from './componentes/HearthEfect';
 import NavAppBar from './layouts/header/NavAppBar';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -30,6 +28,7 @@ import  Ckeckout  from './layouts/finalCompra/Checkout'
 import FooterFinal from './layouts/footer/FooterFinal';
 import './App.css';
 import { PagoCompra } from './pages/PagoCompra';
+import { OrdenesUsuario } from './pages/OrdenesUsuario'
 
 
 
@@ -49,6 +48,7 @@ function App() {
   const theme = ThemeCustom();
   document.body.style.backgroundColor = theme.palette.primary.main;
 
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -58,18 +58,17 @@ function App() {
             <NavAppBar />
             {/* <HearthEfect /> */}
             
-            <main style={{ marginTop: '78px', marginBottom:'90px' }}>
-              <Routes>
-                <Route path="/" element={<Inicio products={products}/> } />  
-                <Route path="/signIn" element={ <IniciarSesion/> } />                
-                <Route path="/signUp" element={ <Registrarse/> } />
-                <Route path="/productos" element={ <Productos products={products}/> } />
-                <Route path="/product/:id" element={<Product products={products} />} />
-                <Route path="/compra" element={ <PagoCompra/> } />
-
-                {/* <Route path="/product/:{mostrarProduct.id}" element={<Product product={mostrarProduct} />} /> */}
-                <Route path="*" element={<Error404/>}/>
-                </Routes> 
+            <main style={{ marginTop: '78px', marginBottom:'98px' }}>
+            <Routes>
+                <Route path="/" element={<Inicio products={products} />} />
+                <Route path="/signIn" element={<IniciarSesion />} />
+                <Route path="/signUp" element={<Registrarse />} />
+                <Route path="/productos" element={<Productos products={products} />} />
+                <Route path="/product/:id" element={<Product products={products}/>} />
+                <Route path="/compra" element={<PagoCompra />} />
+                <Route path="/userOrders" element={<OrdenesUsuario/>} />
+                <Route path="*" element={<Error404 />} />
+            </Routes>
             </main>
                 <footer>
                   <FooterFinal/>

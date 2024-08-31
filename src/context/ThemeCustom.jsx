@@ -48,8 +48,15 @@ export const ThemeCustom = () => {
         fondo: '#17161696',
       },
     },
+
     header:{
       sombraBottom:'0px 2px 4px -1px #595f7e52, 1px 2px 8px 0px #595f7e4f, 0px 1px 17px 0px #595f7e42',
+    },
+
+    tabla:{
+      delimita: '1px dotted #e7e0e0',
+      delimitaSolid: '1px solid #e7e0e0',
+      delimitaDoble: '3px double #e7e0e0'
     },
 
     typography: {

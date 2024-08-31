@@ -3,7 +3,7 @@
 import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ThemeCustom } from "../../context/ThemeCustom";
 import { OrdenShopContext } from '../../context/OrdenShop';
 import { LiaFacebookF, LiaInstagram, LiaTwitter } from "react-icons/lia";
@@ -69,10 +69,19 @@ function CopyrightLB({ theme }) {
   );
 }
 
+
 export default function FooterFinal() {
   const theme = ThemeCustom();
   const stFooter = StyleFooter({ theme });
-  const { isLoggedIn, setIsLoggedIn, user, setUser } = useContext(OrdenShopContext);
+  const { isLoggedIn, setIsLoggedIn, user, setUser, handleLogout } = useContext(OrdenShopContext);
+  const navigate = useNavigate();  // Inicializar el hook useNavigate
+
+  // Función para manejar el cierre de sesión y redirección
+  const handleCerrarSesion = () => {
+    handleLogout();  // Llamar a handleLogout para cerrar sesión
+    navigate('/');  // Redirigir a la página de inicio
+  };
+ 
   return (
     <>
       <Box
@@ -92,13 +101,13 @@ export default function FooterFinal() {
               </Box>
               {(isLoggedIn) ?
                 <Box sx={{ ...stFooter.boxEnlacePage }}>
-                  <Link to="/signIn" style={{ ...stFooter.enlace }}>Sesión iniciada</Link>
+                  <a href="#" onClick={handleCerrarSesion} style={{ ...stFooter.enlace }}>Cerrar sesión</a>
                 </Box>
-               : 
-              <Box sx={{ ...stFooter.boxEnlacePage }}>
-                <Link to="/signIn" style={{ ...stFooter.enlace }}>Iniciar sesión</Link>
-              </Box>
-            }
+                :
+                <Box sx={{ ...stFooter.boxEnlacePage }}>
+                  <Link to="/signIn" style={{ ...stFooter.enlace }}>Iniciar sesión</Link>
+                </Box>
+              }
             </Box>
             <Box sx={{ ...stFooter.contRedes }}>
               <Box sx={{ ...stFooter.bordeIconoRed }}>
