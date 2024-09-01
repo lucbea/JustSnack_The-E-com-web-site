@@ -7,7 +7,7 @@ import ContentTarjNavScrollFix from './componentes/ContenTarjNavScrollFix';
 import Paginacion from './componentes/Paginacion';
 import Grilla from './layouts/main/Grid';
 import { useFetchGet } from './hook/FetchGet';
-import { Filtro } from './componentes/Filtro';
+// import { Filtro } from './componentes/Filtro';
 
 import spinner from "../images/bx_loader.gif";
 import { HiBars3 } from "react-icons/hi2";
