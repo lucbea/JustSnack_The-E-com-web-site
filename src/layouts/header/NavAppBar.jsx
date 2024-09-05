@@ -24,21 +24,20 @@ export default function NavAppBar() {
   const theme = ThemeCustom();
   const stHeader = StyleHeader({ theme });
   const navigate = useNavigate(); // Initialize useNavigate
-  
-  
-  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, setAgregarCarro, setQuitarCarro, vaciarCarro, setVaciarCarro, vaciarCarrito, handleIniciarCompra, handleLogin, handleLogout, isLoggedIn, setIsLoggedIn, user, setUser } = useContext(OrdenShopContext);
+
+
+  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, setAgregarCarro, setQuitarCarro, vaciarCarro, setVaciarCarro, vaciarCarrito, handleIniciarCompra, handleLogin, handleLogout, isLoggedIn, setIsLoggedIn, user, setUser, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock } = useContext(OrdenShopContext);
   const isMenuOpenUser = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isCarrOpen = Boolean(anclaMenuCarr);
   let totalCompra = 0;
- 
+
   useEffect(() => {
     setHayItemsCarro(ordenCarro.length > 0);
     console.log("setHayItemsCarro:", hayItemsCarro)
   }, [ordenCarro]);
 
-
-  // const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
+  
   const handleMenuOpen = (event) => setMobileMoreAnchorEl(event.currentTarget);
   const handleMenuOpenClose = () => setMobileMoreAnchorEl(null);
   const handleProfileUser = (event) => setAnchorEl(event.currentTarget);
@@ -63,36 +62,19 @@ export default function NavAppBar() {
   }
 
   const handleRemoveItem = (item) => {
-    // setOrdenCarro(ordenCarro.filter(o => o.id !== item.id));
     setAgregarCarro();
     setModifItemCarro();
+    setVaciarCarro(false);
     setQuitarCarro(item);
   };
 
-  const handleModifCantItem = (item, cantPedida) => {
-    if (isNaN(cantPedida) || cantPedida <= 0) return;
-    const totalItem = parseFloat((item.price * cantPedida).toFixed(2));
-    const updatedOrdenCarro = ordenCarro.map(o => 
-      o.id === item.id ? { ...item, cantidadPedida: cantPedida, totalItem } : o
-    );
-    const totalCompra = updatedOrdenCarro.reduce((acc, o) => acc + (o.totalItem || 0), 0);
-  
-    setOrdenCarro(updatedOrdenCarro);
-    setTotalCarro(totalCompra);  
-    console.log("ordenCarro:", updatedOrdenCarro,"***",ordenCarro, "totalCarro:", totalCompra, "***", totalCarro)
-    
+  const handleVaciarCarro = ()=>{
     setAgregarCarro();
     setQuitarCarro();
-    setModifItemCarro(item);
-  };
-  
+    setModifItemCarro();
+    setVaciarCarro(true);
+  }
 
-  const handleIncrement = (item) => {
-    const itemEncont = ordenCarro.find(o => o.id === item.id);
-    if (!itemEncont) return;
-    const cantPedAux = itemEncont.cantidadPedida + 1;
-    if (itemEncont.stock >= cantPedAux) handleModifCantItem(item, cantPedAux);
-  };
 
   const handleDecrement = (item) => {
     const itemEncont = ordenCarro.find(o => o.id === item.id);
@@ -112,11 +94,9 @@ export default function NavAppBar() {
     setAnchorEl(null);
     setMobileMoreAnchorEl(null);
     setAnclaMenuCarr(null);
-    console.log("voy a userOrders")
     navigate('/userOrders');
   }
- 
-  
+
 
   const renderCarShop = (
     <Menu
@@ -131,116 +111,137 @@ export default function NavAppBar() {
       sx={{
         backgroundColor: theme.palette.modal.fondo,
         overflowY: 'auto',
+        
         // left:'16px',
-        '& .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper': { top: '60px !important', right: '16px !important', maxWidth:'700px', border:'2px solid red' },
-        '& .MuiMenu-list': { position: 'relative', paddingBlock:'5px', display: 'flex',
+        '& .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper': { 
+          top: '60px !important', 
+          right: '16px !important', 
+          maxWidth: '700px',  },
+        '& .MuiMenu-list': {
+          position: 'relative', paddingBlock: '5px', display: 'flex',
           justifyContent: 'center',
-          flexDirection: 'column', }
+          flexDirection: 'column',
+          minWidth:'248p'
+        }
       }}
     >
       {ordenCarro.length > 0 ? (
 
-          ordenCarro.map((item) => (
-            <MenuItem key={item.id} sx={{ ...stHeader.contenItem, cursor: 'auto' }}>
-              <Box sx={{ ...stHeader.contenItemBreakPoint }}>
-                <Box sx={{ ...stHeader.contenEncab }}>
-                  <Box sx={{ ...stHeader.contenImg }}>
-                    <img src={item.images} alt={item.title} style={{ ...stHeader.img }} />
-                  </Box>
-                  <Box sx={{ ...stHeader.borrarBox, ...stHeader.contenTit }}>
-                    <p style={{ ...stHeader.parrafo, ...stHeader.tit }}>{item.title}</p>
-                  </Box>
-                  <Box sx={{ display: { xs: 'flex', sm: 'none' }, justifyContent: 'center', alignItems: 'center' }}>
-                    <IconButton onClick={() => handleRemoveItem(item)} color="inherit">
-                      <BadgeTrash />
-                    </IconButton>
-                  </Box>
+        ordenCarro.map((item) => (
+          <MenuItem key={item.id} sx={{ ...stHeader.contenItem, cursor: 'auto' }}>
+            <Box sx={{ ...stHeader.contenItemBreakPoint }}>
+              <Box sx={{ ...stHeader.contenEncab }}>
+                <Box sx={{ ...stHeader.contenImg }}>
+                  <img src={item.images} alt={item.title} style={{ ...stHeader.img }} />
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: '200px' }}>
-                  <Box sx={{ ...stHeader.contenPEC }}>
-                    <Box sx={{ ...stHeader.borrarBox, display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '60px' }}>
-                      <p style={{ ...stHeader.parrafo, textAlign: 'center' }}>Precio unitario:</p>
-                      <span style={stHeader.span}>{item.price}</span>
-                    </Box>
-                    <Box sx={{ width: '80px', display: 'flex', flexDirection: 'column' }}>
-                      <Box sx={{ width: '100%', display: 'flex', marginTop: '3px', '&:hover': { boxShadow: theme.palette.primary.sombra } }}>
-                        <Button
-                          variant="outlined"
-                          sx={{ color: theme.palette.primary.dorado, border: theme.palette.primary.borde, width: '20px', padding: '2px', minWidth: '20px', height: '34px', borderRadius: '0%' }}
-                          onClick={() => handleDecrement(item)}
-                        >
-                          <FiMinus style={{ color: 'black', fontSize: "16px", margin: "3px" }} />
-                        </Button>
-                        <TextField
-                          type="number"
-                          variant="outlined"
-                          value={item.cantidadPedida || ''}
-                          onClick={(e) => e.target.select()}
-                          onChange={(e) => {
-                            const newValue = Number(e.target.value);
-                            if (newValue >= 1 && newValue <= item.stock) {
-                              handleTextChange(item, newValue);
-                            }
-                          }}
-                          InputProps={{
-                            inputProps: { min: 1, max: item.stock },
-                            sx: {
-                              padding: 0,
-                              '& input::-webkit-inner-spin-button, & input::-webkit-outer-spin-button': { WebkitAppearance: 'none', margin: 0 },
-                              '& input[type=number]': { MozAppearance: 'textfield' }
-                            }
-                          }}
-                          sx={{ width: '40px', padding: '0px', height: '34px', '& .MuiInputBase-input': { textAlign: 'center', padding: '0px', height: '34px', color: theme.palette.primary.grisMuyOsc }, '& .MuiOutlinedInput-root': { borderRadius: '0%' } }}
-                        />
-                        <Button
-                          variant="outlined"
-                          sx={{ color: theme.palette.primary.dorado, border: theme.palette.primary.borde, width: '20px', padding: '2px', minWidth: '20px', height: '34px', borderRadius: '0%' }}
-                          onClick={() => handleIncrement(item)}
-                        >
-                          <FiPlus style={{ color: 'black', fontSize: "16px", margin: "3px" }} />
-                        </Button>
-                      </Box>
-                      <Box sx={{ color: theme.palette.primary.grisCarroFont, fontSize: '12px', textAlign: 'center', marginTop: '3px' }}>
-                        Stock: <span style={{ color: theme.palette.primary.grisCarroFont, fontSize: '12px' }}>{item.stock}</span>
-                      </Box>
-                    </Box>
-  
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '75px' }}>
-                      <p style={{ ...stHeader.parrafo, textAlign: 'center' }}>Total del ítem:</p>
-                      <span style={stHeader.span}>{item.totalItem || '0.00'}</span>
-                    </Box>
-                  </Box>
+                <Box sx={{ ...stHeader.borrarBox, ...stHeader.contenTit }}>
+                  <p style={{ ...stHeader.parrafo, ...stHeader.tit }}>{item.title}</p>
                 </Box>
-                <Box sx={{ display: { xs: 'none', sm: 'flex' }, justifyContent: 'center', alignItems: 'center' }}>
+                <Box sx={{ display: { xs: 'flex', sm: 'none' }, justifyContent: 'center', alignItems: 'center' }}>
                   <IconButton onClick={() => handleRemoveItem(item)} color="inherit">
                     <BadgeTrash />
                   </IconButton>
                 </Box>
               </Box>
-            </MenuItem>
-          ))        
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: '200px' }}>
+                <Box sx={{ ...stHeader.contenPEC }}>
+                  <Box sx={{ ...stHeader.borrarBox, display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '60px' }}>
+                    <p style={{ ...stHeader.parrafo, textAlign: 'center' }}>Precio unitario:</p>
+                    <span style={stHeader.span}>{item.price}</span>
+                  </Box>
+                  <Box sx={{ width: '80px', display: 'flex', flexDirection: 'column' }}>
+                    <Box sx={{ width: '100%', display: 'flex', marginTop: '3px', '&:hover': { boxShadow: theme.palette.primary.sombra } }}>
+                      <Button
+                        variant="outlined"
+                        sx={{ color: theme.palette.primary.dorado, border: theme.palette.primary.borde, width: '20px', padding: '2px', minWidth: '20px', height: '34px', borderRadius: '0%' }}
+                        onClick={() => handleDecrement(item)}
+                      >
+                        <FiMinus style={{ color: 'black', fontSize: "16px", margin: "3px" }} />
+                      </Button>
+                      <TextField
+                        type="number"
+                        variant="outlined"
+                        value={item.cantidadPedida || ''}
+                        onClick={(e) => e.target.select()}
+                        onChange={(e) => {
+                          const newValue = Number(e.target.value);
+                          if (newValue >= 1 && newValue <= item.stock) {
+                            handleTextChange(item, newValue);
+                          }
+                        }}
+                        InputProps={{
+                          inputProps: { min: 1, max: item.stock },
+                          sx: {
+                            padding: 0,
+                            '& input::-webkit-inner-spin-button, & input::-webkit-outer-spin-button': { WebkitAppearance: 'none', margin: 0 },
+                            '& input[type=number]': { MozAppearance: 'textfield' }
+                          }
+                        }}
+                        sx={{ width: '40px', padding: '0px', height: '34px', '& .MuiInputBase-input': { textAlign: 'center', padding: '0px', height: '34px', color: theme.palette.primary.grisMuyOsc }, '& .MuiOutlinedInput-root': { borderRadius: '0%' } }}
+                      />
+                      <Button
+                        variant="outlined"
+                        sx={{ color: theme.palette.primary.dorado, border: theme.palette.primary.borde, width: '20px', padding: '2px', minWidth: '20px', height: '34px', borderRadius: '0%' }}
+                        onClick={() => handleIncrement(item)}
+                      >
+                        <FiPlus style={{ color: 'black', fontSize: "16px", margin: "3px" }} />
+                      </Button>
+                    </Box>
+                    <Box sx={{ color: cantMaxStock? theme.palette.primary.rojo : theme.palette.primary.grisCarroFont, fontSize: '12px', textAlign: 'center', marginTop: '3px' }}>
+                      Stock: <span style={{ color: cantMaxStock? theme.palette.primary.rojo : theme.palette.primary.grisCarroFont, fontSize: '12px' }}>{item.stock}</span>
+                    </Box>
+                  </Box>
+
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '75px' }}>
+                    <p style={{ ...stHeader.parrafo, textAlign: 'center' }}>Total del ítem:</p>
+                    <span style={stHeader.span}>{item.totalItem || '0.00'}</span>
+                  </Box>
+                </Box>
+              </Box>
+              <Box sx={{ display: { xs: 'none', sm: 'flex' }, justifyContent: 'center', alignItems: 'center' }}>
+                <IconButton onClick={() => handleRemoveItem(item)} color="inherit">
+                  <BadgeTrash />
+                </IconButton>
+              </Box>
+            </Box>
+          </MenuItem>
+        ))
       ) : (
         <MenuItem>Sin productos seleccionados.</MenuItem>
       )}
-       {hayItemsCarro && ( 
-        <MenuItem sx={{...stHeader.footerCarro }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent:'center' }}>
-            <p style={{ ...stHeader.parrafo, fontWeight: 'bold', textAlign:'center' }}>Total de la compra:</p>
-            <span style={{ ...stHeader.span, fontSize: '16px', fontWeight: 'bold' }}>{totalCarro.toFixed(2)}</span>
+
+      {hayItemsCarro && (
+
+        <MenuItem sx={{ ...stHeader.footerCarro }}>
+          <Box sx={{marginBottom:'auto', position:'absolute',top:5, left:12}}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleVaciarCarro}
+              sx={{ display:'flex', justifyContent:'left', padding: '3px', fontSize: '8px', fontWeight:'800', boxShadow:'0px 0px 0px white', '&:hover': { backgroundColor:theme.palette.primary.hoverBtn},}} 
+            >
+              Vaciar carro
+            </Button>
+          </Box >
+          <Box sx={{ display: 'flex', gap:'20px', marginTop:'5px', marginInline:'10px', width: '-webkit-fill-available', justifyContent:'space-between' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <p style={{ ...stHeader.parrafo, fontWeight: 'bold', textAlign: 'center' }}>Total de la compra:</p>
+              <span style={{ ...stHeader.span, fontSize: '16px', fontWeight: 'bold' }}>{totalCarro.toFixed(2)}</span>
+            </Box>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={(e) => {handleIniciarCompra(); setBtnIniciarCompra(e.currentTarget)}}
+              sx={{ ...stHeader.btnFooterCarro }}
+            >
+              Iniciar compra
+            </Button>
           </Box>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={(e) => handleIniciarCompra(e.currentTarget)}
-            sx={{ ...stHeader.btnFooterCarro }}
-          >
-            Iniciar compra
-          </Button>
         </MenuItem>
-        )}
+      )}
     </Menu>
   );
-  
+
 
 
   const renderUser = (
@@ -252,7 +253,6 @@ export default function NavAppBar() {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpenUser}
       onClose={handleProfileUserClose}
-      // onClose={() => setAnchorEl(null)}
       sx={{ top: '48px' }}
     >
       {isLoggedIn
@@ -270,7 +270,7 @@ export default function NavAppBar() {
 
   const renderMobileMenu = (
     <Menu
-      anchorEl={mobileMoreAnchorEl} // Cambiado de mobileMoreAnchorEl a anchorEl
+      anchorEl={mobileMoreAnchorEl} 
       anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
       id="primary-search-account-menu"
       keepMounted
@@ -283,36 +283,35 @@ export default function NavAppBar() {
       <MenuItem key="productos" onClick={handleNavigateToProducts}>Productos</MenuItem>
 
       {isLoggedIn
-        ? <Box sx={{display:{xs:'block', sm:'none'}}}>
+        ? <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
           <MenuItem key="cuenta" onClick={handleMisOrdenes}>Mis órdenes de compra</MenuItem>
           <MenuItem key="logout" onClick={() => { setMobileMoreAnchorEl(null); handleLogout(); }}>Cerrar sesión</MenuItem>
-          </Box>
-        : <Box sx={{display:{xs:'block', sm:'none'}}}>
+        </Box>
+        : <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
           <MenuItem key="login" onClick={handleLogin}>Iniciar sesión</MenuItem>
           <MenuItem key="signup" onClick={() => { setMobileMoreAnchorEl(null); navigate('/signup'); }}>Registrarse</MenuItem>
-          </Box>
+        </Box>
       }
     </Menu>
   );
 
   return (
-    <AppBar position="static" sx={{ position: 'fixed', top: '0', left: '0', zIndex: 20, display: 'flex', justifyContent: 'center', minWidth: '280px',  boxShadow:theme.header.sombraBottom }}>
+    <AppBar position="static" sx={{ position: 'fixed', top: '0', left: '0', zIndex: 20, display: 'flex', justifyContent: 'center', minWidth: '280px', boxShadow: theme.header.sombraBottom }}>
       <Box sx={{ position: 'fixed', top: '-12px', left: '0px', zIndex: '10', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', minWidth: '280px', backgroundColor: theme.palette.primary.main, }}>
-        <h1 style={{ fontSize: '28px', marginTop:'20px', marginBottom:'5px' }}>JusT<span style={{ marginLeft: '3px', fontSize: '24px', marginTop:'20px', marginBottom:'5px' }}>snacK</span></h1>
+        <h1 style={{ fontSize: '28px', marginTop: '20px', marginBottom: '5px' }}>JusT<span style={{ marginLeft: '3px', fontSize: '24px', marginTop: '20px', marginBottom: '5px' }}>snacK</span></h1>
       </Box>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', zIndex: '30', paddingInline:'15px' }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', zIndex: '30', paddingInline: '15px' }}>
         <IconButton size="large" edge="start" aria-label="open drawer" onClick={handleMenuOpen} sx={{ ml: 0, color: theme.palette.primary.grisMuyOsc, '&:hover': { backgroundColor: theme.palette.primary.hoverBtn } }}>
           <BadgeHamb />
         </IconButton>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginInline: '0px', gap: '20px', width: 'auto' }}>
-          <IconButton size="large" aria-label="shop" aria-controls="carr-shop-menu-mobile" aria-haspopup="true" onClick={handleCarMenuOpen} color="inherit" sx={{marginInline: {xs:'0px', sm:'1px'}, width:'52px', height:'52px', '&:hover': { backgroundColor: theme.palette.primary.hoverBtn } }}>
+          <IconButton size="large" aria-label="shop" aria-controls="carr-shop-menu-mobile" aria-haspopup="true" onClick={handleCarMenuOpen} color="inherit" sx={{ marginInline: { xs: '0px', sm: '1px' }, width: '52px', height: '52px', '&:hover': { backgroundColor: theme.palette.primary.hoverBtn } }}>
             <BadgeShop />
           </IconButton>
-          <IconButton size="large" edge="end" aria-label="account of current user" aria-controls="primary-search-account-menu" aria-haspopup="true" onClick={handleProfileUser} color="inherit" sx={{ display:{xs:'none', sm:'flex'}, color: theme.palette.primary.grisMuyOsc, '&:hover': { backgroundColor: theme.palette.primary.hoverBtn } }}>
+          <IconButton size="large" edge="end" aria-label="account of current user" aria-controls="primary-search-account-menu" aria-haspopup="true" onClick={handleProfileUser} color="inherit" sx={{ display: { xs: 'none', sm: 'flex' }, color: theme.palette.primary.grisMuyOsc, '&:hover': { backgroundColor: theme.palette.primary.hoverBtn } }}>
             <BadgeUser />
           </IconButton>
         </Box>
-        {/* {isLoggedIn ? (<Box sx={{ display:{xs:'flex', sm:'none'}, alignItems:'center', position:'absolute', top:'52px', left:'23px'}}><PiUserCircleCheckLight/><p style={{fontSize:'10px', paddingLeft:'6px'}}>Sesión iniciada</p></Box>) :null} */}
       </Toolbar>
       {renderMobileMenu}
       {renderCarShop}

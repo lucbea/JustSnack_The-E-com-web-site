@@ -30,7 +30,6 @@ export const ThemeCustom = () => {
         rojo: '#b0273c',
         verde: '#228563',
         verdeBrill: '#2cb586',
-        // azul: '#23609c',
         azul:'#787eac',
         borde: '1px solid #737373',
         bordeItemCarro: 'inset 0px -1px 0px 0px #dae1df',

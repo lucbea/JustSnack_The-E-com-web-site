@@ -103,20 +103,24 @@ export const StyleHeader = ({ theme }) => {
 
         footerCarro: {
             borderTop: `1px solid ${theme.palette.primary.borde}`,
-            paddingBlock: '10px',
-            gap: '15px',
+            
+            gap: {xs:'15px', sm:'60px'},
             display: 'flex',
+            flexDirection: {xs:'column', sm:'row'},
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingInline: '8%',
-            [theme.breakpoints.up('sm')]: { // Correct use of media queries
-                // backgroundColor: 'green',
-                // justifyContent: 'spa', 
-                gap: '60px',
-                paddingInline: '15%',
-                // display:'flex',
-                // flexDirection:'column',
-            },
+            paddingTop:'25px',
+            paddingBottom: '10px',
+            paddingInline: {xs:'1%', sm:'15%'},
+            position:'relative',
+            // [theme.breakpoints.up('xs')]: { // Correct use of media queries
+            //     // backgroundColor: 'green',
+            //     // justifyContent: 'spa', 
+            //     gap: '60px',
+            //     paddingInline: '15%',
+            //     // display:'flex',
+            //     flexDirection:'row',
+            // },
         },
 
         btnFooterCarro: {
@@ -126,6 +130,7 @@ export const StyleHeader = ({ theme }) => {
             fontSize: '12px',
             fontWeight: 900,
             minWidth: '95px',
+            padding: {xs:'6px', sm:'6px 16px'},
             '&:hover': {
                 bgcolor: theme.palette.primary.verdeBrill,
             },

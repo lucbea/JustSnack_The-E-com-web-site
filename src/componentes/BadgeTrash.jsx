@@ -1,5 +1,4 @@
 
-import * as React from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import { ThemeCustom } from '../context/ThemeCustom';
@@ -24,7 +23,7 @@ export default function BadgeTrash
         sx={{
           width: 'auto',
           height: 'auto',
-          padding: '10px', 
+          padding: '10px',
           backgroundColor: theme.palette.primary.transparent,
           color: theme.palette.primary.grisOsc,
           transition: 'transform 0.3s',
@@ -33,8 +32,13 @@ export default function BadgeTrash
             backgroundColor: theme.palette.primary.hoverBtn
           }
         }}>
-      <BsTrash3 style={{ fontSize:'24px', color:theme.palette.primary.grisMuyOsc, backgroundColor: theme.palette.primary.transparent }}/>
-    </TransitionEfect>
-      </StyledBadge >
+        <BsTrash3
+          style={{
+            fontSize: '24px',
+            color: theme.palette.primary.grisMuyOsc,
+            backgroundColor: theme.palette.primary.transparent
+          }} />
+      </TransitionEfect>
+    </StyledBadge >
   );
 }

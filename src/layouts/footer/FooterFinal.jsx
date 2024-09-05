@@ -12,19 +12,22 @@ import { StyleFooter } from './StyleFooter';
 
 function Copyright({ theme }) {
   return (
-    <Typography sx={{
+    <Typography 
+    sx={{
       fontSize: '8px',
       color: theme.palette.primary.manteca,
       marginBottom: '6px',
       marginTop: { xs: '0px', sm: '6px' },
     }} >
       {'Copyright © '}
-      <span style={{
+      <span 
+      style={{
         fontSize: '12px',
         fontWeight: '900',
         color: theme.palette.primary.blanco,
       }}>
-        <Link to="/" style={{
+        <Link to="/" 
+        style={{
           textDecoration: 'none',
           color: 'inherit'
         }}>
@@ -40,23 +43,27 @@ function Copyright({ theme }) {
 
 function CopyrightLB({ theme }) {
   return (
-    <Box sx={{
+    <Box 
+    sx={{
       position: 'absolute',
       bottom: '0px',
       right: '0px'
     }}>
-      <Typography sx={{
+      <Typography 
+      sx={{
         fontSize: '6px',
         marginRight: { xs: '10px', sm: '30px' },
         marginBottom: { xs: '0px', sm: '5px' },
         color: theme.palette.primary.manteca,
       }}>
         {'POWERED by  '}
-        <a href="https://github.com/lucbea" style={{
+        <a href="https://github.com/lucbea" 
+        style={{
           textDecoration: 'none',
           color: 'inherit'
         }}>
-          <span style={{
+          <span 
+          style={{
             fontSize: '10px',
             fontWeight: 900,
           }}>
@@ -65,7 +72,6 @@ function CopyrightLB({ theme }) {
         </a>
       </Typography>
     </Box>
-
   );
 }
 

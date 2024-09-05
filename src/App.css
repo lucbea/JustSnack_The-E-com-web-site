@@ -8,6 +8,18 @@
   width: 100%;
 }
 
+
+* Aplica estilos a la barra de desplazamiento en el contenedor */
+::-webkit-scrollbar {
+    width: 6px; /* Ajusta el ancho de la barra de desplazamiento */
+}
+
+/* Estilo para el riel de la barra de desplazamiento */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color del fondo del riel */
+    border-radius: 10px; /* Redondea las esquinas del riel */
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

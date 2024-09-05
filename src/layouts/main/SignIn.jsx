@@ -23,7 +23,7 @@ const defaultTheme = createTheme();
 export default function SignIn() {
     const theme = ThemeCustom();
     const component = ComponentCustom();
-    const { btnIniciarCompra, setBtnIniciarCompra, isLoggedIn, setIsLoggedIn, setUser, auxAnclaMenuCarr, setAuxAnclaMenuCarr, InicSesion } = useContext(OrdenShopContext);
+    const { btnIniciarCompra, setBtnIniciarCompra, isLoggedIn, setIsLoggedIn, setUser, auxAnclaMenuCarr, setAuxAnclaMenuCarr, InicSesion, handleIniciarCompra, anclaMenuCarr, setAnclaMenuCarr } = useContext(OrdenShopContext);
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -48,46 +48,9 @@ export default function SignIn() {
         }));
     };
 
-    // const handleSubmit = (event) => {
-    //     if (!isLoggedIn) {
-    //         console.log("no está logueado, procedo al loguin")
-    //         event.preventDefault();
-    //         const { email, password } = values;
-
-    //         // Obtener datos del localStorage
-    //         const userJson = localStorage.getItem('user');
-    //         if (userJson) {
-    //             const user = JSON.parse(userJson);
-    //             // Verificar si el usuario existe y las credenciales coinciden
-    //             if (user.email === email && user.password === password) {
-    //                 console.log('Inicio de sesión exitoso');
-    //                 setIsLoggedIn(true);
-    //                 setUser(email, password);
-    //                 navigate('/');
-    //                 setErrorMessage('');
-    //                 setBtnIniciarCompra(false);
-    //             } else {
-    //                 setIsLoggedIn(false);
-    //                 setErrorMessage('Datos incorrectos');
-    //             }
-    //         } else {
-    //             setIsLoggedIn(false);
-    //             setErrorMessage('Datos incorrectos');
-    //             console.log('No se encontraron datos de usuario en el almacenamiento local');
-    //         }
-    //     } else { console.log("está logueado") }
-    //     console.log("LogIn - auxAnclaMenuCarr:", auxAnclaMenuCarr)
-    //     if (auxAnclaMenuCarr) {
-    //         console.log("LogIn - auxAnclaMenuCarr:", auxAnclaMenuCarr)
-    //     } 
-    // };
-
-    // const handleSignUpRedirect = () => {
-    //     navigate('/signUp');
-    // };
-
-
+  
     const handleSubmit = (event) => {
+        console.log("HandleSubmit - btnIniciarCompra:", btnIniciarCompra,"***", anclaMenuCarr )
         if (!isLoggedIn) {
             console.log("no está logueado, procedo al loguin");
             event.preventDefault();
@@ -121,9 +84,14 @@ export default function SignIn() {
                 // Opcional: También podrías actualizar el estado del usuario
                 setUser(user); // Asumiendo que 'setUser' espera un objeto de usuario completo
     
-                navigate('/'); // Redirigir al inicio
+                navigate('/productos'); // Redirigir al inicio
                 setErrorMessage('');
-                setBtnIniciarCompra(false);
+                console.log("btnIniciarCompra:", btnIniciarCompra)
+                if (btnIniciarCompra) { 
+                    setAnclaMenuCarr(btnIniciarCompra)
+                }
+                
+              
             } else {
                 setIsLoggedIn(false);
                 setErrorMessage('Datos incorrectos');

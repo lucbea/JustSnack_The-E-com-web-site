@@ -1,5 +1,4 @@
 
-import React from 'react';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css'; // Importa los estilos predeterminados
 import { Box } from '@mui/material';
@@ -19,7 +18,7 @@ export const SlideInfinit = () => {
     const theme = ThemeCustom();
     return (
         <Box>
-            <Box sx={{ display: {xs:'none', sm:'flex'} }}>
+            <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
                 <Splide
                     options={{
                         rewind: true,
@@ -36,21 +35,40 @@ export const SlideInfinit = () => {
                     aria-label="Image Carousel"
                 >
                     <SplideSlide>
-                        <img src={imUno} alt="Image 1" style={{ width: '100%', objectFit: 'cover' }} />
+                        <img src={imUno} alt="Image 1"
+                            style={{
+                                width: '100%',
+                                objectFit: 'cover'
+                            }} />
                     </SplideSlide>
                     <SplideSlide>
-                        <img src={imDos} alt="Image 2" style={{ width: '100%', objectFit: 'cover' }} />
+                        <img src={imDos} alt="Image 2"
+                            style={{
+                                width: '100%',
+                                objectFit: 'cover'
+                            }} />
                     </SplideSlide>
                     <SplideSlide>
-                        <img src={imTres} alt="Image 3" style={{ width: '100%', objectFit: 'cover' }} />
+                        <img src={imTres} alt="Image 3"
+                            style={{
+                                width: '100%',
+                                objectFit: 'cover'
+                            }} />
                     </SplideSlide>
                     <SplideSlide>
-                        <img src={imCuatro} alt="Image 4" style={{ width: '100%', objectFit: 'cover' }} />
+                        <img src={imCuatro} alt="Image 4"
+                            style={{
+                                width: '100%',
+                                objectFit: 'cover'
+                            }} />
                     </SplideSlide>
                 </Splide>
             </Box>
 
-            <Box sx={{ display: {xs:'flex', sm:'none'} }}>
+            <Box
+                sx={{
+                    display: { xs: 'flex', sm: 'none' }
+                }}>
                 <Splide
                     options={{
                         rewind: true,
@@ -67,22 +85,46 @@ export const SlideInfinit = () => {
                     aria-label="Image Carousel"
                 >
                     <SplideSlide>
-                        <img src={imCinco} alt="Image 1" style={{ width: '100%', objectFit: 'cover' }} />
+                        <img src={imCinco} alt="Image 1"
+                            style={{
+                                width: '100%',
+                                objectFit: 'cover'
+                            }} />
                     </SplideSlide>
                     <SplideSlide>
-                        <img src={imSeis} alt="Image 2" style={{ width: '100%', objectFit: 'cover' }} />
+                        <img src={imSeis} alt="Image 2"
+                            style={{
+                                width: '100%',
+                                objectFit: 'cover'
+                            }} />
                     </SplideSlide>
                     <SplideSlide>
-                        <img src={imSiete} alt="Image 3" style={{ width: '100%', objectFit: 'cover' }} />
+                        <img src={imSiete} alt="Image 3"
+                            style={{
+                                width: '100%',
+                                objectFit: 'cover'
+                            }} />
                     </SplideSlide>
                     <SplideSlide>
-                        <img src={imOcho} alt="Image 4" style={{ width: '100%', objectFit: 'cover' }} />
+                        <img src={imOcho} alt="Image 4"
+                            style={{
+                                width: '100%',
+                                objectFit: 'cover'
+                            }} />
                     </SplideSlide>
                     <SplideSlide>
-                        <img src={imNueve} alt="Image 3" style={{ width: '100%', objectFit: 'cover' }} />
+                        <img src={imNueve} alt="Image 3"
+                            style={{
+                                width: '100%',
+                                objectFit: 'cover'
+                            }} />
                     </SplideSlide>
                     <SplideSlide>
-                        <img src={imDiez} alt="Image 3" style={{ width: '100%', objectFit: 'cover' }} />
+                        <img src={imDiez} alt="Image 3"
+                            style={{
+                                width: '100%',
+                                objectFit: 'cover'
+                            }} />
                     </SplideSlide>
                 </Splide>
             </Box>
