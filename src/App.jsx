@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import { AppBar, Box, CssBaseline, Grid, Link } from '@mui/material';
-import ContentTarjNavScrollFix from './componentes/ContenTarjNavScrollFix';
-import Paginacion from './componentes/Paginacion';
+// import ContentTarjNavScrollFix from './componentes/ContenTarjNavScrollFix';
+// import Paginacion from './componentes/Paginacion';
 import Grilla from './layouts/main/Grid';
 import { useFetchGet } from './hook/FetchGet';
 // import { Filtro } from './componentes/Filtro';
@@ -57,9 +57,7 @@ function App() {
        
           <CssBaseline />
           <OrdenShopProvider>
-            <NavAppBar />
-            {/* <HearthEfect /> */}
-            
+            <NavAppBar />            
             <main style={{ marginTop: '78px', marginBottom:'98px' }}>
             <Routes>
                 <Route path="/" element={<Inicio products={products} />} />

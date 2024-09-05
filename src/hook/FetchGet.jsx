@@ -4,7 +4,6 @@ import { useEffect } from "react";
 
 
 export const useFetchGet = ({ URL, setProducts, pag, setPagTotal, isLoading, setIsLoading }) => {
-  // console.log("URL",URL)
   useEffect(() => {
 
     // Muestra el spinner al iniciar la carga de datos

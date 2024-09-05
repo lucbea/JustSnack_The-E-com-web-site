@@ -21,26 +21,39 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export const BadgeUser = () => {
   const { isLoggedIn } = useContext(OrdenShopContext);
-    return (
-        <StyledBadge badgeContent={0}>
-          <TransitionEfect
-            sx={{
-              width: 'auto',
-              height: 'auto',
-              backgroundColor: theme.palette.primary.transparent,
-              color: theme.palette.primary.grisOsc,
-              fontWeight:'400',
-              transition: 'transform 0.3s',
-            //   padding:'10px',
-              '&:hover': {
-                transform: 'scale(1.1)',
-                backgroundColor: theme.palette.primary.hoverBtn,
-              }
-            }}>
-            {isLoggedIn? <PiUserCircleCheckLight style={{ fontSize:'32px', color:theme.palette.primary.grisMuyOsc, backgroundColor: theme.palette.primary.transparent }}/> : <PiUserCircleLight style={{ fontSize:'32px', color:theme.palette.primary.grisMuyOsc, backgroundColor: theme.palette.primary.transparent }}/>}
-        </TransitionEfect>
-          </StyledBadge >
-    )
+  return (
+    <StyledBadge badgeContent={0}>
+      <TransitionEfect
+        sx={{
+          width: 'auto',
+          height: 'auto',
+          backgroundColor: theme.palette.primary.transparent,
+          color: theme.palette.primary.grisOsc,
+          fontWeight: '400',
+          transition: 'transform 0.3s',
+          //   padding:'10px',
+          '&:hover': {
+            transform: 'scale(1.1)',
+            backgroundColor: theme.palette.primary.hoverBtn,
+          }
+        }}>
+        {isLoggedIn ?
+          <PiUserCircleCheckLight
+            style={{
+              fontSize: '32px',
+              color: theme.palette.primary.grisMuyOsc,
+              backgroundColor: theme.palette.primary.transparent
+            }} />
+          : <PiUserCircleLight
+            style={{
+              fontSize: '32px',
+              color: theme.palette.primary.grisMuyOsc,
+              backgroundColor: theme.palette.primary.transparent
+            }} />
+        }
+      </TransitionEfect>
+    </StyledBadge >
+  )
 }
 
 

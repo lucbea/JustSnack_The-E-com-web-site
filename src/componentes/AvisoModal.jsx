@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Box, Modal, Typography } from "@mui/material";
 
 const style = {
@@ -19,7 +19,7 @@ export const AvisoModal = ({ open, handleClose }) => {
         if (open) {
             const timer = setTimeout(() => {
                 handleClose();
-            }, 6000); // 6000 ms = 6 segundos
+            }, 6000); 
 
             return () => clearTimeout(timer); // Limpia el temporizador si el componente se desmonta
         }
@@ -33,9 +33,9 @@ export const AvisoModal = ({ open, handleClose }) => {
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
+                {/* <Typography id="modal-modal-title" variant="h6" component="h2">
                     Ya está logueado
-                </Typography>
+                </Typography> */}
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                     Ha iniciado sesión correctamente.
                 </Typography>

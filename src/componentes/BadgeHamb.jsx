@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import { ThemeCustom } from '../context/ThemeCustom';
@@ -15,8 +15,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-export default function BadgeHamb
-  () {
+export default function BadgeHamb () {
   return (
     <StyledBadge badgeContent={0}>
       <TransitionEfect
@@ -31,8 +30,13 @@ export default function BadgeHamb
             backgroundColor: theme.palette.primary.hoverBtn
           }
         }}>
-      <HiBars3 style={{ fontSize:'28px', color:theme.palette.primary.grisMuyOsc, backgroundColor: theme.palette.primary.transparent }}/>
-    </TransitionEfect>
-      </StyledBadge >
+        <HiBars3
+          style={{
+            fontSize: '28px',
+            color: theme.palette.primary.grisMuyOsc,
+            backgroundColor: theme.palette.primary.transparent
+          }} />
+      </TransitionEfect>
+    </StyledBadge >
   );
 }

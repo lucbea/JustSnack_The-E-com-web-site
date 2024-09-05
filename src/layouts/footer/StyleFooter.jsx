@@ -33,7 +33,6 @@ export const StyleFooter = ({ theme }) => {
             position: { xs: 'relative', sm: 'absolute' },
             left: '0px',
             gap: {xs:'5px', sm:'3px'},
-            // cursor: 'pointer',
         },
 
         boxEnlacePage: {
@@ -44,7 +43,7 @@ export const StyleFooter = ({ theme }) => {
             color: theme.palette.primary.manteca,
             '&:hover': {
                 color: theme.palette.primary.blanco,
-                fontWeight: 900, // Corregido de fontWeigth a fontWeight
+                fontWeight: 900, 
             },
         },
 
@@ -62,7 +61,6 @@ export const StyleFooter = ({ theme }) => {
             justifyContent: 'center',
             gap: '20px',
             margin: 'auto',
-            // cursor: 'pointer',
         },
 
         bordeIconoRed: {
@@ -79,7 +77,7 @@ export const StyleFooter = ({ theme }) => {
             '&:hover': {
                 borderColor: theme.palette.primary.blanco,
                 color: theme.palette.primary.blanco,
-                fontWeight: 900, // Corregido de fontWeigth a fontWeight
+                fontWeight: 900, 
             },
         },
 
