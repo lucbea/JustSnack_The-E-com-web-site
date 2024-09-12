@@ -38,7 +38,7 @@ export const Filtros = () => {
                             borderRadius: '4px',
                             width: { xs: '100%', sm: '-webkit-fill-available' },
                         }}>
-                        <option value="todas">Todas</option>
+                        <option value="todas">Todos</option>
                         <option value="secos">Frutos Secos</option>
                         <option value="deshidratados">Deshidratados</option>
                     </select>

@@ -1,6 +1,15 @@
 
+import { Box } from '@mui/material';
+import Emoji404 from '../assets/emoji404.png'; // Import the image correctly
+
 export const Error404 = () => {
     return (
-        <h1>404  -  NOT  FOUND</h1>
-    )
+        <Box sx={{ paddingTop: '20px', margin: 'auto', textAlign: 'center' }}>
+            <h2>Uuups!</h2>
+            <h2>404 - NOT FOUND</h2>
+            <Box sx={{height:'200px', }}>
+                <img src={Emoji404} alt="404 Emoji" style={{ maxWidth: '100%', height: 'inherit' }} />
+            </Box>
+        </Box>
+    );
 }
