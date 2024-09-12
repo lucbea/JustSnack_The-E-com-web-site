@@ -1,7 +1,8 @@
 
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'; // Para redirección
 import { v4 as uuidv4 } from 'uuid';
+import { DataBDContext } from "./DataBd";
 
 
 export const OrdenShopContext = createContext();
@@ -29,7 +30,7 @@ export const OrdenShopProvider = ({ children }) => {
     const [user, setUser] = useState({ userId: "", nombre: "", apellido: "", password: "", notificaciones: "", email: "" });
     const [btnIniciarCompra, setBtnIniciarCompra] = useState();
     let userLS;
-
+    const { setOneData } = useContext(DataBDContext)
 
 
 
@@ -41,15 +42,16 @@ export const OrdenShopProvider = ({ children }) => {
             return;
         }
         let userLSJson = localStorage.getItem('usuarioActual', JSON.stringify(user));
+        console.log("usuarioActualLSJson", userLSJson)
         if (userLSJson) {
             userLS = JSON.parse(userLSJson);
         }
-        // if (!(userLS.userId)) {
-        //     // console.error("El usuario no está definido o no tiene un ID.");
-        //     return;
-        // } else {
-        //     // console.log("hay usuario:", userLS.userId)
-        // }
+        if (!(userLS.userId)) {
+            // console.error("El usuario no está definido o no tiene un ID.");
+            return;
+        } else {
+            // console.log("hay usuario:", userLS.userId)
+        }
 
         if (totalCarro === undefined || isNaN(totalCarro)) {
             // console.error("El total del carro no es válido:", totalCarro);
@@ -63,9 +65,9 @@ export const OrdenShopProvider = ({ children }) => {
         // Crear el objeto con los detalles de la orden
         const items = Array.isArray(ordenCarro) ? ordenCarro.map(item => ({
             id: item.id,
-            title: item.title,
+            nombre: item.nombre,
             cantidad: item.cantidadPedida,
-            totalItem: item.totalItem
+            totalItem: item.totalItem,
         })) : [];
         const orderDetails = {
             userId: userLS.userId, // Asegúrate de que 'user' tenga el ID adecuado
@@ -74,10 +76,36 @@ export const OrdenShopProvider = ({ children }) => {
             total: totalCarro,
             date: orderDate
         };
+        try {
+            // Guardar la orden en Firestore
+            setOneData('orders', orderId, orderDetails);
+    
+            // Actualizar el stock para cada ítem en el carrito
+            Promise.all(
+                ordenCarro.map(async (item) => {
+                    const newStock = item.stock - item.cantidadPedida;
+                    const stockUpdate = { stock: newStock };
+                    
+                    // Llamar a `setOneData` para actualizar el stock
+                    await setOneData('product', item.id, stockUpdate); // Asegúrate de usar 'products' en lugar de 'product'
+                })
+            );
+    
+            console.log("Orden y stock actualizados con éxito en Firestore");
+        } catch (error) {
+            console.error("Error al guardar la orden o actualizar el stock en Firestore:", error);
+        }
+    
 
-        let orders = JSON.parse(localStorage.getItem('orders')) || [];
-        orders.push(orderDetails);
-        localStorage.setItem('orders', JSON.stringify(orders));
+
+
+
+        // setOneData ('orders', orderId, orderDetails);
+        // setOneData ('product', )
+        // let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        // orders.push(orderDetails);
+        // localStorage.setItem('orders', JSON.stringify(orders));
+        // console.log("orders", orders)
         setAnclaMenuCarr(null);
         navigate('/compra');
         setBtnIniciarCompra();
@@ -98,7 +126,9 @@ export const OrdenShopProvider = ({ children }) => {
     };
 
     const handleLogout = () => {
-        setIsLoggedIn(false);
+        setIsLoggedIn(false); 
+        const user = { "userId": "" }; 
+        localStorage.setItem('usuarioActual', JSON.stringify(user)); 
     };
 
     const handlePerfil = () => {
@@ -123,7 +153,7 @@ export const OrdenShopProvider = ({ children }) => {
         }
         else { setCantMaxStock(true); }
         if (isNaN(cantPedida) || cantPedida <= 0) return;
-        const totalItem = parseFloat((item.price * cantPedida).toFixed(2));
+        const totalItem = parseFloat((item.precio * cantPedida).toFixed(2));
         console.log("Estoy en handlemodifCantItem - ordenCarro?????:", ordenCarro)
         const updatedOrdenCarro = ordenCarro.map(o =>
             o.id === item.id ? { ...item, cantidadPedida: cantPedida, totalItem } : o

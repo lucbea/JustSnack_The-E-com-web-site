@@ -1,9 +1,9 @@
 
 
-import { useEffect } from "react";
 
 
-export const useFetchGet = ({ URL, setProducts, pag, setPagTotal, isLoading, setIsLoading }) => {
+export const useFetchGet = () => {
+  const { } = useContext(DataBDContext)
   useEffect(() => {
 
     // Muestra el spinner al iniciar la carga de datos
@@ -23,7 +23,7 @@ export const useFetchGet = ({ URL, setProducts, pag, setPagTotal, isLoading, set
         // console.log("DATA products", products)
         // Asegúrate de pasar solo el array de productos
         setProducts(products || []); // Extrae solo el array de productos
-        setPagTotal(data.info ? data.info.pages : 1);
+        // setPagTotal(data.info ? data.info.pages : 1);
       })
       .catch((error) => {
         console.error("Error del fetch:", error);
@@ -35,7 +35,7 @@ export const useFetchGet = ({ URL, setProducts, pag, setPagTotal, isLoading, set
         setIsLoading(false);
       });
 
-  }, [pag, URL]);
+  }, [URL]);
 
 };
 

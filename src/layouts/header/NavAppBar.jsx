@@ -132,10 +132,10 @@ export default function NavAppBar() {
             <Box sx={{ ...stHeader.contenItemBreakPoint }}>
               <Box sx={{ ...stHeader.contenEncab }}>
                 <Box sx={{ ...stHeader.contenImg }}>
-                  <img src={item.images} alt={item.title} style={{ ...stHeader.img }} />
+                  <img src={item.imagen} alt={item.imagen} style={{ ...stHeader.img }} />
                 </Box>
                 <Box sx={{ ...stHeader.borrarBox, ...stHeader.contenTit }}>
-                  <p style={{ ...stHeader.parrafo, ...stHeader.tit }}>{item.title}</p>
+                  <p style={{ ...stHeader.parrafo, ...stHeader.tit }}>{item.nombre}</p>
                 </Box>
                 <Box sx={{ display: { xs: 'flex', sm: 'none' }, justifyContent: 'center', alignItems: 'center' }}>
                   <IconButton onClick={() => handleRemoveItem(item)} color="inherit">
@@ -147,7 +147,7 @@ export default function NavAppBar() {
                 <Box sx={{ ...stHeader.contenPEC }}>
                   <Box sx={{ ...stHeader.borrarBox, display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '60px' }}>
                     <p style={{ ...stHeader.parrafo, textAlign: 'center' }}>Precio unitario:</p>
-                    <span style={stHeader.span}>{item.price}</span>
+                    <span style={stHeader.span}>{item.precio}</span>
                   </Box>
                   <Box sx={{ width: '80px', display: 'flex', flexDirection: 'column' }}>
                     <Box sx={{ width: '100%', display: 'flex', marginTop: '3px', '&:hover': { boxShadow: theme.palette.primary.sombra } }}>
