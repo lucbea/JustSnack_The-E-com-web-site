@@ -8,7 +8,7 @@ import { OrdenShopContext } from "../context/OrdenShop";
 export const PagoCompra = () => {
     const theme = ThemeCustom();
     const navigate = useNavigate();
-    const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, setAgregarCarro, setQuitarCarro, vaciarCarro, setVaciarCarro, vaciarCarrito, handleIniciarCompra, handleLogin, handleLogout, handlePerfil, isLoggedIn, setIsLoggedIn, user, setUser } = useContext(OrdenShopContext);
+    const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, setAgregarCarro, setQuitarCarro, vaciarCarro, setVaciarCarro,  handleIniciarCompra, handleLogin, handleLogout, handlePerfil, isLoggedIn, setIsLoggedIn, user, setUser } = useContext(OrdenShopContext);
 
     const finalizarCompra = () => {
         //Aquí llamar función para disminuir el stock
