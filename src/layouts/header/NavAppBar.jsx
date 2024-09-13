@@ -1,7 +1,7 @@
 
 
-import { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for routing
+import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,8 +17,6 @@ import { Button, TextField } from '@mui/material';
 import { StyleHeader } from './StyleHeader';
 import BadgeTrash from '../../componentes/BadgeTrash';
 import { FiMinus, FiPlus } from "react-icons/fi";
-import Grilla from '../main/Grid';
-import { PiUserCircleCheckLight } from "react-icons/pi";
 
 export default function NavAppBar() {
   const theme = ThemeCustom();
@@ -26,11 +24,11 @@ export default function NavAppBar() {
   const navigate = useNavigate(); // Initialize useNavigate
 
 
-  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, setAgregarCarro, setQuitarCarro, vaciarCarro, setVaciarCarro, vaciarCarrito, handleIniciarCompra, handleLogin, handleLogout, isLoggedIn, setIsLoggedIn, user, setUser, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock } = useContext(OrdenShopContext);
+  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro,  setShowProducts, totalCarro,  setAgregarCarro, setQuitarCarro, setVaciarCarro,  handleIniciarCompra, handleLogin, handleLogout, isLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock } = useContext(OrdenShopContext);
   const isMenuOpenUser = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isCarrOpen = Boolean(anclaMenuCarr);
-  let totalCompra = 0;
+  // let totalCompra = 0;
 
   useEffect(() => {
     setHayItemsCarro(ordenCarro.length > 0);
@@ -50,7 +48,7 @@ export default function NavAppBar() {
     setAnchorEl(null);
     setAnclaMenuCarr(null);
     setShowProducts(true);
-    navigate('/productos'); // Navega a la página de productos
+    navigate('/productos'); 
   };
 
   const handleNavigateToHome = () => {
@@ -111,8 +109,6 @@ export default function NavAppBar() {
       sx={{
         backgroundColor: theme.palette.modal.fondo,
         overflowY: 'auto',
-        
-        // left:'16px',
         '& .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper': { 
           top: '60px !important', 
           right: '16px !important', 
@@ -126,7 +122,6 @@ export default function NavAppBar() {
       }}
     >
       {ordenCarro.length > 0 ? (
-
         ordenCarro.map((item) => (
           <MenuItem key={item.id} sx={{ ...stHeader.contenItem, cursor: 'auto' }}>
             <Box sx={{ ...stHeader.contenItemBreakPoint }}>

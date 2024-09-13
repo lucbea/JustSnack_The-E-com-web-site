@@ -9,7 +9,7 @@ import Grilla from './layouts/main/Grid';
 import { useFetchGet } from './hook/FetchGet';
 // import { Filtro } from './componentes/Filtro';
 
-import spinner from "../images/bx_loader.gif";
+import spinner from "./assets/bx_loader.gif";
 import { HiBars3 } from "react-icons/hi2";
 import SignIn from './layouts/main/SignIn';
 import { ThemeCustom } from "./context/ThemeCustom";

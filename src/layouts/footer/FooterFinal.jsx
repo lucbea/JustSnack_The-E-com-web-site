@@ -79,7 +79,7 @@ function CopyrightLB({ theme }) {
 export default function FooterFinal() {
   const theme = ThemeCustom();
   const stFooter = StyleFooter({ theme });
-  const { isLoggedIn, setIsLoggedIn, user, setUser, handleLogout } = useContext(OrdenShopContext);
+  const { isLoggedIn,  handleLogout } = useContext(OrdenShopContext);
   const navigate = useNavigate();  // Inicializar el hook useNavigate
 
   // Función para manejar el cierre de sesión y redirección
