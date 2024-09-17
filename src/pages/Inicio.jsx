@@ -7,6 +7,5 @@ export const Inicio = () => {
     const { products } = useContext(DataBDContext);
     return (
         <Home products={products}/>
-        // <h1>ESTE EyS HOME</h1>
     )
 }

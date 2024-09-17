@@ -2,15 +2,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Box, Paper } from '@mui/material';
 import { db } from '../../../firebase';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, getDoc, doc } from 'firebase/firestore';
 import { OrdenShopContext } from '../../context/OrdenShop';
 import { ThemeCustom } from '../../context/ThemeCustom';
 import { StyleUserOrders } from './StyleUserOrders';
 import spinner from "../../assets/bx_loader.gif"
+import { StyleSpinner } from '../../hook/StyleSpinner';
 
 export const UserOrders = () => {
     const theme = ThemeCustom();
     const stUsOrd = StyleUserOrders({ theme });
+    const stSpinner = StyleSpinner({ theme });
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [totalUserOrders, setTotalUserOrders] = useState(0);
@@ -23,6 +25,10 @@ export const UserOrders = () => {
                 const userIdLS = localStorage.getItem('usuarioActual');
                 if (userIdLS) {
                     const parsedUserId = JSON.parse(userIdLS).userId;
+                    const queryUsuario = await getDoc(doc(db, 'users', parsedUserId));
+                    if (queryUsuario.exists()) {
+                        const userData = queryUsuario.data();
+                    }
                     const ordersRef = collection(db, 'orders');
                     const q = query(ordersRef, where('userId', '==', parsedUserId));
                     const querySnapshot = await getDocs(q);
@@ -46,13 +52,13 @@ export const UserOrders = () => {
     }, [isLoggedIn]);
 
     if (!isLoggedIn) {
-        return <Box sx={{ ...stUsOrd.boxMesagge }} >Para acceder a las órdenes solicitadas, debes iniciar sesión.</Box>;
+        return <Box sx={{ ...stSpinner.boxMesagge }} >Para acceder a las órdenes solicitadas, debes iniciar sesión.</Box>;
     }
     if (loading) {
-        return <Box sx={{ ...stUsOrd.boxMesagge }}>Cargando órdenes...
-            <Box sx={{ ...stUsOrd.contentSpinner }}>
+        return <Box sx={{ ...stSpinner.boxMesagge }}>Cargando órdenes...
+            <Box sx={{ ...stSpinner.contentSpinner }}>
                 <img src={spinner} alt="Loading spinner"
-                    style={{ ...stUsOrd.imgSpinner }} />
+                    style={{ ...stSpinner.imgSpinner }} />
             </Box>
         </Box>;
     }
@@ -60,6 +66,7 @@ export const UserOrders = () => {
     return (
         <Box component={Paper} sx={{ ...stUsOrd.contentTabla }}>
             <>
+                <Box>Hola</Box>
                 {orders.length > 0 ? (
                     <>
                         {orders.map((order) => (

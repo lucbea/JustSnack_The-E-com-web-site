@@ -2,21 +2,38 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { OrdenShopContext } from '../context/OrdenShop';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, styled } from '@mui/material';
 import { BsCartPlus } from 'react-icons/bs';
 import { ThemeCustom } from '../context/ThemeCustom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+
 export const Product = () => {
-    console.log("PRODUCT");
     const theme = ThemeCustom();
-    const { id } = useParams(); // Obtén el ID del producto de la URL
-    const { hayItemsCarro, setHayItemsCarro, itemsCarro, setItemsCarro, agregarCarro, setAgregarCarro, setQuitarCarro, setModifItemCarro, setVaciarCarro, ordenCarro, setOrdenCarro, cantItems, setCantItems, mostrarProduct, setMostrarProduct, handleIncrement, cantMaxStock, setCantMaxStock } = useContext(OrdenShopContext)
-    const [product, setProduct] = useState(null); // Inicializa el estado como null
-    console.log("Product - id param", id)
+    const { id } = useParams(); 
+    const { setHayItemsCarro,  setAgregarCarro, setQuitarCarro, setModifItemCarro, setVaciarCarro, ordenCarro,  mostrarProduct, setMostrarProduct, handleIncrement, cantMaxStock, setCantMaxStock } = useContext(OrdenShopContext)
+    const [product, setProduct] = useState(null);
+
+    const TriangleAvatar = styled(Box)(({ theme }) => ({
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'end',
+        width: '68px',
+        height: '68px',
+        position: 'absolute',
+        top: '0px', // Adjust to fit your design
+        right: '0px',
+        backgroundColor: theme.palette.primary.verde,
+        color: 'white',
+        clipPath: 'polygon(100% 0, 0 0, 100% 100%)', // Triangle shape
+        fontSize: '14px', // Adjust font size as needed
+        paddingTop: '10px',
+        boxShadow: theme.palette.primary.sombraBox,
+    }));
+
     useEffect(() => {
         if (mostrarProduct && mostrarProduct.id === id) {
-            console.log("mostrarProduct", mostrarProduct)
             setProduct(mostrarProduct);
         } else {
             const fetchProduct = async () => {
@@ -25,11 +42,9 @@ export const Product = () => {
                     const docSnap = await getDoc(docRef);
 
                     if (docSnap.exists()) {
-                        console.log("Document data:", docSnap.data());
                         setProduct(docSnap.data()); // Actualiza el estado con los datos del producto
                         setMostrarProduct(docSnap.data()); // Actualiza el contexto para que esté sincronizado
                     } else {
-                        console.log("No encontró data!");
                         setProduct(null); // Asegúrate de manejar el caso en que no se encuentre el producto
                     }
                 } catch (error) {
@@ -63,15 +78,31 @@ export const Product = () => {
                 setVaciarCarro(false);
                 setHayItemsCarro(true);
                 setAgregarCarro(product);
-            } else { console.log("NO HAY STOCKKKKKKKKKK") }
+            } 
         }
     }
 
     return (
-        <Box sx={{ marginInline: { xs: '5px', sm: '30px' } }}>
+        <Box sx={{ marginInline: { xs: '0px', sm: '30px' }, padding: { xs: '20px', sm: '30px' }, boxShadow: { sx: 'none', sm: theme.palette.primary.sombra }, position: 'relative', borderRadius:'4px' }}>
+            {product.descuento > 0 && (
+                <TriangleAvatar>
+                    <p style={{
+                        paddingInline: '0px',
+                        position: 'absolute',
+                        top: '-12px',
+                        right: '10px',
+                    }}>Dto</p>
+                    <p style={{
+                        paddingInline: '0px',
+                        position: 'absolute',
+                        top: '4px',
+                        right: '10px',
+                    }}>{product.descuento}%</p>
+                </TriangleAvatar>
+            )}
             <Box sx={{
                 display: 'grid',
-                gridTemplateColumns: { xs: '1fr', sm: '40% 60%' },
+                gridTemplateColumns: { xs: '1fr', md: '40% 60%' },
                 boxSizing: 'border-box',
             }}>
                 <Box sx={{
@@ -90,7 +121,7 @@ export const Product = () => {
                         alt={product.nombre}
                         style={{
                             width: '100%',
-                            maxWidth: '320px',
+                            maxWidth: '300px',
                             objectFit: 'contain'
                         }}
                     />
@@ -106,58 +137,73 @@ export const Product = () => {
                         height: '30px',
                         boxShadow: 'inset 0px 0px 14px 4px grey',
                         backgroundColor: '#ffffffc4',
-                        borderRadius: '4px'
+                        borderRadius: '4px',
+                        maxWidth:'200px'
                     }}><p style={{ color: 'black' }}>SIN  STOCK</p></Box> : null}
                 </Box>
-                <Box sx={{ paddingLeft: { xs: '0px', sm: '20px' } }}>
-                    <h2 style={{ fontSize: '20px', marginBottom: '0px' }}>{product.title}</h2>
-                    <p style={{ fontSize: '12px', marginTop: '0px', marginBottom: '25px' }}>Código del producto: {product.id}</p>
-                    <p style={{ marginBottom: '8px' }}>Descripción: {product.descripcion}</p>
-                    <Box
-                        sx={{
-                            width: '100%',
-                            display: { xs: 'flex', sm: 'flex', md: 'flex' },
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            marginInline: '0px',
-                            marginBottom: '10px',
-                            flexDirection: 'column',
-                        }}
-                    >
-                        <p style={{ fontSize: '12px', marginBlock: '8px' }}>Descripción: {product.descripcionLarga}</p>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', position: 'relative' }}>
-                            <p style={{ fontSize: '20px', fontWeight: 700, marginBlock: '8px', paddingLeft: '20px' }}>Precio: ${product.precio}</p>
-                            {cantMaxStock &&
-                                <Box sx={{ position: 'absolute', top: '-8px', color: 'red', height: '30px', }}>
-                                    <p style={{ color: theme.palette.primary.rojo, fontSize: '8px', fontWeight: 800 }}>No hay más productos para la venta</p>
-                                </Box>
-                            }
-                            <IconButton
-                                sx={{
-                                    width: '56px',
-                                    height: '56px',
-                                    fontSize: '30px',
-                                    '&:focus': {
-                                        outline: '0px solid #00000000'
-                                    },
-                                    '&:focus-visible': {
-                                        outline: '0px solid #00000000'
-                                    },
-                                }}
-                                aria-label="add to favorites"
-                                onClick={() => handleAgregarCarro(product)} 
-                                disabled={product.stock < 1}  
-                            >
-                                <BsCartPlus
-                                    sx={{
-                                        outline: 'none',
-                                    }}
-                                />
-                            </IconButton>
-                        </Box>
+                <Box sx={{ paddingLeft: { xs: '0px', sm: '20px' }, fontSize: { xs: '20px', sm: '30px' } }}>
+                    <p style={{
+                        marginBottom: '0px', marginTop: '10px', padding: '0px', fontSize: 'inherit', paddingRight: '10px', fontWeight: 900, backgroundColor: theme.palette.primary.doradoClaro, borderRadius:'4px'
+                    }}>{product.nombre}</p>
+                    <span style={{ fontSize: '20px', marginBottom: '0px', marginTop: '5px', fontSize: '20px', paddingLeft: '5px', fontWeight: 900 }}>x</span>
+                    <span style={{ fontSize: '20px', marginBottom: '0px', marginTop: '5px', paddingLeft: '5px', fontWeight: 900 }}>{product.presentacion}</span>
+                    <Box sx={{fontSize:{xs:'10px', sm:'14px'}}}> <p style={{ fontSize: 'inherit', marginTop: '0px', marginBottom: '25px' }}>SKU: {product.id}</p></Box>
+                   
+                    <Box sx={{ fontSize: { xs: '14px', sm: '20px' } }}>
+                        <p style={{ marginBottom: '8px' }}>{product.descripcion}</p>
                     </Box>
+
                 </Box>
+                
             </Box>
+            <Box
+                    sx={{
+                        width: '100%',
+                        display: { xs: 'flex', sm: 'flex', md: 'flex' },
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginInline: '0px',
+                      
+                        marginBottom: '10px',
+                        flexDirection: 'column',
+                        fontSize: {xs:'12px', sm:'16px'},
+                    }}
+                >
+                    <p style={{ fontSize: 'inherit', marginBlock: '8px' }}>{product.descripcionLarga}</p>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', position: 'relative', fontSize:{xs:'20px', sm:'28px'}, marginInline: {xs:'10px', sm:'40px'}, marginTop:'20px' }}>
+                        <p style={{ fontSize: 'inherit', fontWeight: 700, marginBlock: '8px', paddingLeft: '20px' }}>Precio: ${product.precio}</p>
+                        {cantMaxStock &&
+                            <Box sx={{ position: 'absolute', top: '45px', right:'15px', color: 'red', height: '30px', fontSize:{xs:'10px', sm:'14px'} }}>
+                                <p style={{ color: theme.palette.primary.rojo, fontSize: 'inherit', fontWeight: 900 }}>No hay más productos para la venta</p>
+                            </Box>
+                        }
+                        <IconButton
+                            sx={{
+                                width: '56px',
+                                height: '56px',
+                                color:theme.palette.primary.verde,
+                                fontSize: {xs:'30px', sm:'40px'},
+                                marginInline: {xs:'10px', sm:'40px'}, 
+                                '&:focus': {
+                                    outline: '0px solid #00000000'
+                                },
+                                '&:focus-visible': {
+                                    outline: '0px solid #00000000'
+                                },
+                            }}
+                            aria-label="add to favorites"
+                            onClick={() => handleAgregarCarro(product)}
+                            disabled={product.stock < 1}
+                        >
+                            <BsCartPlus
+                                sx={{
+                                    outline: 'none',
+                                }}
+                            />
+                        </IconButton>
+                    </Box>
+
+                </Box>
         </Box>
     );
 }

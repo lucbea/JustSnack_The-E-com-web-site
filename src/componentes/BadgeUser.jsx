@@ -31,7 +31,6 @@ export const BadgeUser = () => {
           color: theme.palette.primary.grisOsc,
           fontWeight: '400',
           transition: 'transform 0.3s',
-          //   padding:'10px',
           '&:hover': {
             transform: 'scale(1.1)',
             backgroundColor: theme.palette.primary.hoverBtn,

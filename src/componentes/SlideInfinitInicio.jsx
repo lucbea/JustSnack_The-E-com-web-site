@@ -1,7 +1,7 @@
-
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import '@splidejs/react-splide/css'; // Importa los estilos predeterminados
+import '@splidejs/react-splide/css';
 import { Box } from '@mui/material';
+import { ThemeCustom } from '../context/ThemeCustom';
 import imUno from '../assets/imagen1.png';
 import imDos from '../assets/imagen2.png';
 import imTres from '../assets/imagen3.png';
@@ -12,24 +12,33 @@ import imSiete from '../assets/imagen7.png';
 import imOcho from '../assets/imagen8.png';
 import imNueve from '../assets/imagen9.png';
 import imDiez from '../assets/imagen10.png';
-import { ThemeCustom } from '../context/ThemeCustom';
 
 export const SlideInfinit = () => {
     const theme = ThemeCustom();
     return (
         <Box>
-            <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+            <Box
+                sx={{
+                    heigth: '90px',
+                    backgroundColor: theme.palette.primary.blanco
+                }}>
+            </Box>
+            <Box
+                sx={{
+                    display: { xs: 'none', sm: 'flex' },
+                    marginTop: '0px'
+                }}>
                 <Splide
                     options={{
                         rewind: true,
-                        type: 'loop', // Hacer el carrusel infinito
-                        perPage: 1, // Número de slides por página
+                        type: 'loop', 
+                        perPage: 1, 
                         gap: '1rem',
                         width: '100%',
-                        pagination: true, // Opcional: Oculta la paginación
-                        arrows: true, // Muestra las flechas de navegación
-                        autoplay: true, // Activa el autoplay
-                        interval: 3000, // Intervalo entre slides en milisegundos
+                        pagination: true, 
+                        arrows: true, 
+                        autoplay: true, 
+                        interval: 3000, 
                         pauseOnHover: true,
                     }}
                     aria-label="Image Carousel"
@@ -64,7 +73,6 @@ export const SlideInfinit = () => {
                     </SplideSlide>
                 </Splide>
             </Box>
-
             <Box
                 sx={{
                     display: { xs: 'flex', sm: 'none' }
@@ -72,14 +80,14 @@ export const SlideInfinit = () => {
                 <Splide
                     options={{
                         rewind: true,
-                        type: 'loop', // Hacer el carrusel infinito
-                        perPage: 1, // Número de slides por página
+                        type: 'loop',
+                        perPage: 1,
                         gap: '1rem',
                         width: '100%',
-                        pagination: true, // Opcional: Oculta la paginación
-                        arrows: true, // Muestra las flechas de navegación
-                        autoplay: true, // Activa el autoplay
-                        interval: 3000, // Intervalo entre slides en milisegundos
+                        pagination: true,
+                        arrows: true,
+                        autoplay: true,
+                        interval: 3000,
                         pauseOnHover: true,
                     }}
                     aria-label="Image Carousel"
