@@ -1,9 +1,8 @@
-
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
+import { TransitionEfect } from './TransitionEfect';
 import { ThemeCustom } from '../context/ThemeCustom';
 import { HiBars3 } from "react-icons/hi2";
-import { TransitionEfect } from './TransitionEfect';
 
 const theme = ThemeCustom()
 const StyledBadge = styled(Badge)(({ theme }) => ({

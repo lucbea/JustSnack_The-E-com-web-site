@@ -1,6 +1,6 @@
-
 export const StyleFooter = ({ theme }) => {
     return {
+        
         contenFooter: {
             position: 'fixed',
             bottom: '0px',
@@ -9,6 +9,7 @@ export const StyleFooter = ({ theme }) => {
             minWidth: '248px',
             zIndex:'3',
         },
+
         footer:{
             py: 1,
             px: 2,
@@ -74,6 +75,8 @@ export const StyleFooter = ({ theme }) => {
             marginInline: '5px',
             marginBlock: '3px',
             cursor: 'pointer',
+            color: theme.palette.primary.manteca,
+            fontSize:'25px',
             '&:hover': {
                 borderColor: theme.palette.primary.blanco,
                 color: theme.palette.primary.blanco,
@@ -82,9 +85,10 @@ export const StyleFooter = ({ theme }) => {
         },
 
         iconoRed: {
-            fontSize: '20px',
-            color: theme.palette.primary.manteca,
+            color: 'inherit',
             cursor:'pointer',
+            fontWeight: 'inherit',
+            fontSize:'inherit'
         }
     }
 }

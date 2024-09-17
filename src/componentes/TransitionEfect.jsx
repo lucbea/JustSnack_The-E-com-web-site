@@ -1,4 +1,3 @@
-// const StyledAvatar = styled(Avatar)`
 import { styled} from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 

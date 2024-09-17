@@ -1,4 +1,3 @@
-
 import { createTheme } from "@mui/material";
 
 export const ThemeCustom = () => {
@@ -27,7 +26,8 @@ export const ThemeCustom = () => {
         transparent: '#00000000',
         grisCarroFont: '#737373',
         sombra: '0px 0px 10px #9b9696',
-        sombraBox: '0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)',
+        sombraTarj: '-1px -1.3px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)',
+        sombraBox:  '0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 0px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)',
         btnReg: '#6a6e8c',
         rojo: '#b0273c',
         verde: '#228563',
@@ -38,6 +38,7 @@ export const ThemeCustom = () => {
         blanco: '#FFFFFF',
         transparente: '00000000',
         manteca: '#d7d3d3',
+        backFiltro: '#e4e6ea',
       },
       secondary: {
         main: '#00F000',
@@ -77,25 +78,18 @@ export const ThemeCustom = () => {
         shortest: 150,
         shorter: 200,
         short: 250,
-        // most basic recommended timing
         standard: 300,
-        // this is to be used in complex animations
         complex: 375,
-        // recommended when something is entering screen
         enteringScreen: 225,
-        // recommended when something is leaving screen
         leavingScreen: 195,
       },
     },
     transitBadge: {
       border: '2px solid blue',
-      // backgroundColor:theme.palette.primary.main, 
-      // color: theme.palette.primary.grisOsc, 
       transition: 'transform 0.3s', 
       '&:hover': {
         transform: 'scale(1.1)', 
-        backgroundColor:'lightBlue',
-        // backgroundColor: theme.palette.primary.main, 
+        backgroundColor:'lightBlue', 
       },
     },
     cardStyle: {
