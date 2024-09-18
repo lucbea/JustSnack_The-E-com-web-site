@@ -76,7 +76,7 @@ export const StyleFooter = ({ theme }) => {
             marginBlock: '3px',
             cursor: 'pointer',
             color: theme.palette.primary.manteca,
-            fontSize:'25px',
+            fontSize:'20px',
             '&:hover': {
                 borderColor: theme.palette.primary.blanco,
                 color: theme.palette.primary.blanco,

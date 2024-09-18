@@ -30,7 +30,7 @@ export const Filtros = () => {
                 const querySnapshot = await getDocs(baseQuery);
                 let productsArray = querySnapshot.docs.map(doc => doc.data());
 
-                // Filtrar en el cliente para los campos de búsqueda
+               
                 if (wordSearch) {
                     productsArray = productsArray.filter(product => {
                         const term = wordSearch.toLowerCase();
@@ -71,7 +71,6 @@ export const Filtros = () => {
         <Box sx={{width:'100%', display: {sm:'flex'}, justifyContent:{sm:'flex-end'}}}>
 
             <Box sx={{
-                // display: 'none',
                 width:'100%',
                 position: 'relative',
                 top: '50px',

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import '@splidejs/react-splide/css';
 import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
+import { Box, CssBaseline } from '@mui/material';
 import { ThemeCustom } from "./context/ThemeCustom";
 import { OrdenShopProvider } from './context/OrdenShop';
 import { DataBDProvider } from './context/DataBd';
@@ -17,8 +17,9 @@ import { Registrarse } from './pages/Registrarse';
 import { Product } from './pages/Product';
 import { PagoCompra } from './pages/PagoCompra';
 import { OrdenesUsuario } from './pages/OrdenesUsuario';
-import './App.css';
 import { ConfirmarPedido } from './pages/ConfirmarPedido';
+import './App.css';
+
 
 
 function App() {
@@ -28,9 +29,11 @@ function App() {
   const navigate = useNavigate();
   document.body.style.backgroundColor = theme.palette.primary.main;
 
-  useEffect (()=>{
-    navigate('/')
-  },[])
+  useEffect(() => {
+    navigate('/');
+    localStorage.setItem('usuarioActual', "");
+
+  }, [])
 
   return (
     <>
@@ -39,19 +42,20 @@ function App() {
         <DataBDProvider>
           <OrdenShopProvider>
             <NavAppBar />
-            <ConfirmarPedido/>
-            <main style={{ 
-              marginTop: theme.breakpoints.down('sm') ? '128px' : '118px',
-              marginBottom: '98px', minHeight:'50vh' }}>
+            <main style={{
+              paddingTop: theme.breakpoints.down('md') ? '135px' : '118px',
+              marginBottom: '98px',
+              minHeight: '50vh'
+            }}>
               <Routes>
-                <Route path="/" element={<Inicio/>} />
-                <Route path="/signIn" element={<IniciarSesion/>} />
-                <Route path="/signUp" element={<Registrarse/>} />
-                <Route path="/productos" element={<Productos/>} />
-                <Route path="/productos/:id" element={<Product/>} />
+                <Route path="/" element={<Inicio />} />
+                <Route path="/signIn" element={<IniciarSesion />} />
+                <Route path="/signUp" element={<Registrarse />} />
+                <Route path="/productos" element={<Productos />} />
+                <Route path="/productos/:id" element={<Product />} />
                 <Route path="/compra" element={<PagoCompra />} />
                 <Route path="/userOrders" element={<OrdenesUsuario />} />
-                <Route path="/confirmar_pedido" element={<ConfirmarPedido />} />
+                <Route path="/confirmarPedido" element={<ConfirmarPedido />} />
                 <Route path="*" element={<Error404 />} />
               </Routes>
             </main>

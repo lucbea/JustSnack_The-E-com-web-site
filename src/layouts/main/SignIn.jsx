@@ -33,8 +33,6 @@ export default function SignIn() {
     });
     const [showPassword, setShowPassword] = useState(false);
 
-    // const handleClickShowPassword = () => setShowPassword((show) => !show);
-
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
         setValues(prevValues => ({
@@ -57,10 +55,13 @@ export default function SignIn() {
             const userLS = { "userId": user.userId };
             localStorage.setItem('usuarioActual', JSON.stringify(userLS));
 
-            navigate('/');
+            
             setErrorMessage('');
             if (btnIniciarCompra) {
-                setAnclaMenuCarr(btnIniciarCompra)
+                setAnclaMenuCarr();
+                navigate('/confirmarPedido')
+            } else {
+                navigate('/');
             }
         } else {
             setIsLoggedIn(false);
@@ -295,21 +296,7 @@ export default function SignIn() {
                                 flexDirection: 'column',
                                 marginBottom: '20px'
                             }}>
-                            {/* <Box xs>
-                                <Button sx={{
-                                    paddingBlock: '0px',
-                                    color: theme.palette.primary.btnReg,
-                                    bgcolor: theme.palette.primary.transparent,
-                                    textTransform: 'capitalize',
-                                    '&:hover': {
-                                        color: theme.palette.primary.azul,
-                                        fontWeight: '700',
-                                        bgcolor: theme.palette.primary.transparent
-                                    }
-                                }}>
-                                    ¿Olvidaste tu contraseña?
-                                </Button>
-                            </Box> */}
+                           
                             <Box sx={{ cursor: 'pointer' }}>
                                 <Button
                                     onClick={handleSignUpRedirect}
