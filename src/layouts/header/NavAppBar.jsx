@@ -1,4 +1,3 @@
-
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
@@ -17,7 +16,6 @@ import BadgeShop from '../../componentes/BadgeShop';
 import { BadgeUser } from '../../componentes/BadgeUser';
 import { StyleHeader } from './StyleHeader';
 import { FiMinus, FiPlus } from "react-icons/fi";
-import { ConfirmarPedido } from '../../pages/ConfirmarPedido';
 import { Ruta } from '../../componentes/Ruta';
 
 export default function NavAppBar() {
@@ -25,7 +23,7 @@ export default function NavAppBar() {
   const stHeader = StyleHeader({ theme });
   const navigate = useNavigate();
 
-  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, handleLogin, handleLogout, isLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock } = useContext(OrdenShopContext);
+  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, handleLogin, handleLogout, isLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock,  setAuxShowCarro } = useContext(OrdenShopContext);
   const isMenuOpenUser = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isCarrOpen = Boolean(anclaMenuCarr);
@@ -33,7 +31,7 @@ export default function NavAppBar() {
   const handleMenuOpenClose = () => setMobileMoreAnchorEl(null);
   const handleProfileUser = (event) => setAnchorEl(event.currentTarget);
   const handleProfileUserClose = () => setAnchorEl(null);
-  const handleCarMenuOpen = (event) => setAnclaMenuCarr(event.currentTarget);
+  const handleCarMenuOpen = (event) => {setAnclaMenuCarr(event.currentTarget)};
   const handleCarMenuClose = () => setAnclaMenuCarr(null);
 
   useEffect(() => {
@@ -298,19 +296,14 @@ export default function NavAppBar() {
                 fontWeight: 'bold'
               }}>{totalCarro.toFixed(2)}</span>
             </Box>
-            {/* <Button
-              variant="contained"
-              color="primary"
-              // onClick={(e) => { handleIniciarCompra(); setBtnIniciarCompra(e.currentTarget) }}
-              onClick= {(e) => { ConfirmarPedido}}
-              sx={{ ...stHeader.btnFooterCarro }}
-            >
-              Iniciar compra
-            </Button> */}
             <Button
               variant="contained"
               color="primary"
-              onClick={() => navigate('/confirmar_pedido')}
+              onClick={(e) =>{
+                setAnclaMenuCarr(null); 
+                setBtnIniciarCompra(e.currentTarget); 
+                handleIniciarCompra();
+              }}
               sx={{ ...stHeader.btnFooterCarro }}
             >
               Iniciar compra
@@ -388,7 +381,7 @@ export default function NavAppBar() {
           position: 'fixed',
           top: '0',
           left: '0',
-          zIndex: 20,
+          zIndex: 33,
           display: 'flex',
           justifyContent: 'center',
           minWidth: '280px',
@@ -401,7 +394,8 @@ export default function NavAppBar() {
             color: 'inherit',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'center',
+            cursor:'pointer',
           }}
         >
           <Box
@@ -415,7 +409,8 @@ export default function NavAppBar() {
               alignItems: 'center',
               width: '100%',
               minWidth: '280px',
-              backgroundColor: theme.palette.primary.main
+              backgroundColor: theme.palette.primary.main,
+              cursor:'pointer',
             }}>
             <h1 style={{
               fontSize: '28px',
@@ -456,7 +451,14 @@ export default function NavAppBar() {
               gap: '20px',
               width: 'auto'
             }}>
-            <IconButton size="large" aria-label="shop" aria-controls="carr-shop-menu-mobile" aria-haspopup="true" onClick={handleCarMenuOpen} color="inherit"
+            <IconButton size="large" aria-label="shop" aria-controls="carr-shop-menu-mobile" aria-haspopup="true" 
+            onClick={(e) => { 
+              handleCarMenuOpen(e);
+              setAuxShowCarro(e.currentTarget);
+            }
+              
+            } 
+            color="inherit"
               sx={{
                 marginInline: { xs: '0px', sm: '1px' },
                 width: '52px',
@@ -483,7 +485,6 @@ export default function NavAppBar() {
         {renderCarShop}
         {renderUser}
       </AppBar>
-    
       <Filtros />
       <Ruta/>
     </Box>

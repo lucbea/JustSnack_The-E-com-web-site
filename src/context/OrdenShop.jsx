@@ -1,9 +1,27 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { DataBDContext } from "./DataBd";
 
 export const OrdenShopContext = createContext();
+
+export const IsUserLogged = () => {
+    if (!isLoggedIn) {
+        navigate('/signin');
+        setAnclaMenuCarr(null);
+        setBtnIniciarCompra();
+        let userLSJson = localStorage.getItem('usuarioActual', JSON.stringify(user));
+        if (userLSJson) {
+            userLS = JSON.parse(userLSJson);
+        }
+
+        if (!(userLS.userId)) {
+            console.error("El usuario no está definido o no tiene un ID.");
+            return;
+        }
+        return;
+    } 
+}
 
 export const OrdenShopProvider = ({ children }) => {
     const navigate = useNavigate();
@@ -26,16 +44,20 @@ export const OrdenShopProvider = ({ children }) => {
     const [user, setUser] = useState({ userId: "", nombre: "", apellido: "", password: "", notificaciones: "", email: "" });
     const [btnIniciarCompra, setBtnIniciarCompra] = useState();
     const [notFoundSearch, setNotFoundSearch] = useState(false);
+    const [ auxShowCarro, setAuxShowCarro ] = useState();
     let userLS;
-
-    const handleIniciarCompra = () => {
+ 
+    const handleIniciarCompra = () =>{
         if (!isLoggedIn) {
             navigate('/signin');
             setAnclaMenuCarr(null);
-            setBtnIniciarCompra();
             return;
         }
+        navigate("/confirmarPedido");
+    }
 
+
+    const handleConfirmarPedido = () => {
         let userLSJson = localStorage.getItem('usuarioActual', JSON.stringify(user));
         if (userLSJson) {
             userLS = JSON.parse(userLSJson);
@@ -44,15 +66,14 @@ export const OrdenShopProvider = ({ children }) => {
         if (!(userLS.userId)) {
             console.error("El usuario no está definido o no tiene un ID.");
             return;
-        } 
+        }
 
         if (totalCarro === undefined || isNaN(totalCarro)) {
             console.error("El total del carro no es válido:", totalCarro);
             return;
         }
-
         const orderId = uuidv4();
-        const orderDate = new Date().toISOString(); 
+        const orderDate = new Date().toISOString();
 
         const items = Array.isArray(ordenCarro) ? ordenCarro.map(item => ({
             id: item.id,
@@ -61,7 +82,7 @@ export const OrdenShopProvider = ({ children }) => {
             totalItem: item.totalItem,
         })) : [];
         const orderDetails = {
-            userId: userLS.userId, 
+            userId: userLS.userId,
             orderId,
             items,
             total: totalCarro,
@@ -79,7 +100,8 @@ export const OrdenShopProvider = ({ children }) => {
         } catch (error) {
             console.error("Error al guardar la orden o actualizar el stock en Firestore:", error);
         }
-        setAnclaMenuCarr(null);
+        setOrdenCarro([]);
+        setTotalCarro(0);
         navigate('/compra');
         setBtnIniciarCompra();
     };
@@ -89,15 +111,15 @@ export const OrdenShopProvider = ({ children }) => {
             setAnchorEl(null);
             setMobileMoreAnchorEl(null);
             setAnclaMenuCarr(null);
-            navigate('/signin'); 
-        } 
+            navigate('/signin');
+        }
     };
 
     const handleLogout = () => {
         setIsLoggedIn(false);
         const user = { "userId": "" };
         localStorage.setItem('usuarioActual', JSON.stringify(user));
-        setUser({userId: "", nombre: "", apellido: "", password: "", notificaciones: "", email: ""})
+        setUser({ userId: "", nombre: "", apellido: "", password: "", notificaciones: "", email: "" })
     };
 
     const handlePerfil = () => {
@@ -143,7 +165,7 @@ export const OrdenShopProvider = ({ children }) => {
             const aux = [...ordenCarro, agregarCarro];
             setOrdenCarro(aux)
         }
-        
+
         if (quitarCarro) {
             setOrdenCarro(ordenCarro.filter(o => o.id !== quitarCarro.id));
         }
@@ -166,7 +188,7 @@ export const OrdenShopProvider = ({ children }) => {
     return (
         <OrdenShopContext.Provider value={{
             agregarCarro, setAgregarCarro, anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, cantItems, setCantItems, cantMaxStock, setCantMaxStock, hayItemsCarro, setHayItemsCarro, btnIniciarCompra, setBtnIniciarCompra, modifItemCarro, setModifItemCarro, mostrarProduct, setMostrarProduct, ordenCarro, setOrdenCarro, quitarCarro, setQuitarCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, vaciarCarro, setVaciarCarro,
-            handleIniciarCompra, handleLogin, handleLogout, handlePerfil, user, setUser, isLoggedIn, setIsLoggedIn, handleIncrement, handleModifCantItem, notFoundSearch, setNotFoundSearch, 
+            handleIniciarCompra, handleConfirmarPedido, handleLogin, handleLogout, handlePerfil, user, setUser, isLoggedIn, setIsLoggedIn, handleIncrement, handleModifCantItem, notFoundSearch, setNotFoundSearch, auxShowCarro, setAuxShowCarro
         }}  >
             {children}
         </OrdenShopContext.Provider>

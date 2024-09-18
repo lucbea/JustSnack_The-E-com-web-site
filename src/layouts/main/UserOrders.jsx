@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import { Box, Paper } from '@mui/material';
 import { db } from '../../../firebase';
@@ -16,8 +15,7 @@ export const UserOrders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [totalUserOrders, setTotalUserOrders] = useState(0);
-    const [ usuario, setUsuario] = useState({})
-    const { isLoggedIn } = useContext(OrdenShopContext);
+    const { isLoggedIn, setUser, user } = useContext(OrdenShopContext);
     let totalUser = 0;
 
     useEffect(() => {
@@ -29,8 +27,7 @@ export const UserOrders = () => {
                     const queryUsuario = await getDoc(doc(db, 'users', parsedUserId));
                     if (queryUsuario.exists()) {
                         const userData = queryUsuario.data();
-                        setUsuario(userData)
-                        console.log("userDataaaaaaaaaaaaa", userData)
+                        setUser(userData)
                     }
                     const ordersRef = collection(db, 'orders');
                     const q = query(ordersRef, where('userId', '==', parsedUserId));
@@ -40,9 +37,8 @@ export const UserOrders = () => {
                             const orderData = doc.data();
                             return orderData;
                         });
-                        // Ordenar las órdenes por fecha
+                       
                         userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
-
                       
                         totalUser = userOrders.reduce((acc, order) => acc + (order.total || 0), 0);
                         setOrders(userOrders);
@@ -59,7 +55,7 @@ export const UserOrders = () => {
     }, [isLoggedIn]);
 
     if (!isLoggedIn) {
-        return <Box sx={{ ...stSpinner.boxMesagge }} >Para acceder a las órdenes solicitadas, debes iniciar sesión.</Box>;
+        return <Box sx={{ ...stSpinner.boxMesagge }} >Para continuar, debes iniciar sesión.</Box>;
     }
     if (loading) {
         return <Box sx={{ ...stSpinner.boxMesagge }}>Cargando...
@@ -73,7 +69,7 @@ export const UserOrders = () => {
     return (
         <Box component={Paper} sx={{ ...stUsOrd.contentTabla }}>
             <>
-                <Box sx={{display:'flex', paddingInline:'16px', paddingBlock:'8px', flexDirection:'column', alignItems:'flex-start'}}>Hola {usuario.nombre}. 
+                <Box sx={{display:'flex', paddingInline:'16px', paddingBlock:'8px', flexDirection:'column', alignItems:'flex-start'}}>Hola {user.nombre}. 
                     <span style={{fontSize:'8px'}}>Estas son tus órdenes de compra, desde la más reciente a la más antigua.</span> </Box>
                 {orders.length > 0 ? (
                     <>

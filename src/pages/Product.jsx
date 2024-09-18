@@ -1,4 +1,3 @@
-
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { OrdenShopContext } from '../context/OrdenShop';
@@ -11,7 +10,7 @@ import { db } from '../../firebase';
 export const Product = () => {
     const theme = ThemeCustom();
     const { id } = useParams(); 
-    const { setHayItemsCarro,  setAgregarCarro, setQuitarCarro, setModifItemCarro, setVaciarCarro, ordenCarro,  mostrarProduct, setMostrarProduct, handleIncrement, cantMaxStock, setCantMaxStock } = useContext(OrdenShopContext)
+    const { setHayItemsCarro,  setAgregarCarro, setQuitarCarro, setModifItemCarro, setVaciarCarro, ordenCarro,  mostrarProduct, setMostrarProduct, handleIncrement, cantMaxStock } = useContext(OrdenShopContext)
     const [product, setProduct] = useState(null);
 
     const TriangleAvatar = styled(Box)(({ theme }) => ({
@@ -22,12 +21,12 @@ export const Product = () => {
         width: '68px',
         height: '68px',
         position: 'absolute',
-        top: '0px', // Adjust to fit your design
+        top: '0px', 
         right: '0px',
         backgroundColor: theme.palette.primary.verde,
         color: 'white',
-        clipPath: 'polygon(100% 0, 0 0, 100% 100%)', // Triangle shape
-        fontSize: '14px', // Adjust font size as needed
+        clipPath: 'polygon(100% 0, 0 0, 100% 100%)', 
+        fontSize: '14px',
         paddingTop: '10px',
         boxShadow: theme.palette.primary.sombraBox,
     }));
@@ -38,24 +37,24 @@ export const Product = () => {
         } else {
             const fetchProduct = async () => {
                 try {
-                    const docRef = doc(db, 'product', id); // Asegúrate de que el nombre de la colección sea 'product'
+                    const docRef = doc(db, 'product', id); 
                     const docSnap = await getDoc(docRef);
 
                     if (docSnap.exists()) {
-                        setProduct(docSnap.data()); // Actualiza el estado con los datos del producto
-                        setMostrarProduct(docSnap.data()); // Actualiza el contexto para que esté sincronizado
+                        setProduct(docSnap.data()); 
+                        setMostrarProduct(docSnap.data()); 
                     } else {
-                        setProduct(null); // Asegúrate de manejar el caso en que no se encuentre el producto
+                        setProduct(null); 
                     }
                 } catch (error) {
                     console.error("Error fetching document:", error);
-                    setProduct(null); // Maneja el error y asegura que el estado se actualice
+                    setProduct(null); 
                 }
             };
 
             fetchProduct();
         }
-    }, [id, mostrarProduct, setMostrarProduct]); // Asegúrate de que los efectos se ejecuten correctamente
+    }, [id, mostrarProduct, setMostrarProduct]); 
 
     if (!product) {
         return (
@@ -202,7 +201,6 @@ export const Product = () => {
                             />
                         </IconButton>
                     </Box>
-
                 </Box>
         </Box>
     );

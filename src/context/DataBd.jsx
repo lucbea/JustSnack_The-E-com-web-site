@@ -34,14 +34,6 @@ export const DataBDProvider = ({ children }) => {
 
   }, []); 
 
-  // Datos iniciales para cargar en la base de datos
-
-  // const getTodaTabla = async (queTabla) => {
-  //   const collectionReference = collection(db, queTabla);
-  //   const dataBD = await getDocs(collectionReference);
-  //   return dataBD;
-  // }
-
 
   const arrayProdInic = [
     {
@@ -230,17 +222,6 @@ export const DataBDProvider = ({ children }) => {
     }
 
   }
-
-  const updateProductStock = async (productId, newStock) => {
-    try {
-      const docRef = doc(db, 'products', productId);
-      await updateDoc(docRef, {
-        stock: newStock
-      });
-    } catch (error) {
-      console.error('Error al actualizar el stock en Firestore: ', error);
-    }
-  };
 
   return (
     <DataBDContext.Provider
