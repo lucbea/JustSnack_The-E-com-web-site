@@ -5,9 +5,7 @@
 <div align="center">
 <img src="src/assets/justsnackFin.gif" width="300px" alt-text="Footer">
 </div>
-___
 
-### Una apasionada de la programación Frontend   ♥
 ---
 ### Tecnologías que usé en mi proyecto
 
