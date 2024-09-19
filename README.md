@@ -1,5 +1,5 @@
 
-## *Hola  👋, soy Lucía Ferrer!, y a continuación de presento mi E-commerce...* 
+## *Hola  👋, soy Lucía Ferrer!, y a continuación presento mi E-commerce...* 
 
 # *JUST SNAK*  
 <div align="center">
