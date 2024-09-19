@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { Button, Link, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { OrdenShopContext } from '../../context/OrdenShop';
 import { ThemeCustom } from "../../context/ThemeCustom";
 import { Filtros } from '../../componentes/Filtros';
@@ -17,6 +17,9 @@ import { BadgeUser } from '../../componentes/BadgeUser';
 import { StyleHeader } from './StyleHeader';
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { Ruta } from '../../componentes/Ruta';
+import logo from '../../assets/justsnackFin.gif';
+import justsnack from '../../assets/JusTsnaK.png';
+import jtk from '../../assets/JTK.png';
 
 export default function NavAppBar() {
   const theme = ThemeCustom();
@@ -387,54 +390,17 @@ export default function NavAppBar() {
           minWidth: '280px',
           boxShadow: theme.header.sombraBottom
         }}>
-        <Link
-          to="/"
-          style={{
-            textDecoration: 'none',
-            color: 'inherit',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            cursor:'pointer',
-          }}
-        >
-          <Box
-            sx={{
-              position: 'fixed',
-              top: '-12px',
-              left: '0px',
-              zIndex: '10',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              minWidth: '280px',
-              backgroundColor: theme.palette.primary.main,
-              cursor:'pointer',
-            }}>
-            <h1 style={{
-              fontSize: '28px',
-              marginTop: '20px',
-              marginBottom: '5px'
-            }}>JusT
-              <span style={{
-                marginLeft: '3px',
-                fontSize: '24px',
-                marginTop: '20px',
-                marginBottom: '5px'
-              }}>snacK</span>
-            </h1>
-          </Box>
-        </Link>
         <Toolbar
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
             zIndex: '30',
-            paddingInline: '15px'
+            paddingInline: '6px',
+            gap:'5px',
           }}>
-          <IconButton size="large" edge="start" aria-label="open drawer" onClick={handleMenuOpen}
+             <IconButton size="large" edge="start" aria-label="open drawer" onClick={handleMenuOpen}
             sx={{
+              display:{xs:'flex', sm:'none'},
               ml: 0,
               color: theme.palette.primary.grisMuyOsc,
               '&:hover': {
@@ -444,6 +410,32 @@ export default function NavAppBar() {
             <BadgeHamb />
           </IconButton>
           <Box
+          onClick={() => handleNavigateToHome()}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 'auto',
+              height:'80px',
+              minWidth: '150px',
+              backgroundColor: theme.palette.primary.main,
+              cursor:'pointer',
+              position:'relative'
+            }}>
+               <Box sx={{display:'flex', objectFit:'cover', height:{xs:'90%', sm:'190%'}, alignItems:'center', marginLeft:'5px', position:{sm:'absolute'}, top:'-8px', left:'-20px'}}
+              onClick={()=> handleNavigateToHome()}>
+                 <img src={logo} alt="logo.png"  style={{height:'90%'}}/>
+              </Box>
+             
+              <Box sx={{display:{xs:'flex', sm:'none'}, objectFit:'cover', height:'90%', alignItems:'center', marginLeft:'5px'}}
+              onClick={()=> handleNavigateToHome()}>
+              <img src={jtk} alt="jtk.png"  style={{height:'60%'}}/>
+              </Box>
+              <Box sx={{display:{xs:'none', sm:'flex'}, objectFit:'cover', height:'inherit', alignItems:'center', marginLeft:{xs:'5px', sm:'117px'}}}>
+              <img src={justsnack} alt="justsnack.png"  style={{height:'50%'}}/>
+              </Box>           
+          </Box>
+          <Box
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -451,6 +443,17 @@ export default function NavAppBar() {
               gap: '20px',
               width: 'auto'
             }}>
+              <IconButton size="large" edge="start" aria-label="open drawer" onClick={handleMenuOpen}
+            sx={{
+              display:{xs:'none', sm:'flex'},
+              ml: 0,
+              color: theme.palette.primary.grisMuyOsc,
+              '&:hover': {
+                backgroundColor: theme.palette.primary.hoverBtn
+              }
+            }}>
+            <BadgeHamb />
+          </IconButton>
             <IconButton size="large" aria-label="shop" aria-controls="carr-shop-menu-mobile" aria-haspopup="true" 
             onClick={(e) => { 
               handleCarMenuOpen(e);

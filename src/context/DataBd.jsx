@@ -220,7 +220,6 @@ export const DataBDProvider = ({ children }) => {
     } catch (error) {
       console.error('Error al actualizar el stock en Firestore: ', error);
     }
-
   }
 
   return (

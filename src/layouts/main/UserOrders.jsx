@@ -92,7 +92,6 @@ export const UserOrders = () => {
                                         </Box>
                                     </Box>
                                     <>
-                                        {/* Mostrar el primer ítem de la orden */}
                                         <Box sx={{ ...stUsOrd.bordeItem }}>
                                         </Box>
                                         <Box sx={{ ...stUsOrd.boxItem }}>

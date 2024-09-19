@@ -1,6 +1,6 @@
 
 import { Box } from '@mui/material';
-import Emoji404 from '../assets/emoji404.png'; // Import the image correctly
+import Emoji404 from '../assets/emoji404.png';
 
 export const Error404 = () => {
     return (
