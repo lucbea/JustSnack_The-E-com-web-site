@@ -1,7 +1,7 @@
 
 ## *Hola  👋, soy Lucía Ferrer!, y a continuación de presento mi E-commerce...* 
 
-# *JUST SNACK*  
+# *JUST SNAK*  
 <div align="center">
 <img src="src/assets/justsnackFin.gif" width="300px" alt-text="Footer">
 </div>
@@ -21,7 +21,7 @@ Este trabajo fue desarrollado utilizando las siguientes tecnologías:
 
 ### 
 
-[¡Haz clic aquí para explorar JUST SNACK en tu navegador!](https://justsnack-95d3d.web.app/productos)
+[¡Haz clic aquí para explorar JUST SNAK en tu navegador!](https://justsnack-95d3d.web.app/productos)
 ---
 
 ##### Espero que lo disfrutes, como lo hice yo cuando lo programé!
@@ -29,7 +29,7 @@ Este trabajo fue desarrollado utilizando las siguientes tecnologías:
 ### **Imágenes de mi proyecto**
 <div align="center">
 
-| Inicio del e-commerce Just Snack |
+| Inicio del e-commerce Just Snak |
 |    :---:  |
 ||
 |<img src="src/assets/1inicio.png" width="700px" alt-text="Inicio">|
@@ -52,7 +52,7 @@ Este trabajo fue desarrollado utilizando las siguientes tecnologías:
 
 <br>
 
-| visualización del carro. | 
+| Visualización del carro. | 
 |:---:|
 ||
 |<img src="src/assets/4carro.png" width="700px" alt-text="carro">|
