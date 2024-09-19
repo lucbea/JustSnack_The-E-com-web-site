@@ -74,15 +74,17 @@ export const Filtros = () => {
                 width:'100%',
                 position: 'relative',
                 top: '50px',
-                paddingTop: { xs: '15px', sm: '25px' },
-                paddingBottom: {xs: '28px', sm:'10px', md:'10px'},
+                paddingTop: { xs: '10px', sm: '10px' },
+                paddingBottom: {xs: '23px', sm:'23px', md:'10px'},
                 paddingInline: '16px',
                 backgroundColor: theme.palette.primary.backFiltro,
                 marginInline: {xs:'auto', sm:'0px'},
                 display: 'flex',
                 WebkitBoxPack: 'justify',
                 WebkitJustifyContent: 'space-between',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+                marginTop: '30px',
+
             }}>
                 <Box
                     sx={{
@@ -127,7 +129,7 @@ export const Filtros = () => {
                         sx={{
                             width: '100%',
                             display: 'flex',
-                            minWidth: '200px'
+                            minWidth: '120px'
                         }}>
                         <select name="categ" id="categ" onChange={handleCategoryChange}
                             style={{

@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import '@splidejs/react-splide/css';
@@ -21,10 +20,7 @@ import { ConfirmarPedido } from './pages/ConfirmarPedido';
 import './App.css';
 
 
-
 function App() {
-
-  // const [isLoading, setIsLoading] = useState(true);
   const theme = ThemeCustom();
   const navigate = useNavigate();
   document.body.style.backgroundColor = theme.palette.primary.main;
@@ -32,7 +28,6 @@ function App() {
   useEffect(() => {
     navigate('/');
     localStorage.setItem('usuarioActual', "");
-
   }, [])
 
   return (
@@ -43,7 +38,7 @@ function App() {
           <OrdenShopProvider>
             <NavAppBar />
             <main style={{
-              paddingTop: theme.breakpoints.down('md') ? '135px' : '118px',
+              paddingTop: theme.breakpoints.down('md') ? '155px' : '118px',
               marginBottom: '98px',
               minHeight: '50vh'
             }}>
