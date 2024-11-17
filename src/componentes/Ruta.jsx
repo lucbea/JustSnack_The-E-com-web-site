@@ -53,8 +53,8 @@ export const Ruta = () => {
         <Box
             sx={{
                 position: 'absolute',
-                top: {xs:'100px', sm:'83px'},
-                paddingInline: {xs:'30px', sm:'17px'},
+                top: {xs:'125px', sm:'123px', md:'98px'},
+                paddingInline: {xs:'30px', sm:'147px'},
                 textAlign: 'center',
                 fontSize: '10px',
                 display: 'flex',
@@ -80,7 +80,6 @@ export const Ruta = () => {
                 </Link>
             </Box>
 
-            {/* Productos */}
             {pathParts.length > 0 && (
                 <Typography
                     component="div"

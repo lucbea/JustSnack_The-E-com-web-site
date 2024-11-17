@@ -12,13 +12,16 @@ export default function Grilla({ products }) {
   const { notFoundSearch } = useContext(OrdenShopContext)
 
   return (
+    <Box sx={{marginInline:'auto', display:'flex', justifyContent:'center'}}>
+
     <Box sx={{
       flexGrow: 1,
       display: 'flex',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      maxWidth:'1100px',
     }}>
       {!notFoundSearch ? (
-        <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 1, sm: 2, md: 3, lg: 4 }}
+        <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 1, sm: 2, md: 3 }}
           sx={{
             maxWidth: '1300px'
           }} >
@@ -55,6 +58,7 @@ export default function Grilla({ products }) {
           </Box>          
         </Box>
       )}
+    </Box>
     </Box>
   );
 }

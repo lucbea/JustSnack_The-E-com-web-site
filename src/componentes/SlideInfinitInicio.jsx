@@ -12,17 +12,18 @@ import imSiete from '../assets/imagen7.png';
 import imOcho from '../assets/imagen8.png';
 import imNueve from '../assets/imagen9.png';
 import imDiez from '../assets/imagen10.png';
+import logo from '../assets/justsnackFin.gif';
 
 export const SlideInfinit = () => {
     const theme = ThemeCustom();
     return (
         <Box>
-            <Box
+            {/* <Box
                 sx={{
                     heigth: '90px',
                     backgroundColor: theme.palette.primary.blanco
                 }}>
-            </Box>
+            </Box> */}
             <Box
                 sx={{
                     display: { xs: 'none', sm: 'flex' },
@@ -93,6 +94,13 @@ export const SlideInfinit = () => {
                     aria-label="Image Carousel"
                 >
                     <SplideSlide>
+                        <img src={logo} alt="logo"
+                            style={{
+                                width: '80%',
+                                objectFit: 'cover'
+                            }} />
+                    </SplideSlide>
+                    <SplideSlide>
                         <img src={imCinco} alt="Image 1"
                             style={{
                                 width: '100%',
@@ -110,6 +118,13 @@ export const SlideInfinit = () => {
                         <img src={imSiete} alt="Image 3"
                             style={{
                                 width: '100%',
+                                objectFit: 'cover'
+                            }} />
+                    </SplideSlide>
+                    <SplideSlide>
+                        <img src={logo} alt="logo"
+                            style={{
+                                width: '80%',
                                 objectFit: 'cover'
                             }} />
                     </SplideSlide>

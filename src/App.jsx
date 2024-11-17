@@ -25,12 +25,14 @@ function App() {
   document.body.style.backgroundColor = theme.palette.primary.main;
 
   useEffect(() => {
+
     const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual'));
 
     if (usuarioActual && usuarioActual.id) {
       navigate('/signIn');
     }
   }, []);
+=
 
   return (
     <>
@@ -40,7 +42,7 @@ function App() {
           <OrdenShopProvider>
             <NavAppBar />
             <main style={{
-              paddingTop: theme.breakpoints.down('md') ? '135px' : '118px',
+              paddingTop: theme.breakpoints.down('md') ? '155px' : '118px',
               marginBottom: '98px',
               minHeight: '50vh'
             }}>
