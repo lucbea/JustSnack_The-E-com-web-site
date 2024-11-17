@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import '@splidejs/react-splide/css';
@@ -20,20 +19,18 @@ import { OrdenesUsuario } from './pages/OrdenesUsuario';
 import { ConfirmarPedido } from './pages/ConfirmarPedido';
 import './App.css';
 
-
-
 function App() {
-
-  // const [isLoading, setIsLoading] = useState(true);
   const theme = ThemeCustom();
   const navigate = useNavigate();
   document.body.style.backgroundColor = theme.palette.primary.main;
 
   useEffect(() => {
-    navigate('/');
-    localStorage.setItem('usuarioActual', "");
+    const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual'));
 
-  }, [])
+    if (usuarioActual && usuarioActual.id) {
+      navigate('/signIn');
+    }
+  }, []);
 
   return (
     <>
@@ -66,7 +63,7 @@ function App() {
         </DataBDProvider>
       </ThemeProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

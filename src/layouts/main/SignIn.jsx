@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../../../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../firebase'; 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -44,28 +44,28 @@ export default function SignIn() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const { email, password } = values;
-        const usersRef = collection(db, 'users');
-        const estaRegEmail = query(usersRef, where('email', '==', email), where('password', '==', password));
-        const querySnapshot = await getDocs(estaRegEmail);
 
-        if (!querySnapshot.empty) {
-            const user = querySnapshot.docs[0].data();
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
             setIsLoggedIn(true);
             setUser(user);
-            const userLS = { "userId": user.userId };
+
+            const userLS = { "userId": user.uid };
             localStorage.setItem('usuarioActual', JSON.stringify(userLS));
 
-            
             setErrorMessage('');
+
             if (btnIniciarCompra) {
                 setAnclaMenuCarr();
-                navigate('/confirmarPedido')
+                navigate('/confirmarPedido');
             } else {
                 navigate('/');
             }
-        } else {
+        } catch (error) {
             setIsLoggedIn(false);
-            setErrorMessage('Datos incorrectos');
+            setErrorMessage('Datos incorrectos o error al iniciar sesión.');
         }
     };
 
@@ -208,7 +208,7 @@ export default function SignIn() {
                                     type={showPassword ? 'text' : 'password'}
                                     id="password"
                                     autoComplete="current-password"
-                                    defaultValue={"12345678"}
+                                    value={values.password}
                                     onChange={handleChange}
                                     sx={{
                                         marginBlock: '8px',
@@ -296,7 +296,6 @@ export default function SignIn() {
                                 flexDirection: 'column',
                                 marginBottom: '20px'
                             }}>
-                           
                             <Box sx={{ cursor: 'pointer' }}>
                                 <Button
                                     onClick={handleSignUpRedirect}
