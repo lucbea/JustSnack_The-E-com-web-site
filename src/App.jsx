@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import '@splidejs/react-splide/css';
 import { ThemeProvider } from '@mui/material/styles';
 import { Box, CssBaseline } from '@mui/material';
 import { ThemeCustom } from "./context/ThemeCustom";
 import { OrdenShopProvider } from './context/OrdenShop';
+import { OrdenShopContext } from './context/OrdenShop';
 import { DataBDProvider } from './context/DataBd';
 import NavAppBar from './layouts/header/NavAppBar';
 import FooterFinal from './layouts/footer/FooterFinal';
@@ -23,13 +24,22 @@ function App() {
   const theme = ThemeCustom();
   const navigate = useNavigate();
   document.body.style.backgroundColor = theme.palette.primary.main;
+  // const { setIsLoggedIn, isLoggedIn } = useContext(OrdenShopContext);
 
   useEffect(() => {
-
-    const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual'));
-
-    if (usuarioActual && usuarioActual.id) {
-      navigate('/signIn');
+    console.log("app useeffect")
+   
+    const usuarioActual = localStorage.getItem('usuarioActual');
+    if (usuarioActual) {
+      try {
+        const usuario = JSON.parse(usuarioActual);
+        if (usuario) {
+          console.log("el usuario esta en ls, se va a solicitar volver a ingresar",)
+          navigate('/signIn'); 
+        }
+      } catch (error) {
+        console.error("Error al parsear 'usuarioActual' desde localStorage:", error);
+      }
     }
   }, []);
 

@@ -87,8 +87,7 @@ export default function SignUp() {
   // Manejo de registro de usuario
   const handleSubmitRegister = async (e) => {
     e.preventDefault();
-    console.log(e.target.nombre, e.target.password)
-    const newErrors = {
+       const newErrors = {
       nombre: values.nombre ? (values.nombre.length >= 4 ? '' : 'Mínimo 4 caracteres.') : 'El nombre es obligatorio.',
       apellido: values.apellido ? (values.apellido.length >= 4 ? '' : 'Mínimo 4 caracteres.') : 'El apellido es obligatorio.',
       email: values.email ? (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email) ? '' : 'El correo electrónico no tiene un formato válido.') : 'El correo electrónico es obligatorio.',
