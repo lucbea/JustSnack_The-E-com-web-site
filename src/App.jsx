@@ -32,7 +32,6 @@ function App() {
       navigate('/signIn');
     }
   }, []);
-=
 
   return (
     <>
