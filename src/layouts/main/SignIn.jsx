@@ -52,8 +52,9 @@ export default function SignIn() {
             setIsLoggedIn(true);
             setUser(user);
 
-            const userLS = { "userId": user.uid };
+            const userLS = user.uid;
             localStorage.setItem('usuarioActual', JSON.stringify(userLS));
+            localStorage.setItem('isLoggedIn', JSON.stringify(true));
 
             setErrorMessage('');
 

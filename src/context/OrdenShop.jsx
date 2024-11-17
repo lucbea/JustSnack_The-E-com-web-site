@@ -46,7 +46,7 @@ export const OrdenShopProvider = ({ children }) => {
     const [notFoundSearch, setNotFoundSearch] = useState(false);
     const [ auxShowCarro, setAuxShowCarro ] = useState();
     let userLS;
- 
+    console.log("inicializando usestate de ordenshopcontext", isLoggedIn)
     const handleIniciarCompra = () =>{
         if (!isLoggedIn) {
             navigate('/signin');
@@ -117,8 +117,9 @@ export const OrdenShopProvider = ({ children }) => {
 
     const handleLogout = () => {
         setIsLoggedIn(false);
-        const user = { "userId": "" };
+        const user = "";
         localStorage.setItem('usuarioActual', JSON.stringify(user));
+        localStorage.setItem('isLoggedIn', JSON.stringify(false));
         setUser({ userId: "", nombre: "", apellido: "", password: "", notificaciones: "", email: "" })
     };
 

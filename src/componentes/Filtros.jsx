@@ -47,7 +47,7 @@ export const Filtros = () => {
                     setNotFoundSearch(false);
                 }
                 setProducts(productsArray);
-                navigate('/productos');
+                // navigate('/productos');
             } catch (error) {
                 console.error('Error proceso de lectura de productos: ', error);
             } finally {

@@ -333,7 +333,7 @@ export default function NavAppBar() {
       {isLoggedIn
         ? [
           <MenuItem key="cuenta" onClick={() => handleMisOrdenes()}>Mis órdenes de compra</MenuItem>,
-          <MenuItem key="logout" onClick={() => { setAnchorEl(null); handleLogout(); }}>Cerrar sesión</MenuItem>
+          <MenuItem key="logout" onClick={() => { setAnchorEl(null); handleLogout() }}>Cerrar sesión</MenuItem>
         ]
         : [
           <MenuItem key="login" onClick={handleLogin}>Iniciar sesión</MenuItem>,
