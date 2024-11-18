@@ -12,6 +12,10 @@ export const Product = () => {
     const { id } = useParams();
     const { setHayItemsCarro, setAgregarCarro, setQuitarCarro, setModifItemCarro, setVaciarCarro, ordenCarro, mostrarProduct, setMostrarProduct, handleIncrement, cantMaxStock } = useContext(OrdenShopContext)
     const [product, setProduct] = useState(null);
+    
+    useEffect(() => {
+        localStorage.setItem('404', JSON.stringify(false));
+      }, []);
 
     const TriangleAvatar = styled(Box)(({ theme }) => ({
         display: 'flex',

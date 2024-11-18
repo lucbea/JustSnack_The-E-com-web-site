@@ -27,7 +27,7 @@ export const DataBDProvider = ({ children }) => {
       setError(error);
     } finally {
       setLoadingProducts(false); 
-      navigate("/");
+      // navigate("/");
     }
   };
     getAllData();

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebase'; 
@@ -31,7 +31,24 @@ export default function SignIn() {
         password: '',
         rememberMe: false
     });
-    const [showPassword, setShowPassword] = useState(false);
+    const [ showPassword, setShowPassword ] = useState(false);
+    const [ volverLoggedIn, setVolverLoggedIn ] = useState(false);
+
+    useEffect(() => {
+        const usuarioActualLS = localStorage.getItem('usuarioActual');
+        console.log("entre a signin-useeffect", usuarioActualLS)
+        if (usuarioActualLS) {
+            const usuarioActual = JSON.parse(usuarioActualLS);
+            if (usuarioActual !== " ") {
+                setVolverLoggedIn(true)
+            } else {
+                setVolverLoggedIn(false)
+            }
+
+           
+        }
+    },[])
+   
 
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
@@ -78,6 +95,15 @@ export default function SignIn() {
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
+                {volverLoggedIn && (
+                    <Box sx={{
+                        color: theme.palette.primary.rojo,
+                        fontWeight: 900,
+                        fontSize: '13px',
+                    }}>
+                        Por seguridad se cerró la sesión. Por favor, vuelve a ingresar.
+                    </Box>
+                )}
                 {btnIniciarCompra && (
                     <Box sx={{
                         color: theme.palette.primary.rojo,

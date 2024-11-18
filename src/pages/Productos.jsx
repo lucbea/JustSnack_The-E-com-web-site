@@ -1,7 +1,7 @@
 
 import { Box } from "@mui/material";
 import Grilla from "../layouts/main/Grid";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DataBDContext } from "../context/DataBd";
 
 import spinner from "../assets/bx_loader.gif";
@@ -11,7 +11,12 @@ import { StyleSpinner } from "../hook/StyleSpinner";
 export const Productos = () => {
   const theme = ThemeCustom();
   const stSpinner = StyleSpinner({ theme });
-  const { products, loadingProducts } = useContext(DataBDContext)
+  const { products, loadingProducts } = useContext(DataBDContext);
+
+  useEffect(() => {
+    localStorage.setItem('404', JSON.stringify(false));
+  }, []);
+
   if (loadingProducts) {
     return <Box sx={{ ...stSpinner.boxMesagge }}>Cargando...
             <Box sx={{ ...stSpinner.contentSpinner }}>
