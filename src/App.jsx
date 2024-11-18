@@ -30,17 +30,24 @@ function App() {
     console.log("app useeffect")
    
     const usuarioActual = localStorage.getItem('usuarioActual');
-    if (usuarioActual) {
-      try {
-        const usuario = JSON.parse(usuarioActual);
-        if (usuario) {
-          console.log("el usuario esta en ls, se va a solicitar volver a ingresar",)
-          navigate('/signIn'); 
+    const error404 = localStorage.getItem('404');
+    console.log(usuarioActual, error404)
+    if (!error404) { 
+      console.log("404 false")
+      if (usuarioActual) {
+        console.log("hay usuarioActual en LS")
+        try {
+          const usuario = JSON.parse(usuarioActual);
+          if (usuario) {
+            console.log("el usuario esta en ls, se va a solicitar volver a ingresar",)
+            navigate('/signIn'); 
+          }
+        } catch (error) {
+          console.error("Error al parsear 'usuarioActual' desde localStorage:", error);
         }
-      } catch (error) {
-        console.error("Error al parsear 'usuarioActual' desde localStorage:", error);
       }
     }
+   
   }, []);
 
   return (

@@ -1,4 +1,4 @@
-
+import { useEffect } from 'react';
 import { Box } from "@mui/material"
 import { ThemeCustom } from "../context/ThemeCustom";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,11 @@ import { useNavigate } from "react-router-dom";
 export const PagoCompra = () => {
     const theme = ThemeCustom();
     const navigate = useNavigate();
-   
+
+    useEffect(() => {
+        localStorage.setItem('404', JSON.stringify(false));
+      }, []);
+
     const finalizarCompra = () => {
         navigate(`/`);
     }
