@@ -117,7 +117,7 @@ export const OrdenShopProvider = ({ children }) => {
 
     const handleLogout = () => {
         setIsLoggedIn(false);
-        const user = " ";
+        const user = null;
         localStorage.setItem('usuarioActual', JSON.stringify(user));
         localStorage.setItem('isLoggedIn', JSON.stringify(false));
         setUser({ userId: "", nombre: "", apellido: "", password: "", notificaciones: "", email: "" })

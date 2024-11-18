@@ -39,7 +39,7 @@ export default function SignIn() {
         console.log("entre a signin-useeffect", usuarioActualLS)
         if (usuarioActualLS) {
             const usuarioActual = JSON.parse(usuarioActualLS);
-            if (usuarioActual !== " ") {
+            if (usuarioActual !== null) {
                 setVolverLoggedIn(true)
             } else {
                 setVolverLoggedIn(false)
