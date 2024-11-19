@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { OrdenShopContext } from '../context/OrdenShop';
 import { Box, IconButton, styled } from '@mui/material';
 import { BsCartPlus } from 'react-icons/bs';
@@ -10,12 +10,13 @@ import { db } from '../../firebase';
 export const Product = () => {
     const theme = ThemeCustom();
     const { id } = useParams();
-    const { setHayItemsCarro, setAgregarCarro, setQuitarCarro, setModifItemCarro, setVaciarCarro, ordenCarro, mostrarProduct, setMostrarProduct, handleIncrement, cantMaxStock } = useContext(OrdenShopContext)
+    const navigate = useNavigate();
+    const { setHayItemsCarro, setAgregarCarro, setQuitarCarro, setModifItemCarro, setVaciarCarro, ordenCarro, mostrarProduct, setMostrarProduct, handleIncrement, cantMaxStock , setProductIdVolverLoggedIn, mjeHabilitarCarro, setMjeHabilitarCarro, user, carroLS} = useContext(OrdenShopContext)
     const [product, setProduct] = useState(null);
-    
+
     useEffect(() => {
         localStorage.setItem('404', JSON.stringify(false));
-      }, []);
+    }, []);
 
     const TriangleAvatar = styled(Box)(({ theme }) => ({
         display: 'flex',
@@ -68,25 +69,47 @@ export const Product = () => {
         );
     }
 
-    const handleAgregarCarro = (product) => {
-        const agregado = ordenCarro.filter((o) => product.id === o.id)
+    const revisarInicioSesion = (productId) => {
+        const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
+        if (isLoggedIn) {
+            setMjeHabilitarCarro(false);
+        }
+        else {
+            setMjeHabilitarCarro(true);
+            setProductIdVolverLoggedIn(productId);
+            navigate("/signIn");
+        }
+    }
+   
+
+const handleAgregarCarro = (product) => {
+    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
+    revisarInicioSesion(product.id);
+    if (isLoggedIn) {
+        const agregado = ordenCarro.filter((item) => item.id === product.id);
         if (agregado.length > 0) {
             handleIncrement(product)
         } else {
             if (product.stock > 0) {
-                product.cantidadPedida = 1;
-                product.totalItem = product.precio;
-                setQuitarCarro();
-                setModifItemCarro();
-                setVaciarCarro(false);
-                setHayItemsCarro(true);
-                setAgregarCarro(product);
-            }
+                            product.cantidadPedida = 1;
+                            product.totalItem = product.precio;
+                            setQuitarCarro();
+                            setModifItemCarro();
+                            setVaciarCarro(false);
+                            setHayItemsCarro(true);
+                            setAgregarCarro(product);
+                        }
         }
+    } else {
+        setMjeHabilitarCarro(true);
+        setProductIdVolverLoggedIn(product.id);
+        navigate("/signIn");
     }
+}
+
 
     return (
-        <Box sx={{display:'flex', justifyContent:'center'}}>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box sx={{ marginInline: { xs: '0px', sm: '30px' }, padding: { xs: '20px', sm: '30px' }, boxShadow: { sx: 'none', sm: theme.palette.primary.sombra }, position: 'relative', borderRadius: '4px', maxWidth: '1000px' }}>
                 {product.descuento > 0 && (
                     <TriangleAvatar>

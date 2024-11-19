@@ -5,7 +5,6 @@ import Emoji404 from '../assets/emoji404.png';
 export const Error404 = () => {
     useEffect(() => {
         localStorage.setItem('404', JSON.stringify(true));
-        console.log("404");
     }, []);
     return (
         <Box sx={{ paddingTop: '20px', margin: 'auto', textAlign: 'center' }}>

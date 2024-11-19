@@ -1,7 +1,10 @@
+
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebase'; 
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../../firebase";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -22,7 +25,7 @@ const defaultTheme = createTheme();
 export default function SignIn() {
     const theme = ThemeCustom();
     const component = ComponentCustom();
-    const { btnIniciarCompra, setIsLoggedIn, setUser, setAnclaMenuCarr } = useContext(OrdenShopContext);
+    const { btnIniciarCompra, setIsLoggedIn, user, setUser, setAnclaMenuCarr, productIdVolverLoggedIn ,  mjeHabilitarCarro } = useContext(OrdenShopContext);
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -33,10 +36,10 @@ export default function SignIn() {
     });
     const [ showPassword, setShowPassword ] = useState(false);
     const [ volverLoggedIn, setVolverLoggedIn ] = useState(false);
+   
 
     useEffect(() => {
         const usuarioActualLS = localStorage.getItem('usuarioActual');
-        console.log("entre a signin-useeffect", usuarioActualLS)
         if (usuarioActualLS) {
             const usuarioActual = JSON.parse(usuarioActualLS);
             if (usuarioActual !== null) {
@@ -44,8 +47,6 @@ export default function SignIn() {
             } else {
                 setVolverLoggedIn(false)
             }
-
-           
         }
     },[])
    
@@ -58,34 +59,52 @@ export default function SignIn() {
         }));
     };
 
+
+    const handleUserFB = async (userId) => {        
+        try {
+            const docRef = doc(db, "users", userId); 
+            const docSnap = await getDoc(docRef);            
+            if (docSnap.exists()) {
+                setUser({
+                    userId: docSnap.data().userId, 
+                    nombre: docSnap.data().nombre,
+                    apellido: docSnap.data().apellido,
+                    notificaciones: docSnap.data().notificaciones,
+                    email: docSnap.data().email
+                  });
+            } 
+        } catch (error) {
+            console.error("Error al obtener el documento de usuario:", error);
+        }
+    };
+        
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const { email, password } = values;
-
+        const { email, password } = values;                                              
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-
             setIsLoggedIn(true);
-            setUser(user);
-
-            const userLS = user.uid;
-            localStorage.setItem('usuarioActual', JSON.stringify(userLS));
+            setUser({ id: user.uid });  
+            localStorage.setItem('usuarioActual', JSON.stringify(user.uid));
             localStorage.setItem('isLoggedIn', JSON.stringify(true));
-
-            setErrorMessage('');
-
+            handleUserFB(user.uid);
+            if (productIdVolverLoggedIn && productIdVolverLoggedIn !== "0") {
+                navigate(`/productos/${productIdVolverLoggedIn}`);
+            } else {
+                navigate('/');
+            }
             if (btnIniciarCompra) {
                 setAnclaMenuCarr();
                 navigate('/confirmarPedido');
-            } else {
-                navigate('/');
             }
         } catch (error) {
             setIsLoggedIn(false);
             setErrorMessage('Datos incorrectos o error al iniciar sesión.');
         }
     };
+    
 
     const handleSignUpRedirect = () => {
         navigate('/signUp');
@@ -95,6 +114,16 @@ export default function SignIn() {
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
+                {mjeHabilitarCarro && (
+                    <Box 
+                    sx={{
+                        color: theme.palette.primary.rojo,
+                        fontWeight: 900,
+                        fontSize: '13px',
+                    }}>
+                        Inicia sesión para habilitar el carro de compras.
+                    </Box>
+                )}
                 {volverLoggedIn && (
                     <Box sx={{
                         color: theme.palette.primary.rojo,
@@ -290,11 +319,13 @@ export default function SignIn() {
                                 />
                                 {errorMessage && (
                                     <Box sx={{ width: '100%' }}>
-                                        <Typography color="error"
+                                        <Typography 
+                                        // color="error"
                                             sx={{
                                                 ml: 2,
                                                 fontSize: '12px',
-                                                fontWeight: 900
+                                                fontWeight: 900,
+                                                color: theme.palette.primary.rojo
                                             }}>
                                             {errorMessage}
                                         </Typography>

@@ -23,7 +23,7 @@ export const UserOrders = () => {
             try {
                 const userIdLS = localStorage.getItem('usuarioActual');
                 if (userIdLS) {
-                    const parsedUserId = JSON.parse(userIdLS).userId;
+                    const parsedUserId = JSON.parse(userIdLS);
                     const queryUsuario = await getDoc(doc(db, 'users', parsedUserId));
                     if (queryUsuario.exists()) {
                         const userData = queryUsuario.data();

@@ -44,7 +44,6 @@ export default function SignUp() {
 
   const [showPassword, setShowPassword] = useState(false); 
 
-  // Manejo de cambios en los campos
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
     setValues(prevValues => ({
@@ -54,7 +53,6 @@ export default function SignUp() {
     validateField(name, value);
   };
 
-  // Validación de campos
   const validateField = (name, value) => {
     let error = '';
     switch (name) {
@@ -84,7 +82,6 @@ export default function SignUp() {
     }));
   };
 
-  // Manejo de registro de usuario
   const handleSubmitRegister = async (e) => {
     e.preventDefault();
        const newErrors = {
@@ -100,13 +97,9 @@ export default function SignUp() {
     }
 
     try {
-      // Crear el usuario con Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-
       const userId = userCredential.user.uid;
       const notific = values.check ? 'true' : 'false';
-
-      // Guardar los datos adicionales en Firestore
       const userReg = {
         userId: userId,
         nombre: values.nombre,
@@ -115,10 +108,7 @@ export default function SignUp() {
         notificaciones: notific,
         fechaAlta: new Date().toISOString()
       };
-
-      // Guardar los datos del usuario en Firestore
       await setDoc(doc(db, 'users', userId), userReg);
-
       navigate('/signIn');
     } catch (error) {
       setErrors(prevErrors => ({

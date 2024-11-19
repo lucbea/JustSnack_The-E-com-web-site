@@ -9,8 +9,8 @@ import { StyleSpinner } from "../hook/StyleSpinner";
 export const ConfirmarPedido = () => {
   const theme = ThemeCustom();
   const stHeader = StyleHeader({ theme });
-  const StSpinner = StyleSpinner({ theme })
-    ; const navigate = useNavigate();
+  const StSpinner = StyleSpinner({ theme }); 
+  const navigate = useNavigate();
 
   const { ordenCarro, totalCarro, handleConfirmarPedido, isLoggedIn, user } = useContext(OrdenShopContext);
 
@@ -23,8 +23,10 @@ export const ConfirmarPedido = () => {
   useEffect(() => {
     if (isLoggedIn) {
       setShowTable(true);
+
     } else {
       setShowTable(false);
+      navigate("/")
     }
   }, [isLoggedIn, ordenCarro]);
 
