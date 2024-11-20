@@ -87,7 +87,7 @@ export const OrdenShopProvider = ({ children }) => {
         if (!userLS) {
             console.error("El usuario no está definido o no tiene un ID.", userLS);
             return;
-        } else { console.log("este es el usuario", userLS) }
+        } 
         if (totalCarro === undefined || isNaN(totalCarro)) {
             console.error("El total del carro no es válido:", totalCarro);
             return;
@@ -187,23 +187,18 @@ export const OrdenShopProvider = ({ children }) => {
 
     const carroLS = (carroGuardar) => {
         if (agregarCarro || quitarCarro || modifItemCarro || vaciarCarro) {
-            console.log("ingrese a carroLS", "*", carroGuardar, "*")
             localStorage.setItem(user.userId, JSON.stringify(carroGuardar));
         } 
     }
     
     
     const cargarCarroLS = (userId) => {
-        console.log("este es el id del usuario", userId)
         const carroPend = JSON.parse(localStorage.getItem(userId))
         if (carroPend) { 
-            console.log("este carro está pendiente", carroPend)
             setOrdenCarro(carroPend)
             setMjeCarroPend(true)
-            console.log(user.nombre)
         }
         else {
-            console.log("no hay carro pendiente")
             setMjeCarroPend(false)
         }
        

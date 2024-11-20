@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Paper } from '@mui/material';
 import { db } from '../../../firebase';
 import { collection, query, where, getDocs, getDoc, doc } from 'firebase/firestore';
@@ -10,6 +11,7 @@ import { StyleSpinner } from '../../hook/StyleSpinner';
 
 export const UserOrders = () => {
     const theme = ThemeCustom();
+    const navigate = useNavigate();
     const stUsOrd = StyleUserOrders({ theme });
     const stSpinner = StyleSpinner({ theme });
     const [orders, setOrders] = useState([]);
@@ -20,35 +22,42 @@ export const UserOrders = () => {
 
     useEffect(() => {
         const fetchOrders = async () => {
-            try {
-                const userIdLS = localStorage.getItem('usuarioActual');
-                if (userIdLS) {
-                    const parsedUserId = JSON.parse(userIdLS);
-                    const queryUsuario = await getDoc(doc(db, 'users', parsedUserId));
-                    if (queryUsuario.exists()) {
-                        const userData = queryUsuario.data();
-                        setUser(userData)
+            const isLoggedInLS = localStorage.getItem('isLoggedIn');
+            if (isLoggedInLS === "true") {
+                try {
+                    const userIdLS = localStorage.getItem('usuarioActual');
+                    if (userIdLS) {
+                        const parsedUserId = JSON.parse(userIdLS);
+                        const queryUsuario = await getDoc(doc(db, 'users', parsedUserId));
+                        if (queryUsuario.exists()) {
+                            const userData = queryUsuario.data();
+                            setUser(userData)
+                        }
+                        const ordersRef = collection(db, 'orders');
+                        const q = query(ordersRef, where('userId', '==', parsedUserId));
+                        const querySnapshot = await getDocs(q);
+                        if (!querySnapshot.empty) {
+                            const userOrders = querySnapshot.docs.map(doc => {
+                                const orderData = doc.data();
+                                return orderData;
+                            });
+
+                            userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                            totalUser = userOrders.reduce((acc, order) => acc + (order.total || 0), 0);
+                            setOrders(userOrders);
+                            setTotalUserOrders(totalUser);
+                        }
+                    } else {
+                        navigate("/")
                     }
-                    const ordersRef = collection(db, 'orders');
-                    const q = query(ordersRef, where('userId', '==', parsedUserId));
-                    const querySnapshot = await getDocs(q);
-                    if (!querySnapshot.empty) {
-                        const userOrders = querySnapshot.docs.map(doc => {
-                            const orderData = doc.data();
-                            return orderData;
-                        });
-                       
-                        userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
-                      
-                        totalUser = userOrders.reduce((acc, order) => acc + (order.total || 0), 0);
-                        setOrders(userOrders);
-                        setTotalUserOrders(totalUser);
-                    }
+                } catch (error) {
+                    console.error('Error proceso de lectura de ordenes: ', error);
+                } finally {
+                    setLoading(false);
                 }
-            } catch (error) {
-                console.error('Error proceso de lectura de ordenes: ', error);
-            } finally {
-                setLoading(false);
+            } else {
+                navigate("/")
             }
         };
         fetchOrders();
@@ -69,8 +78,8 @@ export const UserOrders = () => {
     return (
         <Box component={Paper} sx={{ ...stUsOrd.contentTabla }}>
             <>
-                <Box sx={{display:'flex', paddingInline:'16px', paddingBlock:'8px', flexDirection:'column', alignItems:'flex-start'}}>Hola {user.nombre}. 
-                    <span style={{fontSize:'8px'}}>Estas son tus órdenes de compra, desde la más reciente a la más antigua.</span> </Box>
+                <Box sx={{ display: 'flex', paddingInline: '16px', paddingBlock: '8px', flexDirection: 'column', alignItems: 'flex-start' }}>Hola {user.nombre}.
+                    <span style={{ fontSize: '12px' }}>Estas son tus órdenes de compra.</span> </Box>
                 {orders.length > 0 ? (
                     <>
                         {orders.map((order) => (

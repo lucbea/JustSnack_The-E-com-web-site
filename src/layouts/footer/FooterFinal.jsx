@@ -102,7 +102,7 @@ export default function FooterFinal() {
           sx={{ ...stFooter.footer }}
         >
           <Box >
-            <Box sx={{ ...stFooter.contenEnlacesPage }}>
+            {/* <Box sx={{ ...stFooter.contenEnlacesPage }}>
               <Box sx={{ ...stFooter.boxEnlacePage }}>
                 <Link to="/" style={{ ...stFooter.enlace }}>INICIO</Link>
               </Box>
@@ -118,7 +118,7 @@ export default function FooterFinal() {
                   <Link to="/signIn" style={{ ...stFooter.enlace }}>Iniciar sesión</Link>
                 </Box>
               }
-            </Box>
+            </Box> */}
             <Box sx={{ ...stFooter.contRedes }}>
               <Box sx={{ ...stFooter.bordeIconoRed }}>
                 <Link to="/" style={{ display: 'flex', color:'inherit',  fontWeight: 'inherit' }} >
