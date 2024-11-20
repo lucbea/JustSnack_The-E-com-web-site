@@ -10,6 +10,7 @@ export const Ruta = () => {
     const theme = ThemeCustom();
     const { products } = useContext(DataBDContext);
     const [pathParts, setPathParts] = useState(() => location.pathname.split('/').filter(part => part));
+    const [showRuta, setShowRuta] = useState(true);
 
     useEffect(() => {
         setPathParts(location.pathname.split('/').filter(part => part));
@@ -19,11 +20,10 @@ export const Ruta = () => {
         if (pathParts[0] === 'product') {
             pathParts[0] = 'productos';
             setPathParts([...pathParts]);
-            navigate(`/productos/${pathParts[1]}`)
+            navigate(`/productos/${pathParts[1]}`);
         }
     }, [pathParts]);
 
-   
     const findProductDetails = (prodId) => {
         const product = products.find(p => p.id === prodId);
         if (product) {
@@ -35,17 +35,18 @@ export const Ruta = () => {
     const handleClick = (part, index) => {
         if (part === 'Inicio') {
             navigate('/');
-        } 
-        else if (part === 'productos') {
-            if (pathParts.length === 2){
-                navigate(`/productos/${pathParts[2]}`)
-            } else {
-                navigate('/productos');
-            }   
-        } else if (pathParts.length > 1 && pathParts[0] === 'productos') {
-            navigate(`/products/${part}`);
         } else {
-            navigate(`/${pathParts.slice(0, index + 1).join('/')}`);
+            if (part === 'productos') {
+                if (pathParts.length === 2) {
+                    navigate(`/productos/${pathParts[2]}`);
+                } else {
+                    navigate('/productos');
+                }
+            } else if (pathParts.length > 1 && pathParts[0] === 'productos') {
+                navigate(`/products/${part}`);
+            } else {
+                navigate(`/${pathParts.slice(0, index + 1).join('/')}`);
+            }
         }
     };
 
@@ -53,8 +54,8 @@ export const Ruta = () => {
         <Box
             sx={{
                 position: 'absolute',
-                top: {xs:'125px', sm:'123px', md:'98px'},
-                paddingInline: {xs:'30px', sm:'147px'},
+                top: { xs: '125px', sm: '123px', md: '98px' },
+                paddingInline: { xs: '30px', sm: '147px' },
                 textAlign: 'center',
                 fontSize: '10px',
                 display: 'flex',
@@ -62,23 +63,26 @@ export const Ruta = () => {
                 flexWrap: 'wrap'
             }}
         >
-            <Box
-                sx={{
-                    fontSize: '10px',
-                    marginRight: '3px',
-                    color: theme.palette.primary.grisOsc,
-                }}
-            >
-                <Link
-                    to="/"
-                    onClick={() => handleClick('Inicio')}
-                    style={{
-                        textDecoration: 'none',
+            {showRuta && location.pathname !== '/' && (
+                <Box
+                    sx={{
+                        fontSize: '10px',
+                        marginRight: '3px',
                         color: theme.palette.primary.grisOsc,
-                    }}>
-                    Inicio
-                </Link>
-            </Box>
+                    }}
+                >
+                    <Link
+                        to="/"
+                        onClick={() => handleClick('Inicio')}
+                        style={{
+                            textDecoration: 'none',
+                            color: theme.palette.primary.grisOsc,
+                        }}
+                    >
+                        Inicio
+                    </Link>
+                </Box>
+            )}
 
             {pathParts.length > 0 && (
                 <Typography
