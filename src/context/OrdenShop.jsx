@@ -33,11 +33,6 @@ export const OrdenShopProvider = ({ children }) => {
     const [quitarCarro, setQuitarCarro] = useState();
     const [modifItemCarro, setModifItemCarro] = useState();
     const [ordenCarro, setOrdenCarro] = useState([]);
-    const [ordenCarroAux, setOrdenCarroAux] =  useState(() => {
-        // Intenta leer el valor de localStorage al inicio
-        const savedOrdenCarro = localStorage.getItem('ordenCarro');
-        return savedOrdenCarro ? JSON.parse(savedOrdenCarro) : []; // Si no hay valor, inicializa como array vacío
-      });
     const [vaciarCarro, setVaciarCarro] = useState(false);
     const [cantItems, setCantItems] = useState(0);
     const [totalCarro, setTotalCarro] = useState(0);
@@ -48,13 +43,13 @@ export const OrdenShopProvider = ({ children }) => {
     const [anclaMenuCarr, setAnclaMenuCarr] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState({ userId: "", nombre: "", apellido: "", notificaciones: "", email: "" }); //saque password
+    const [user, setUser] = useState({ userId: "", nombre: "", apellido: "", notificaciones: "", email: "" }); 
     const [productIdVolverLoggedIn, setProductIdVolverLoggedIn] = useState("0");
     const [mjeHabilitarCarro, setMjeHabilitarCarro] = useState(false);
-
     const [btnIniciarCompra, setBtnIniciarCompra] = useState();
     const [notFoundSearch, setNotFoundSearch] = useState(false);
     const [auxShowCarro, setAuxShowCarro] = useState();
+    const [mjeCarroPend, setMjeCarroPend] = useState (false)
     let userLS;
 
 
@@ -93,17 +88,12 @@ export const OrdenShopProvider = ({ children }) => {
             console.error("El usuario no está definido o no tiene un ID.", userLS);
             return;
         } else { console.log("este es el usuario", userLS) }
-
-        // Verificar que el total del carro sea válido
         if (totalCarro === undefined || isNaN(totalCarro)) {
             console.error("El total del carro no es válido:", totalCarro);
             return;
         }
-
         const orderId = uuidv4();
         const orderDate = new Date().toISOString();
-
-        // Crear los detalles de la orden
         const items = Array.isArray(ordenCarro) ? ordenCarro.map(item => ({
             id: item.id,
             nombre: item.nombre,
@@ -120,26 +110,24 @@ export const OrdenShopProvider = ({ children }) => {
         };
 
         try {
-            // Guardar la orden en Firestore
             await setOneData('orders', orderId, orderDetails);
-
-            // Actualizar el stock de los productos
             await Promise.all(
                 ordenCarro.map(async (item) => {
                     const newStock = item.stock - item.cantidadPedida;
                     const stockUpdate = { stock: newStock };
-
-                    await setOneData('product', item.id, stockUpdate); // Actualiza el stock de cada producto
+                    await setOneData('product', item.id, stockUpdate); 
                 })
             );
             deleteUserCarro(userLS);
-
-            // Limpiar el carrito y redirigir
             setOrdenCarro([]);
             setTotalCarro(0);
             navigate('/compra');
-            setBtnIniciarCompra(); // Se asume que esta función se encarga de alguna lógica adicional
-
+            setBtnIniciarCompra(); 
+            setAgregarCarro();
+            setQuitarCarro();
+            setVaciarCarro(false);
+            setModifItemCarro();
+            localStorage.removeItem(user.userId);
         } catch (error) {
             console.error("Error al guardar la orden o actualizar el stock en Firestore:", error);
         }
@@ -199,18 +187,28 @@ export const OrdenShopProvider = ({ children }) => {
 
     const carroLS = (carroGuardar) => {
         if (agregarCarro || quitarCarro || modifItemCarro || vaciarCarro) {
+            console.log("ingrese a carroLS", "*", carroGuardar, "*")
             localStorage.setItem(user.userId, JSON.stringify(carroGuardar));
-            // carritoLS = JSON.parse(localStorage.getItem(user.userId));
-            // if (!carritoLS) {             
-            //     let carro = { carro: [] };  
-            //     localStorage.setItem(user.userId, JSON.stringify(carroGuardar)); 
-            // } else {
-            //     localStorage.setItem(user.userId, JSON.stringify(carroGuardar));
-            // }
         } 
     }
     
     
+    const cargarCarroLS = (userId) => {
+        console.log("este es el id del usuario", userId)
+        const carroPend = JSON.parse(localStorage.getItem(userId))
+        if (carroPend) { 
+            console.log("este carro está pendiente", carroPend)
+            setOrdenCarro(carroPend)
+            setMjeCarroPend(true)
+            console.log(user.nombre)
+        }
+        else {
+            console.log("no hay carro pendiente")
+            setMjeCarroPend(false)
+        }
+       
+    }
+
     useEffect(() => {
         if (agregarCarro) {
             const exists = ordenCarro.some(o => o.id === agregarCarro.id);
@@ -246,7 +244,7 @@ export const OrdenShopProvider = ({ children }) => {
     return (
         <OrdenShopContext.Provider value={{
             agregarCarro, setAgregarCarro, anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, cantItems, setCantItems, cantMaxStock, setCantMaxStock, hayItemsCarro, setHayItemsCarro, btnIniciarCompra, setBtnIniciarCompra, modifItemCarro, setModifItemCarro, mostrarProduct, setMostrarProduct, ordenCarro, setOrdenCarro, quitarCarro, setQuitarCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, vaciarCarro, setVaciarCarro,
-            handleIniciarCompra, handleConfirmarPedido, handleLogin, handleLogout, handlePerfil, user, setUser, isLoggedIn, setIsLoggedIn, handleIncrement, handleModifCantItem, notFoundSearch, setNotFoundSearch, auxShowCarro, setAuxShowCarro, productIdVolverLoggedIn, setProductIdVolverLoggedIn, mjeHabilitarCarro, setMjeHabilitarCarro, carroLS
+            handleIniciarCompra, handleConfirmarPedido, handleLogin, handleLogout, handlePerfil, user, setUser, isLoggedIn, setIsLoggedIn, handleIncrement, handleModifCantItem, notFoundSearch, setNotFoundSearch, auxShowCarro, setAuxShowCarro, productIdVolverLoggedIn, setProductIdVolverLoggedIn, mjeHabilitarCarro, setMjeHabilitarCarro, carroLS, cargarCarroLS, mjeCarroPend, setMjeCarroPend
         }}  >
             {children}
         </OrdenShopContext.Provider>

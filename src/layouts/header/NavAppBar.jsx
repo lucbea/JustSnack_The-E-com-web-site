@@ -26,7 +26,7 @@ export default function NavAppBar() {
   const stHeader = StyleHeader({ theme });
   const navigate = useNavigate();
 
-  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, handleLogin, handleLogout, isLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock,  setAuxShowCarro } = useContext(OrdenShopContext);
+  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, handleLogin, handleLogout, isLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock, setAuxShowCarro, mjeCarroPend, setMjeCarroPend } = useContext(OrdenShopContext);
   const isMenuOpenUser = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isCarrOpen = Boolean(anclaMenuCarr);
@@ -34,7 +34,7 @@ export default function NavAppBar() {
   const handleMenuOpenClose = () => setMobileMoreAnchorEl(null);
   const handleProfileUser = (event) => setAnchorEl(event.currentTarget);
   const handleProfileUserClose = () => setAnchorEl(null);
-  const handleCarMenuOpen = (event) => {setAnclaMenuCarr(event.currentTarget)};
+  const handleCarMenuOpen = (event) => { setAnclaMenuCarr(event.currentTarget) };
   const handleCarMenuClose = () => setAnclaMenuCarr(null);
 
   useEffect(() => {
@@ -302,9 +302,9 @@ export default function NavAppBar() {
             <Button
               variant="contained"
               color="primary"
-              onClick={(e) =>{
-                setAnclaMenuCarr(null); 
-                setBtnIniciarCompra(e.currentTarget); 
+              onClick={(e) => {
+                setAnclaMenuCarr(null);
+                setBtnIniciarCompra(e.currentTarget);
                 handleIniciarCompra();
               }}
               sx={{ ...stHeader.btnFooterCarro }}
@@ -370,6 +370,15 @@ export default function NavAppBar() {
     </Menu>
   );
 
+  useEffect(() => {
+    if (mjeCarroPend) {
+      const timer = setTimeout(() => {
+        setMjeCarroPend(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [mjeCarroPend]);
+
   return (
     <Box position="static"
       sx={{
@@ -396,11 +405,11 @@ export default function NavAppBar() {
             justifyContent: 'space-between',
             zIndex: '30',
             paddingInline: '6px',
-            gap:'5px',
+            gap: '5px',
           }}>
-             <IconButton size="large" edge="start" aria-label="open drawer" onClick={handleMenuOpen}
+          <IconButton size="large" edge="start" aria-label="open drawer" onClick={handleMenuOpen}
             sx={{
-              display:{xs:'flex', sm:'none'},
+              display: { xs: 'flex', sm: 'none' },
               ml: 0,
               color: theme.palette.primary.grisMuyOsc,
               '&:hover': {
@@ -410,30 +419,30 @@ export default function NavAppBar() {
             <BadgeHamb />
           </IconButton>
           <Box
-          onClick={() => handleNavigateToHome()}
+            onClick={() => handleNavigateToHome()}
             sx={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               width: 'auto',
-              height:'80px',
+              height: '80px',
               minWidth: '150px',
               backgroundColor: theme.palette.primary.main,
-              cursor:'pointer',
-              position:'relative'
+              cursor: 'pointer',
+              position: 'relative'
             }}>
-               <Box sx={{display:'flex', objectFit:'cover', height:{xs:'90%', sm:'190%'}, alignItems:'center', marginLeft:'5px', position:{sm:'absolute'}, top:'-8px', left:'-20px'}}
-              onClick={()=> handleNavigateToHome()}>
-                 <img src={logo} alt="logo.png"  style={{height:'90%'}}/>
-              </Box>
-             
-              <Box sx={{display:{xs:'flex', sm:'none'}, objectFit:'cover', height:'90%', alignItems:'center', marginLeft:'5px'}}
-              onClick={()=> handleNavigateToHome()}>
-              <img src={jtk} alt="jtk.png"  style={{height:'60%'}}/>
-              </Box>
-              <Box sx={{display:{xs:'none', sm:'flex'}, objectFit:'cover', height:'inherit', alignItems:'center', marginLeft:{xs:'5px', sm:'117px'}}}>
-              <img src={justsnack} alt="justsnack.png"  style={{height:'50%'}}/>
-              </Box>           
+            <Box sx={{ display: 'flex', objectFit: 'cover', height: { xs: '90%', sm: '190%' }, alignItems: 'center', marginLeft: '5px', position: { sm: 'absolute' }, top: '-8px', left: '-20px' }}
+              onClick={() => handleNavigateToHome()}>
+              <img src={logo} alt="logo.png" style={{ height: '90%' }} />
+            </Box>
+
+            <Box sx={{ display: { xs: 'flex', sm: 'none' }, objectFit: 'cover', height: '90%', alignItems: 'center', marginLeft: '5px' }}
+              onClick={() => handleNavigateToHome()}>
+              <img src={jtk} alt="jtk.png" style={{ height: '60%' }} />
+            </Box>
+            <Box sx={{ display: { xs: 'none', sm: 'flex' }, objectFit: 'cover', height: 'inherit', alignItems: 'center', marginLeft: { xs: '5px', sm: '117px' } }}>
+              <img src={justsnack} alt="justsnack.png" style={{ height: '50%' }} />
+            </Box>
           </Box>
           <Box
             sx={{
@@ -443,25 +452,25 @@ export default function NavAppBar() {
               gap: '20px',
               width: 'auto'
             }}>
-              <IconButton size="large" edge="start" aria-label="open drawer" onClick={handleMenuOpen}
-            sx={{
-              display:{xs:'none', sm:'flex'},
-              ml: 0,
-              color: theme.palette.primary.grisMuyOsc,
-              '&:hover': {
-                backgroundColor: theme.palette.primary.hoverBtn
+            <IconButton size="large" edge="start" aria-label="open drawer" onClick={handleMenuOpen}
+              sx={{
+                display: { xs: 'none', sm: 'flex' },
+                ml: 0,
+                color: theme.palette.primary.grisMuyOsc,
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.hoverBtn
+                }
+              }}>
+              <BadgeHamb />
+            </IconButton>
+            <IconButton size="large" aria-label="shop" aria-controls="carr-shop-menu-mobile" aria-haspopup="true"
+              onClick={(e) => {
+                handleCarMenuOpen(e);
+                setAuxShowCarro(e.currentTarget);
               }
-            }}>
-            <BadgeHamb />
-          </IconButton>
-            <IconButton size="large" aria-label="shop" aria-controls="carr-shop-menu-mobile" aria-haspopup="true" 
-            onClick={(e) => { 
-              handleCarMenuOpen(e);
-              setAuxShowCarro(e.currentTarget);
-            }
-              
-            } 
-            color="inherit"
+
+              }
+              color="inherit"
               sx={{
                 marginInline: { xs: '0px', sm: '1px' },
                 width: '52px',
@@ -483,13 +492,46 @@ export default function NavAppBar() {
               <BadgeUser />
             </IconButton>
           </Box>
+          {mjeCarroPend && (
+            <Box
+              sx={{
+                position: 'absolute',
+                zIndex: '1000',
+                top: '0px',
+                left: '0px',
+                width: '100%',
+                height: '100vh',
+                backgroundColor: theme.palette.modal.fondo,
+              }}>
+              <Box
+                sx={{
+                  marginTop: '70px',
+                  marginLeft: 'auto',
+                  marginRight: '20px',
+                  width: 'max-content',
+                  paddingInline: '30px',
+                  paddingBlock: '1px',
+                  fontSize: '14px',
+                  backgroundColor: theme.palette.primary.main,
+                  boxShadow: theme.palette.primary.bordeCarroPend,
+                  borderRadius: '4px',
+                  color: theme.palette.primary.rojo,
+                }}>
+                <h2>Carro pendiente cargado</h2>
+              </Box>
+
+
+            </Box>
+          )}
+
+
         </Toolbar>
         {renderMobileMenu}
         {renderCarShop}
         {renderUser}
       </AppBar>
       <Filtros />
-      <Ruta/>
+      <Ruta />
     </Box>
   );
 }

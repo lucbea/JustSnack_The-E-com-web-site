@@ -18,6 +18,7 @@ export const ConfirmarPedido = () => {
 
   useEffect (() => {
     localStorage.setItem('404', JSON.stringify(false));
+    console.log("confirmarPedido", user)
   }, []);
 
   useEffect(() => {
