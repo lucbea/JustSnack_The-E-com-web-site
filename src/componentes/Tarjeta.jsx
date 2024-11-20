@@ -58,7 +58,7 @@ export default function Tarjeta({ product }) {
             sx={{
                 cursor: 'pointer',
                 maxWidth: '345px',
-                minWidth: '238px',
+                minWidth: '228px',
                 position: 'relative',
                 height: 'auto',
                 display: 'flex',

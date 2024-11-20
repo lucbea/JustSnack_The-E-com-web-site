@@ -19,16 +19,20 @@ export default function Grilla({ products }) {
       display: 'flex',
       justifyContent: 'center',
       maxWidth:'1100px',
+     
     }}>
       {!notFoundSearch ? (
-        <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 1, sm: 2, md: 3 }}
+        <Grid container spacing={{ xs: 2, md: 2 }} 
+        columns={{ xs: 1, sm: 2, md: products.length > 2 ? 3 : 2 }} 
           sx={{
-            maxWidth: '1300px'
+            maxWidth: '1300px',
+            justifyContent: 'center',
           }} >
           {products.map(product => (
             <Grid sx={{
               display: 'flex',
               justifyContent: 'center',
+              width:'auto',            
             }}
               xs={10} sm={1} md={1} key={product.id}>
               <Tarjeta product={product} />

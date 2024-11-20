@@ -39,6 +39,7 @@ export const ThemeCustom = () => {
         transparente: '00000000',
         manteca: '#d7d3d3',
         backFiltro: '#e4e6ea',
+        bordeCarroPend: 'inset 0px 0px 0px 9px #dae1df',
       },
       secondary: {
         main: '#00F000',

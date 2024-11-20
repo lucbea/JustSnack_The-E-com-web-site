@@ -25,7 +25,7 @@ const defaultTheme = createTheme();
 export default function SignIn() {
     const theme = ThemeCustom();
     const component = ComponentCustom();
-    const { btnIniciarCompra, setIsLoggedIn, user, setUser, setAnclaMenuCarr, productIdVolverLoggedIn ,  mjeHabilitarCarro } = useContext(OrdenShopContext);
+    const { btnIniciarCompra, setIsLoggedIn, user, setUser, setAnclaMenuCarr, productIdVolverLoggedIn ,  mjeHabilitarCarro, cargarCarroLS } = useContext(OrdenShopContext);
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -73,6 +73,7 @@ export default function SignIn() {
                     email: docSnap.data().email
                   });
             } 
+            cargarCarroLS(docSnap.data().userId)
         } catch (error) {
             console.error("Error al obtener el documento de usuario:", error);
         }
@@ -99,6 +100,7 @@ export default function SignIn() {
                 setAnclaMenuCarr();
                 navigate('/confirmarPedido');
             }
+            
         } catch (error) {
             setIsLoggedIn(false);
             setErrorMessage('Datos incorrectos o error al iniciar sesión.');
