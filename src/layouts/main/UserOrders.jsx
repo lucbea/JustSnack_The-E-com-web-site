@@ -49,7 +49,7 @@ export const UserOrders = () => {
                             setTotalUserOrders(totalUser);
                         }
                     } else {
-                        navigate("/")
+                        // navigate("/")
                     }
                 } catch (error) {
                     console.error('Error proceso de lectura de ordenes: ', error);
@@ -57,7 +57,7 @@ export const UserOrders = () => {
                     setLoading(false);
                 }
             } else {
-                navigate("/")
+                // navigate("/")
             }
         };
         fetchOrders();
@@ -78,7 +78,7 @@ export const UserOrders = () => {
     return (
         <Box component={Paper} sx={{ ...stUsOrd.contentTabla }}>
             <>
-                <Box sx={{ display: 'flex', paddingInline: '16px', paddingBlock: '8px', flexDirection: 'column', alignItems: 'flex-start' }}>Hola {user.nombre}.
+                <Box sx={{ display: 'flex', paddingInline: '16px', paddingBlock: '8px', flexDirection: 'column', alignItems: 'flex-start', paddingBottom: '5px' }}>Hola {user.nombre}.
                     <span style={{ fontSize: '12px' }}>Estas son tus órdenes de compra.</span> </Box>
                 {orders.length > 0 ? (
                     <>

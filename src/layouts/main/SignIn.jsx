@@ -2,9 +2,8 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../firebase'; 
+import { auth, db } from '../../../firebase'; 
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../firebase";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -39,6 +38,7 @@ export default function SignIn() {
    
 
     useEffect(() => {
+        console.log("ingresé a signIn")
         const usuarioActualLS = localStorage.getItem('usuarioActual');
         if (usuarioActualLS) {
             const usuarioActual = JSON.parse(usuarioActualLS);
@@ -86,6 +86,7 @@ export default function SignIn() {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
+            console.log("userCredential y user", userCredential, user)
             setIsLoggedIn(true);
             setUser({ id: user.uid });  
             localStorage.setItem('usuarioActual', JSON.stringify(user.uid));

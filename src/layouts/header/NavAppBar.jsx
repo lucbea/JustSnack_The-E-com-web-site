@@ -1,5 +1,7 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth, db } from '../../../firebase';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -26,7 +28,7 @@ export default function NavAppBar() {
   const stHeader = StyleHeader({ theme });
   const navigate = useNavigate();
 
-  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, handleLogin, handleLogout, isLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock, setAuxShowCarro, mjeCarroPend, setMjeCarroPend } = useContext(OrdenShopContext);
+  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, isLoggedIn, setIsLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock, setAuxShowCarro, mjeCarroPend, setMjeCarroPend } = useContext(OrdenShopContext);
   const isMenuOpenUser = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isCarrOpen = Boolean(anclaMenuCarr);
@@ -36,10 +38,79 @@ export default function NavAppBar() {
   const handleProfileUserClose = () => setAnchorEl(null);
   const handleCarMenuOpen = (event) => { setAnclaMenuCarr(event.currentTarget) };
   const handleCarMenuClose = () => setAnclaMenuCarr(null);
+  const [ userIn, setUserIn ] = useState(false);
+
+  useEffect(() => {
+      const isLoggedInLS = JSON.parse(localStorage.getItem('isLoggedIn'));
+      if (isLoggedInLS !== null) {
+        console.log("inicializando loguedIn")
+        console.log("badgeUser", isLoggedInLS);
+        setUserIn(isLoggedInLS === true); 
+        setIsLoggedIn(isLoggedInLS === true)
+      }
+    }, [isLoggedIn]);
 
   useEffect(() => {
     setHayItemsCarro(ordenCarro.length > 0);
   }, [ordenCarro]);
+
+  useEffect(() => {
+    if (mjeCarroPend) {
+      const timer = setTimeout(() => {
+        setMjeCarroPend(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [mjeCarroPend]);
+
+
+  const handleLogin = () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Usuario autenticado:", user);
+        navigate('/inicio'); 
+      } else {
+        console.log("No hay usuario autenticado.");
+        navigate('/signin'); 
+      }
+      if (user) {
+        console.log("Usuario autenticado:", user);
+        setIsLoggedIn(true);  
+      } else {
+        console.log("No hay usuario autenticado.");
+        setIsLoggedIn(false);
+        setAnchorEl(null);
+        setMobileMoreAnchorEl(null);
+        setAnclaMenuCarr(null);
+        navigate('/signin');
+      }
+    });
+  };
+
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            console.log("Usuario autenticado:", user);
+          } else {
+            console.log("No hay usuario autenticado.");
+            localStorage.setItem('usuarioActual', JSON.stringify(null)); 
+            localStorage.setItem('isLoggedIn', JSON.stringify(false));
+            setIsLoggedIn(false);
+            setAnchorEl(null);
+            setMobileMoreAnchorEl(null);
+            setAnclaMenuCarr(null);
+            navigate('/');
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error al cerrar sesión:", error);
+      });
+  };
+
 
   const handleNavigateToProducts = () => {
     setMobileMoreAnchorEl(null);
@@ -249,7 +320,6 @@ export default function NavAppBar() {
       )}
 
       {hayItemsCarro && (
-
         <MenuItem sx={{ ...stHeader.footerCarro }}>
           <Box sx={{
             marginBottom: 'auto',
@@ -330,7 +400,7 @@ export default function NavAppBar() {
       onClose={handleProfileUserClose}
       sx={{ top: '48px' }}
     >
-      {isLoggedIn
+      {userIn
         ? [
           <MenuItem key="cuenta" onClick={() => handleMisOrdenes()}>Mis órdenes de compra</MenuItem>,
           <MenuItem key="logout" onClick={() => { setAnchorEl(null); handleLogout() }}>Cerrar sesión</MenuItem>
@@ -370,14 +440,10 @@ export default function NavAppBar() {
     </Menu>
   );
 
-  useEffect(() => {
-    if (mjeCarroPend) {
-      const timer = setTimeout(() => {
-        setMjeCarroPend(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [mjeCarroPend]);
+
+
+
+
 
   return (
     <Box position="static"
@@ -467,9 +533,7 @@ export default function NavAppBar() {
               onClick={(e) => {
                 handleCarMenuOpen(e);
                 setAuxShowCarro(e.currentTarget);
-              }
-
-              }
+              }}
               color="inherit"
               sx={{
                 marginInline: { xs: '0px', sm: '1px' },
@@ -519,12 +583,8 @@ export default function NavAppBar() {
                 }}>
                 <h2>Carro pendiente cargado</h2>
               </Box>
-
-
             </Box>
           )}
-
-
         </Toolbar>
         {renderMobileMenu}
         {renderCarShop}

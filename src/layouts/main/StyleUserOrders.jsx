@@ -5,6 +5,7 @@ export const StyleUserOrders = ({ theme }) => {
             margin: 'auto',
             minWidth: '248px',
             paddingInline: '8px', 
+            paddingBottom: '40px',
         },
 
         bordeTabla: {
@@ -106,7 +107,7 @@ export const StyleUserOrders = ({ theme }) => {
 
         boxMesagge: {
             marginInline: 'auto',
-            marginTop: '150px',
+            marginTop: '20px',
             marginBottom: '5px',
             padding: '20px',
             backgroundColor: theme.palette.primary.blanco,
