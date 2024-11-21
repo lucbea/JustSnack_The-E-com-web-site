@@ -12,7 +12,6 @@ export const StyleHeader = ({ theme }) => {
             [theme.breakpoints.up('sm')]: {
                 flexDirection: 'row',
             },
-
         },
 
         contenItemBreakPoint: {

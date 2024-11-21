@@ -35,7 +35,7 @@ export const ConfirmarPedido = () => {
       {showTable && ordenCarro.length === 0 && (
         <Box onClick={() => navigate('/')}>
           <Box
-            sx={{ ...StyleSpinner.boxMesagge }}>
+            sx={{ ...StSpinner.boxMesagge }}>
             No hay items en el carro. Elige productos para agregar. Haz click para continuar.
           </Box>
         </Box>

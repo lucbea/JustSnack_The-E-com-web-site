@@ -64,7 +64,6 @@ export const Product = () => {
                     setLoading(false);
                 }
             };
-
             fetchProduct();
         }
     }, [id, mostrarProduct, setMostrarProduct]);

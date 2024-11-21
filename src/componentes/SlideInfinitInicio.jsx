@@ -18,12 +18,6 @@ export const SlideInfinit = () => {
     const theme = ThemeCustom();
     return (
         <Box>
-            {/* <Box
-                sx={{
-                    heigth: '90px',
-                    backgroundColor: theme.palette.primary.blanco
-                }}>
-            </Box> */}
             <Box
                 sx={{
                     display: { xs: 'none', sm: 'flex' },

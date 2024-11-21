@@ -24,7 +24,7 @@ export default function SignUp() {
   const theme = ThemeCustom();
   const component = ComponentCustom();
   const navigate = useNavigate();
-  const { user, setUser } = useContext(OrdenShopContext);
+  // const { user, setUser } = useContext(OrdenShopContext);
 
   const [values, setValues] = useState({
     nombre: '',

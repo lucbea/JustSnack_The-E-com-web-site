@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signOut, getAuth, onAuthStateChanged } from "firebase/auth";
-import { auth, db } from '../../../firebase';
+import { signOut,  onAuthStateChanged } from "firebase/auth";
+import { auth } from '../../../firebase';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -28,7 +28,7 @@ export default function NavAppBar() {
   const stHeader = StyleHeader({ theme });
   const navigate = useNavigate();
 
-  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, isLoggedIn, setIsLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock, setAuxShowCarro, mjeCarroPend, setMjeCarroPend, cargarCarroLS, user, handleUserFB } = useContext(OrdenShopContext);
+  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, isLoggedIn, setIsLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock, setAuxShowCarro, mjeCarroPend, setMjeCarroPend, cargarCarroLS, handleUserFB } = useContext(OrdenShopContext);
   const isMenuOpenUser = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isCarrOpen = Boolean(anclaMenuCarr);
@@ -39,6 +39,7 @@ export default function NavAppBar() {
   const handleCarMenuOpen = (event) => { setAnclaMenuCarr(event.currentTarget) };
   const handleCarMenuClose = () => setAnclaMenuCarr(null);
   const [userIn, setUserIn] = useState(false);
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -52,15 +53,9 @@ export default function NavAppBar() {
       }
     });
     cargarCarroLS();
-
     return () => unsubscribe();
   }, []);
 
-
-  useEffect(() => {
-
-    //llamar a cargarCarroLS si hay usuario en LS
-  }, [])
 
   useEffect(() => {
     const isLoggedInLS = JSON.parse(localStorage.getItem('isLoggedIn'));
@@ -70,9 +65,11 @@ export default function NavAppBar() {
     }
   }, [isLoggedIn]);
 
+
   useEffect(() => {
     setHayItemsCarro(ordenCarro.length > 0);
   }, [ordenCarro]);
+
 
   useEffect(() => {
     if (mjeCarroPend) {
@@ -136,6 +133,7 @@ export default function NavAppBar() {
     navigate('/productos');
   };
 
+
   const handleNavigateToHome = () => {
     setMobileMoreAnchorEl(null);
     setAnchorEl(null);
@@ -144,12 +142,14 @@ export default function NavAppBar() {
     setShowProducts(true);
   }
 
+
   const handleRemoveItem = (item) => {
     setAgregarCarro();
     setModifItemCarro();
     setVaciarCarro(false);
     setQuitarCarro(item);
   };
+
 
   const handleVaciarCarro = () => {
     setAgregarCarro();
@@ -166,12 +166,14 @@ export default function NavAppBar() {
     if (cantPedAux > 0) handleModifCantItem(item, cantPedAux);
   };
 
+
   const handleTextChange = (item, cantPed) => {
     const itemEncont = ordenCarro.find(o => o.id === item.id);
     if (!itemEncont) return;
     const cantPedAux = Math.min(cantPed, item.stock);
     handleModifCantItem(item, cantPedAux);
   };
+
 
   const handleMisOrdenes = () => {
     setAnchorEl(null);
@@ -339,7 +341,6 @@ export default function NavAppBar() {
         </MenuItem>
 
       )}
-
       {hayItemsCarro && (
         <MenuItem sx={{ ...stHeader.footerCarro }}>
           <Box sx={{
@@ -409,7 +410,6 @@ export default function NavAppBar() {
   );
 
 
-
   const renderUser = (
     <Menu
       anchorEl={anchorEl}
@@ -460,10 +460,6 @@ export default function NavAppBar() {
       }
     </Menu>
   );
-
-
-
-
 
 
   return (

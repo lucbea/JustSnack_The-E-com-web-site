@@ -2,8 +2,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../../firebase'; 
-import { doc, getDoc } from "firebase/firestore";
+import { auth } from '../../../firebase'; 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -25,7 +24,7 @@ const defaultTheme = createTheme();
 export default function SignIn() {
     const theme = ThemeCustom();
     const component = ComponentCustom();
-    const { btnIniciarCompra, setIsLoggedIn, user, setUser, setAnclaMenuCarr, productIdVolverLoggedIn ,  mjeHabilitarCarro, cargarCarroLS, handleUserFB } = useContext(OrdenShopContext);
+    const { btnIniciarCompra, setIsLoggedIn, setUser, setAnclaMenuCarr, productIdVolverLoggedIn ,  mjeHabilitarCarro, handleUserFB } = useContext(OrdenShopContext);
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -49,7 +48,6 @@ export default function SignIn() {
         }
     },[])
    
-
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
         setValues(prevValues => ({
@@ -57,11 +55,7 @@ export default function SignIn() {
             [name]: type === 'checkbox' ? checked : value
         }));
     };
-
-
-  
-        
-
+     
     const handleSubmit = async (event) => {
         event.preventDefault();
         const { email, password } = values;                                              
@@ -89,7 +83,6 @@ export default function SignIn() {
         }
     };
     
-
     const handleSignUpRedirect = () => {
         navigate('/signUp');
     };

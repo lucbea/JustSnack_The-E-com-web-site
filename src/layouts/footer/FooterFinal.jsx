@@ -29,7 +29,7 @@ function Copyright({ theme }) {
           textDecoration: 'none',
           color: 'inherit'
         }}>
-          JustSnack
+          JusTsnak
         </Link>
       </span>
       {' '}
@@ -84,13 +84,13 @@ export default function FooterFinal() {
   const theme = ThemeCustom();
   const stFooter = StyleFooter({ theme });
   const { isLoggedIn,  handleLogout } = useContext(OrdenShopContext);
-  const navigate = useNavigate();  
+  // const navigate = useNavigate();  
 
   
-  const handleCerrarSesion = () => {
-    handleLogout();  
-    navigate('/');  
-  };
+  // const handleCerrarSesion = () => {
+  //   handleLogout();  
+  //   navigate('/');  
+  // };
  
   return (
     <>
@@ -102,23 +102,6 @@ export default function FooterFinal() {
           sx={{ ...stFooter.footer }}
         >
           <Box >
-            {/* <Box sx={{ ...stFooter.contenEnlacesPage }}>
-              <Box sx={{ ...stFooter.boxEnlacePage }}>
-                <Link to="/" style={{ ...stFooter.enlace }}>INICIO</Link>
-              </Box>
-              <Box sx={{ ...stFooter.boxEnlacePage }}>
-                <Link to="/productos" style={{ ...stFooter.enlace }}>PRODUCTOS</Link>
-              </Box>
-              {(isLoggedIn) ?
-                <Box sx={{ ...stFooter.boxEnlacePage }}>
-                  <a href="#" onClick={handleCerrarSesion} style={{ ...stFooter.enlace }}>Cerrar sesión</a>
-                </Box>
-                :
-                <Box sx={{ ...stFooter.boxEnlacePage }}>
-                  <Link to="/signIn" style={{ ...stFooter.enlace }}>Iniciar sesión</Link>
-                </Box>
-              }
-            </Box> */}
             <Box sx={{ ...stFooter.contRedes }}>
               <Box sx={{ ...stFooter.bordeIconoRed }}>
                 <Link to="/" style={{ display: 'flex', color:'inherit',  fontWeight: 'inherit' }} >
@@ -135,7 +118,6 @@ export default function FooterFinal() {
                   <LiaTwitter style={{ ...stFooter.iconoRed }} />
                 </Link>
               </Box>
-
             </Box>
             <Copyright theme={theme} />
           </Box>

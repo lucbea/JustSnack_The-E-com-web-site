@@ -43,22 +43,17 @@ export const UserOrders = () => {
                             });
 
                             userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
-
                             totalUser = userOrders.reduce((acc, order) => acc + (order.total || 0), 0);
                             setOrders(userOrders);
                             setTotalUserOrders(totalUser);
                         }
-                    } else {
-                        // navigate("/")
-                    }
+                    } 
                 } catch (error) {
                     console.error('Error proceso de lectura de ordenes: ', error);
                 } finally {
                     setLoading(false);
                 }
-            } else {
-                // navigate("/")
-            }
+            } 
         };
         fetchOrders();
     }, [isLoggedIn]);
