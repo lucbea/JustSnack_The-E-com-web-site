@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from '../../../firebase';
-import { setDoc, doc } from 'firebase/firestore';
+import { auth, db } from '../../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../firebase'; 
+import { setDoc, doc } from 'firebase/firestore';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -110,6 +109,7 @@ export default function SignUp() {
       };
       await setDoc(doc(db, 'users', userId), userReg);
       navigate('/signIn');
+      console.log("register- userCredential", userCredential)
     } catch (error) {
       setErrors(prevErrors => ({
         ...prevErrors,

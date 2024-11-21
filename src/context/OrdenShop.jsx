@@ -134,25 +134,6 @@ export const OrdenShopProvider = ({ children }) => {
     };
 
 
-    const handleLogin = () => {
-        if (!isLoggedIn) {
-            setAnchorEl(null);
-            setMobileMoreAnchorEl(null);
-            setAnclaMenuCarr(null);
-            navigate('/signin');
-        }
-    };
-
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-        const user = null;
-        localStorage.setItem('usuarioActual', JSON.stringify(user));
-        localStorage.setItem('isLoggedIn', JSON.stringify(false));
-        setUser({ userId: "", nombre: "", apellido: "", password: "", notificaciones: "", email: "" });
-        setCantItems(0);
-        setOrdenCarro([]);
-    };
-
     const handlePerfil = () => {
         setMobileMoreAnchorEl(null);
     }
@@ -239,7 +220,7 @@ export const OrdenShopProvider = ({ children }) => {
     return (
         <OrdenShopContext.Provider value={{
             agregarCarro, setAgregarCarro, anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, cantItems, setCantItems, cantMaxStock, setCantMaxStock, hayItemsCarro, setHayItemsCarro, btnIniciarCompra, setBtnIniciarCompra, modifItemCarro, setModifItemCarro, mostrarProduct, setMostrarProduct, ordenCarro, setOrdenCarro, quitarCarro, setQuitarCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, vaciarCarro, setVaciarCarro,
-            handleIniciarCompra, handleConfirmarPedido, handleLogin, handleLogout, handlePerfil, user, setUser, isLoggedIn, setIsLoggedIn, handleIncrement, handleModifCantItem, notFoundSearch, setNotFoundSearch, auxShowCarro, setAuxShowCarro, productIdVolverLoggedIn, setProductIdVolverLoggedIn, mjeHabilitarCarro, setMjeHabilitarCarro, carroLS, cargarCarroLS, mjeCarroPend, setMjeCarroPend
+            handleIniciarCompra, handleConfirmarPedido, handlePerfil, user, setUser, isLoggedIn, setIsLoggedIn, handleIncrement, handleModifCantItem, notFoundSearch, setNotFoundSearch, auxShowCarro, setAuxShowCarro, productIdVolverLoggedIn, setProductIdVolverLoggedIn, mjeHabilitarCarro, setMjeHabilitarCarro, carroLS, cargarCarroLS, mjeCarroPend, setMjeCarroPend
         }}  >
             {children}
         </OrdenShopContext.Provider>

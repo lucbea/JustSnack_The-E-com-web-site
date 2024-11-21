@@ -1,5 +1,5 @@
 
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import { TransitionEfect } from './TransitionEfect';
@@ -20,7 +20,22 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export const BadgeUser = () => {
-  const { isLoggedIn } = useContext(OrdenShopContext);
+  
+  const { isLoggedIn, setIsLoggedIn } = useContext(OrdenShopContext);
+  const [ badgeIn, setBadgeIn] = useState (false);
+
+  useEffect(() => {
+    // Obtener el valor de 'isLoggedIn' desde el localStorage
+    const isLoggedInLS = JSON.parse(localStorage.getItem('isLoggedIn'));
+  
+    // Si 'isLoggedInLS' es un valor válido (booleano), actualizar el estado de 'badgeIn'
+    if (isLoggedInLS !== null) {
+      console.log("badgeUser", isLoggedInLS);
+      setBadgeIn(isLoggedInLS === true); // Asegúrate de que sea un valor booleano
+    }
+  }, [isLoggedIn]); // Dependencia: el useEffect se ejecutará cuando 'isLoggedIn' cambie
+  
+  
   return (
     <StyledBadge badgeContent={0}>
       <TransitionEfect
@@ -36,7 +51,7 @@ export const BadgeUser = () => {
             backgroundColor: theme.palette.primary.hoverBtn,
           }
         }}>
-        {isLoggedIn ?
+        {badgeIn ?
           <PiUserCircleCheckLight
             style={{
               fontSize: '32px',
