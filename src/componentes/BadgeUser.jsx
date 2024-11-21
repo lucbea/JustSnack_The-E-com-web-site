@@ -1,4 +1,3 @@
-
 import { useContext, useEffect, useState } from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
@@ -19,21 +18,17 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-export const BadgeUser = () => {
-  
+
+export const BadgeUser = () => {  
   const { isLoggedIn, setIsLoggedIn } = useContext(OrdenShopContext);
   const [ badgeIn, setBadgeIn] = useState (false);
 
   useEffect(() => {
-    // Obtener el valor de 'isLoggedIn' desde el localStorage
     const isLoggedInLS = JSON.parse(localStorage.getItem('isLoggedIn'));
-  
-    // Si 'isLoggedInLS' es un valor válido (booleano), actualizar el estado de 'badgeIn'
     if (isLoggedInLS !== null) {
-      console.log("badgeUser", isLoggedInLS);
-      setBadgeIn(isLoggedInLS === true); // Asegúrate de que sea un valor booleano
+      setBadgeIn(isLoggedInLS === true); 
     }
-  }, [isLoggedIn]); // Dependencia: el useEffect se ejecutará cuando 'isLoggedIn' cambie
+  }, [isLoggedIn]); 
   
   
   return (

@@ -2,8 +2,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../../firebase'; 
-import { doc, getDoc } from "firebase/firestore";
+import { auth } from '../../../firebase'; 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -21,10 +20,11 @@ import { GoPerson } from "react-icons/go";
 
 const defaultTheme = createTheme();
 
+
 export default function SignIn() {
     const theme = ThemeCustom();
     const component = ComponentCustom();
-    const { btnIniciarCompra, setIsLoggedIn, user, setUser, setAnclaMenuCarr, productIdVolverLoggedIn ,  mjeHabilitarCarro, cargarCarroLS } = useContext(OrdenShopContext);
+    const { btnIniciarCompra, setIsLoggedIn, setUser, setAnclaMenuCarr, productIdVolverLoggedIn ,  mjeHabilitarCarro, handleUserFB } = useContext(OrdenShopContext);
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -35,10 +35,8 @@ export default function SignIn() {
     });
     const [ showPassword, setShowPassword ] = useState(false);
     const [ volverLoggedIn, setVolverLoggedIn ] = useState(false);
-   
 
     useEffect(() => {
-        console.log("ingresé a signIn")
         const usuarioActualLS = localStorage.getItem('usuarioActual');
         if (usuarioActualLS) {
             const usuarioActual = JSON.parse(usuarioActualLS);
@@ -50,7 +48,6 @@ export default function SignIn() {
         }
     },[])
    
-
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
         setValues(prevValues => ({
@@ -58,35 +55,13 @@ export default function SignIn() {
             [name]: type === 'checkbox' ? checked : value
         }));
     };
-
-
-    const handleUserFB = async (userId) => {        
-        try {
-            const docRef = doc(db, "users", userId); 
-            const docSnap = await getDoc(docRef);            
-            if (docSnap.exists()) {
-                setUser({
-                    userId: docSnap.data().userId, 
-                    nombre: docSnap.data().nombre,
-                    apellido: docSnap.data().apellido,
-                    notificaciones: docSnap.data().notificaciones,
-                    email: docSnap.data().email
-                  });
-            } 
-            cargarCarroLS(docSnap.data().userId)
-        } catch (error) {
-            console.error("Error al obtener el documento de usuario:", error);
-        }
-    };
-        
-
+     
     const handleSubmit = async (event) => {
         event.preventDefault();
         const { email, password } = values;                                              
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-            console.log("userCredential y user", userCredential, user)
             setIsLoggedIn(true);
             setUser({ id: user.uid });  
             localStorage.setItem('usuarioActual', JSON.stringify(user.uid));
@@ -108,7 +83,6 @@ export default function SignIn() {
         }
     };
     
-
     const handleSignUpRedirect = () => {
         navigate('/signUp');
     };

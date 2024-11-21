@@ -1,11 +1,9 @@
-
 import React, { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import Tarjeta from '../../componentes/Tarjeta';
 import { OrdenShopContext } from '../../context/OrdenShop';
 import { ThemeCustom } from '../../context/ThemeCustom';
-
 
 export default function Grilla({ products }) {
   const theme = ThemeCustom();

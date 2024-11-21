@@ -6,7 +6,7 @@ import { collection, query, where, getDocs, getDoc, doc } from 'firebase/firesto
 import { OrdenShopContext } from '../../context/OrdenShop';
 import { ThemeCustom } from '../../context/ThemeCustom';
 import { StyleUserOrders } from './StyleUserOrders';
-import spinner from "../../assets/bx_loader.gif"
+import spinner from "../../assets/bx_loader.gif";
 import { StyleSpinner } from '../../hook/StyleSpinner';
 
 export const UserOrders = () => {
@@ -43,22 +43,17 @@ export const UserOrders = () => {
                             });
 
                             userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
-
                             totalUser = userOrders.reduce((acc, order) => acc + (order.total || 0), 0);
                             setOrders(userOrders);
                             setTotalUserOrders(totalUser);
                         }
-                    } else {
-                        // navigate("/")
-                    }
+                    } 
                 } catch (error) {
                     console.error('Error proceso de lectura de ordenes: ', error);
                 } finally {
                     setLoading(false);
                 }
-            } else {
-                // navigate("/")
-            }
+            } 
         };
         fetchOrders();
     }, [isLoggedIn]);

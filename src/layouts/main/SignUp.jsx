@@ -24,7 +24,7 @@ export default function SignUp() {
   const theme = ThemeCustom();
   const component = ComponentCustom();
   const navigate = useNavigate();
-  const { user, setUser } = useContext(OrdenShopContext);
+  // const { user, setUser } = useContext(OrdenShopContext);
 
   const [values, setValues] = useState({
     nombre: '',
@@ -109,7 +109,6 @@ export default function SignUp() {
       };
       await setDoc(doc(db, 'users', userId), userReg);
       navigate('/signIn');
-      console.log("register- userCredential", userCredential)
     } catch (error) {
       setErrors(prevErrors => ({
         ...prevErrors,

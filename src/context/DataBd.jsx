@@ -13,7 +13,6 @@ export const DataBDProvider = ({ children }) => {
   const [loadingProducts, setLoadingProducts] = useState(true);
 
   useEffect(() => {
-    // inicializarDataBD();
     const getAllData = async () => {
       try {
       const collectionReference = collection(db, "product");
@@ -27,11 +26,9 @@ export const DataBDProvider = ({ children }) => {
       setError(error);
     } finally {
       setLoadingProducts(false); 
-      // navigate("/");
     }
   };
     getAllData();
-
   }, []); 
 
 
@@ -159,7 +156,7 @@ export const DataBDProvider = ({ children }) => {
 
 
   let inicializacionRealizada = false;
-
+  
   // Función para inicializar datos en la base de datos
   const inicializarDataBD = async () => {
     const largo = arrayProdInic.length;

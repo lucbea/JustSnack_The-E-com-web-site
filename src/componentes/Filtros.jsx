@@ -11,7 +11,6 @@ import { BsSearch } from "react-icons/bs";
 
 export const Filtros = () => {
     const theme = ThemeCustom()
-    const navigate = useNavigate();
     const { setProducts, setLoadingProducts } = useContext(DataBDContext);
     const [categSelect, setCategSelect] = useState('Todos');
     const [wordSearch, setWordSearch] = useState('');
@@ -29,7 +28,6 @@ export const Filtros = () => {
 
                 const querySnapshot = await getDocs(baseQuery);
                 let productsArray = querySnapshot.docs.map(doc => doc.data());
-
                
                 if (wordSearch) {
                     productsArray = productsArray.filter(product => {
@@ -47,7 +45,6 @@ export const Filtros = () => {
                     setNotFoundSearch(false);
                 }
                 setProducts(productsArray);
-                // navigate('/productos');
             } catch (error) {
                 console.error('Error proceso de lectura de productos: ', error);
             } finally {
@@ -58,9 +55,11 @@ export const Filtros = () => {
         fetchProducts();
     }, [categSelect, wordSearch]);
 
+
     const handleWord = (e) => {
         setWordSearch(e.target.value);
     };
+
 
     const handleCategoryChange = (e) => {
         setCategSelect(e.target.value);
@@ -69,7 +68,6 @@ export const Filtros = () => {
 
     return (
         <Box sx={{width:'100%', display: {sm:'flex'}, justifyContent:{sm:'flex-end'}}}>
-
             <Box sx={{
                 width:'100%',
                 position: 'relative',
@@ -84,7 +82,6 @@ export const Filtros = () => {
                 WebkitJustifyContent: 'space-between',
                 justifyContent: 'space-between',
                 marginTop: '30px',
-
             }}>
                 <Box
                     sx={{
