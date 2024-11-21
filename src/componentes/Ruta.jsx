@@ -10,7 +10,6 @@ export const Ruta = () => {
     const theme = ThemeCustom();
     const { products } = useContext(DataBDContext);
     const [pathParts, setPathParts] = useState(() => location.pathname.split('/').filter(part => part));
-    const [showRuta, setShowRuta] = useState(true);
 
     useEffect(() => {
         setPathParts(location.pathname.split('/').filter(part => part));
@@ -21,6 +20,9 @@ export const Ruta = () => {
             pathParts[0] = 'productos';
             setPathParts([...pathParts]);
             navigate(`/productos/${pathParts[1]}`);
+        }
+        if (pathParts[0] === 'inicio') {
+            navigate ("/")
         }
     }, [pathParts]);
 
@@ -63,7 +65,7 @@ export const Ruta = () => {
                 flexWrap: 'wrap'
             }}
         >
-            {showRuta && location.pathname !== '/' && (
+            {location.pathname !== '/' && (
                 <Box
                     sx={{
                         fontSize: '10px',

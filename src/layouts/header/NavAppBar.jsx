@@ -28,7 +28,7 @@ export default function NavAppBar() {
   const stHeader = StyleHeader({ theme });
   const navigate = useNavigate();
 
-  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, isLoggedIn, setIsLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock, setAuxShowCarro, mjeCarroPend, setMjeCarroPend, cargarCarroLS, handleUserFB } = useContext(OrdenShopContext);
+  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, handleVaciarCarro,  isLoggedIn, setIsLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock, setAuxShowCarro, mjeCarroPend, setMjeCarroPend, cargarCarroLS, handleUserFB } = useContext(OrdenShopContext);
   const isMenuOpenUser = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isCarrOpen = Boolean(anclaMenuCarr);
@@ -84,12 +84,8 @@ export default function NavAppBar() {
   const handleLogin = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate('/inicio');
-      } else {
-        navigate('/signin');
-      }
-      if (user) {
         setIsLoggedIn(true);
+        navigate('/inicio');
       } else {
         setIsLoggedIn(false);
         setAnchorEl(null);
@@ -149,14 +145,6 @@ export default function NavAppBar() {
     setVaciarCarro(false);
     setQuitarCarro(item);
   };
-
-
-  const handleVaciarCarro = () => {
-    setAgregarCarro();
-    setQuitarCarro();
-    setModifItemCarro();
-    setVaciarCarro(true);
-  }
 
 
   const handleDecrement = (item) => {

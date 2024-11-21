@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { DataBDContext } from "./DataBd";
-import { query, where, getDocs, collection, deleteDoc, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export const OrdenShopContext = createContext();
@@ -33,6 +33,7 @@ export const OrdenShopProvider = ({ children }) => {
     const [auxShowCarro, setAuxShowCarro] = useState();
     const [mjeCarroPend, setMjeCarroPend] = useState (false);
 
+
     const handleUserFB = async (userId) => {        
         try {
             const docRef = doc(db, "users", userId); 
@@ -62,20 +63,6 @@ export const OrdenShopProvider = ({ children }) => {
         navigate("/confirmarPedido");
     }
 
-
-    const deleteUserCarro = async (userId) => {
-        try {
-            const q = query(collection(db, "carro"), where("usuarioId", "==", userId));
-            const querySnapshot = await getDocs(q);
-            if (!querySnapshot.empty) {
-                querySnapshot.forEach(async (document) => {
-                    await deleteDoc(doc(db, "carro", document.id));
-                });
-            } 
-        } catch (error) {
-            console.error("Error al eliminar documentos:", error);
-        }
-    };
     
     const handleConfirmarPedido = async () => {
         let userLSJson = localStorage.getItem('usuarioActual');
@@ -115,7 +102,6 @@ export const OrdenShopProvider = ({ children }) => {
                     await setOneData('product', item.id, stockUpdate); 
                 })
             );
-            deleteUserCarro(userLS);
             setOrdenCarro([]);
             setTotalCarro(0);
             navigate('/compra');
@@ -134,6 +120,7 @@ export const OrdenShopProvider = ({ children }) => {
     const handlePerfil = () => {
         setMobileMoreAnchorEl(null);
     }
+
 
     const handleIncrement = (item) => {
         const itemEncont = ordenCarro.find(o => o.id === item.id);
@@ -165,13 +152,22 @@ export const OrdenShopProvider = ({ children }) => {
     };
 
 
+    const handleVaciarCarro = () => {
+        setAgregarCarro();
+        setQuitarCarro();
+        setModifItemCarro();
+        setVaciarCarro(true);
+      }
+
+
     const carroLS = (carroGuardar) => {
         if (agregarCarro || quitarCarro || modifItemCarro || vaciarCarro) {
-            if (vaciarCarro) {
-                localStorage.removeItem(user.userId);
-            } else {
+            if (agregarCarro ||  modifItemCarro) {
                 isLoggedIn ? localStorage.setItem(user.userId, JSON.stringify(carroGuardar)) : null;
-            }        
+            } else {
+                if (quitarCarro && carroGuardar.length>0)  {
+                }
+            }
         } 
     }
     
@@ -198,13 +194,22 @@ export const OrdenShopProvider = ({ children }) => {
             setOrdenCarro(aux)
         }
         if (quitarCarro) {
-            setOrdenCarro(ordenCarro.filter(o => o.id !== quitarCarro.id));
+            if (ordenCarro.length === 1) {
+                setOrdenCarro([]);
+                setTotalCarro(0);
+                setCantItems(0);
+                setHayItemsCarro(false);
+                localStorage.removeItem(user.userId);
+            }  else {
+                setOrdenCarro(ordenCarro.filter(o => o.id !== quitarCarro.id));
+            }
         }
         if (vaciarCarro) {
             setOrdenCarro([]);
             setTotalCarro(0);
             setCantItems(0);
             setHayItemsCarro(false);
+            localStorage.removeItem(user.userId);
         }
     }, [agregarCarro, quitarCarro, modifItemCarro, vaciarCarro])
 
@@ -220,7 +225,7 @@ export const OrdenShopProvider = ({ children }) => {
 
     return (
         <OrdenShopContext.Provider value={{
-            agregarCarro, setAgregarCarro, anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, cantItems, setCantItems, cantMaxStock, setCantMaxStock, hayItemsCarro, setHayItemsCarro, btnIniciarCompra, setBtnIniciarCompra, modifItemCarro, setModifItemCarro, mostrarProduct, setMostrarProduct, ordenCarro, setOrdenCarro, quitarCarro, setQuitarCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, vaciarCarro, setVaciarCarro,
+            agregarCarro, setAgregarCarro, anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, cantItems, setCantItems, cantMaxStock, setCantMaxStock, hayItemsCarro, setHayItemsCarro, btnIniciarCompra, setBtnIniciarCompra, modifItemCarro, setModifItemCarro, mostrarProduct, setMostrarProduct, ordenCarro, setOrdenCarro, quitarCarro, setQuitarCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, vaciarCarro, setVaciarCarro, handleVaciarCarro,
             handleIniciarCompra, handleConfirmarPedido, handlePerfil, user, setUser, isLoggedIn, setIsLoggedIn, handleIncrement, handleModifCantItem, notFoundSearch, setNotFoundSearch, auxShowCarro, setAuxShowCarro, productIdVolverLoggedIn, setProductIdVolverLoggedIn, mjeHabilitarCarro, setMjeHabilitarCarro, carroLS, cargarCarroLS, mjeCarroPend, setMjeCarroPend, handleUserFB,
         }}  >
             {children}

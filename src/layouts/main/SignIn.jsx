@@ -1,4 +1,3 @@
-
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -24,7 +23,7 @@ const defaultTheme = createTheme();
 export default function SignIn() {
     const theme = ThemeCustom();
     const component = ComponentCustom();
-    const { btnIniciarCompra, setIsLoggedIn, setUser, setAnclaMenuCarr, productIdVolverLoggedIn ,  mjeHabilitarCarro, handleUserFB } = useContext(OrdenShopContext);
+    const {setIsLoggedIn, setUser, productIdVolverLoggedIn ,  mjeHabilitarCarro, handleUserFB } = useContext(OrdenShopContext);
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -37,11 +36,11 @@ export default function SignIn() {
     const [ volverLoggedIn, setVolverLoggedIn ] = useState(false);
 
     useEffect(() => {
-        const usuarioActualLS = localStorage.getItem('usuarioActual');
+        const usuarioActualLS = JSON.parse(localStorage.getItem('usuarioActual'));
         if (usuarioActualLS) {
-            const usuarioActual = JSON.parse(usuarioActualLS);
-            if (usuarioActual !== null) {
+            if (usuarioActualLS !== null) {
                 setVolverLoggedIn(true)
+                navigate("/")
             } else {
                 setVolverLoggedIn(false)
             }
@@ -72,11 +71,6 @@ export default function SignIn() {
             } else {
                 navigate('/');
             }
-            if (btnIniciarCompra) {
-                setAnclaMenuCarr();
-                navigate('/confirmarPedido');
-            }
-            
         } catch (error) {
             setIsLoggedIn(false);
             setErrorMessage('Datos incorrectos o error al iniciar sesión.');
@@ -110,15 +104,6 @@ export default function SignIn() {
                         Por seguridad se cerró la sesión. Por favor, vuelve a ingresar.
                     </Box>
                 )}
-                {btnIniciarCompra && (
-                    <Box sx={{
-                        color: theme.palette.primary.rojo,
-                        fontWeight: 900,
-                    }}>
-                        Debe iniciar sesión para proseguir con la compra.
-                    </Box>
-                )}
-
                 <Box
                     sx={{
                         marginTop: '8px',
@@ -297,7 +282,6 @@ export default function SignIn() {
                                 {errorMessage && (
                                     <Box sx={{ width: '100%' }}>
                                         <Typography 
-                                        // color="error"
                                             sx={{
                                                 ml: 2,
                                                 fontSize: '12px',

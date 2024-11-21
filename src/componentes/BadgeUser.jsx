@@ -64,8 +64,3 @@ export const BadgeUser = () => {
     </StyledBadge >
   )
 }
-
-
-
-
-
