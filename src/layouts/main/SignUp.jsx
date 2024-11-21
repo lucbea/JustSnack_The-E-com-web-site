@@ -109,7 +109,6 @@ export default function SignUp() {
       };
       await setDoc(doc(db, 'users', userId), userReg);
       navigate('/signIn');
-      console.log("register- userCredential", userCredential)
     } catch (error) {
       setErrors(prevErrors => ({
         ...prevErrors,

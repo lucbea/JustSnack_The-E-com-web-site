@@ -7,12 +7,17 @@ import { ThemeCustom } from '../context/ThemeCustom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 
+import spinner from "../assets/bx_loader.gif";
+import { StyleSpinner } from '../hook/StyleSpinner';
+
 export const Product = () => {
     const theme = ThemeCustom();
     const { id } = useParams();
     const navigate = useNavigate();
+    const stSpinner = StyleSpinner({ theme });
     const { setHayItemsCarro, setAgregarCarro, setQuitarCarro, setModifItemCarro, setVaciarCarro, ordenCarro, mostrarProduct, setMostrarProduct, handleIncrement, cantMaxStock , setProductIdVolverLoggedIn, mjeHabilitarCarro, setMjeHabilitarCarro, user, carroLS} = useContext(OrdenShopContext)
     const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         localStorage.setItem('404', JSON.stringify(false));
@@ -39,6 +44,7 @@ export const Product = () => {
     useEffect(() => {
         if (mostrarProduct && mostrarProduct.id === id) {
             setProduct(mostrarProduct);
+            setLoading(false);
         } else {
             const fetchProduct = async () => {
                 try {
@@ -54,6 +60,8 @@ export const Product = () => {
                 } catch (error) {
                     console.error("Error fetching document:", error);
                     setProduct(null);
+                } finally {
+                    setLoading(false);
                 }
             };
 
@@ -61,13 +69,7 @@ export const Product = () => {
         }
     }, [id, mostrarProduct, setMostrarProduct]);
 
-    if (!product) {
-        return (
-            <Box sx={{ minWidth: '249px', marginTop: '180px' }}>
-                <h2>Producto no encontrado</h2>
-            </Box>
-        );
-    }
+    
 
     const revisarInicioSesion = (productId) => {
         const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
@@ -104,6 +106,22 @@ const handleAgregarCarro = (product) => {
         setMjeHabilitarCarro(true);
         setProductIdVolverLoggedIn(product.id);
         navigate("/signIn");
+    }
+}
+if (loading) {
+    return <Box sx={{ ...stSpinner.boxMesagge }}>Cargando...
+        <Box sx={{ ...stSpinner.contentSpinner }}>
+            <img src={spinner} alt="Loading spinner"
+                style={{ ...stSpinner.imgSpinner }} />
+        </Box>
+    </Box>;
+} else {
+    if (!product) {
+        return (
+            <Box sx={{ minWidth: '249px', marginTop: '180px' }}>
+                <h2>Producto no encontrado</h2>
+            </Box>
+        );
     }
 }
 

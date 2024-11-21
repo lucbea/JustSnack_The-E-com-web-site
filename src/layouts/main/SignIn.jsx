@@ -21,10 +21,11 @@ import { GoPerson } from "react-icons/go";
 
 const defaultTheme = createTheme();
 
+
 export default function SignIn() {
     const theme = ThemeCustom();
     const component = ComponentCustom();
-    const { btnIniciarCompra, setIsLoggedIn, user, setUser, setAnclaMenuCarr, productIdVolverLoggedIn ,  mjeHabilitarCarro, cargarCarroLS } = useContext(OrdenShopContext);
+    const { btnIniciarCompra, setIsLoggedIn, user, setUser, setAnclaMenuCarr, productIdVolverLoggedIn ,  mjeHabilitarCarro, cargarCarroLS, handleUserFB } = useContext(OrdenShopContext);
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -35,10 +36,8 @@ export default function SignIn() {
     });
     const [ showPassword, setShowPassword ] = useState(false);
     const [ volverLoggedIn, setVolverLoggedIn ] = useState(false);
-   
 
     useEffect(() => {
-        console.log("ingresé a signIn")
         const usuarioActualLS = localStorage.getItem('usuarioActual');
         if (usuarioActualLS) {
             const usuarioActual = JSON.parse(usuarioActualLS);
@@ -60,24 +59,7 @@ export default function SignIn() {
     };
 
 
-    const handleUserFB = async (userId) => {        
-        try {
-            const docRef = doc(db, "users", userId); 
-            const docSnap = await getDoc(docRef);            
-            if (docSnap.exists()) {
-                setUser({
-                    userId: docSnap.data().userId, 
-                    nombre: docSnap.data().nombre,
-                    apellido: docSnap.data().apellido,
-                    notificaciones: docSnap.data().notificaciones,
-                    email: docSnap.data().email
-                  });
-            } 
-            cargarCarroLS(docSnap.data().userId)
-        } catch (error) {
-            console.error("Error al obtener el documento de usuario:", error);
-        }
-    };
+  
         
 
     const handleSubmit = async (event) => {
@@ -86,7 +68,6 @@ export default function SignIn() {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-            console.log("userCredential y user", userCredential, user)
             setIsLoggedIn(true);
             setUser({ id: user.uid });  
             localStorage.setItem('usuarioActual', JSON.stringify(user.uid));

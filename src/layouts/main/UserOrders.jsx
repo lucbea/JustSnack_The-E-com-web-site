@@ -6,7 +6,7 @@ import { collection, query, where, getDocs, getDoc, doc } from 'firebase/firesto
 import { OrdenShopContext } from '../../context/OrdenShop';
 import { ThemeCustom } from '../../context/ThemeCustom';
 import { StyleUserOrders } from './StyleUserOrders';
-import spinner from "../../assets/bx_loader.gif"
+import spinner from "../../assets/bx_loader.gif";
 import { StyleSpinner } from '../../hook/StyleSpinner';
 
 export const UserOrders = () => {

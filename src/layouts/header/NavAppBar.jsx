@@ -28,7 +28,7 @@ export default function NavAppBar() {
   const stHeader = StyleHeader({ theme });
   const navigate = useNavigate();
 
-  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, isLoggedIn, setIsLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock, setAuxShowCarro, mjeCarroPend, setMjeCarroPend } = useContext(OrdenShopContext);
+  const { anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, hayItemsCarro, setHayItemsCarro, setModifItemCarro, ordenCarro, setOrdenCarro, setShowProducts, totalCarro, setAgregarCarro, setQuitarCarro, setVaciarCarro, handleIniciarCompra, isLoggedIn, setIsLoggedIn, setBtnIniciarCompra, handleIncrement, handleModifCantItem, cantMaxStock, setAuxShowCarro, mjeCarroPend, setMjeCarroPend, cargarCarroLS, user, handleUserFB } = useContext(OrdenShopContext);
   const isMenuOpenUser = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isCarrOpen = Boolean(anclaMenuCarr);
@@ -38,17 +38,37 @@ export default function NavAppBar() {
   const handleProfileUserClose = () => setAnchorEl(null);
   const handleCarMenuOpen = (event) => { setAnclaMenuCarr(event.currentTarget) };
   const handleCarMenuClose = () => setAnclaMenuCarr(null);
-  const [ userIn, setUserIn ] = useState(false);
+  const [userIn, setUserIn] = useState(false);
 
   useEffect(() => {
-      const isLoggedInLS = JSON.parse(localStorage.getItem('isLoggedIn'));
-      if (isLoggedInLS !== null) {
-        console.log("inicializando loguedIn")
-        console.log("badgeUser", isLoggedInLS);
-        setUserIn(isLoggedInLS === true); 
-        setIsLoggedIn(isLoggedInLS === true)
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        localStorage.setItem('isLoggedIn', JSON.stringify(true));
+        localStorage.setItem('usuarioActual', JSON.stringify(user.uid));
+        handleUserFB(user.uid);
+      } else {
+        localStorage.setItem('isLoggedIn', JSON.stringify(false));
+        localStorage.removeItem('usuarioActual');
       }
-    }, [isLoggedIn]);
+    });
+    cargarCarroLS();
+
+    return () => unsubscribe();
+  }, []);
+
+
+  useEffect(() => {
+
+    //llamar a cargarCarroLS si hay usuario en LS
+  }, [])
+
+  useEffect(() => {
+    const isLoggedInLS = JSON.parse(localStorage.getItem('isLoggedIn'));
+    if (isLoggedInLS !== null) {
+      setUserIn(isLoggedInLS === true);
+      setIsLoggedIn(isLoggedInLS === true)
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     setHayItemsCarro(ordenCarro.length > 0);
@@ -58,7 +78,7 @@ export default function NavAppBar() {
     if (mjeCarroPend) {
       const timer = setTimeout(() => {
         setMjeCarroPend(false);
-      }, 3000);
+      }, 1500);
       return () => clearTimeout(timer);
     }
   }, [mjeCarroPend]);
@@ -67,17 +87,13 @@ export default function NavAppBar() {
   const handleLogin = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("Usuario autenticado:", user);
-        navigate('/inicio'); 
+        navigate('/inicio');
       } else {
-        console.log("No hay usuario autenticado.");
-        navigate('/signin'); 
+        navigate('/signin');
       }
       if (user) {
-        console.log("Usuario autenticado:", user);
-        setIsLoggedIn(true);  
+        setIsLoggedIn(true);
       } else {
-        console.log("No hay usuario autenticado.");
         setIsLoggedIn(false);
         setAnchorEl(null);
         setMobileMoreAnchorEl(null);
@@ -93,15 +109,15 @@ export default function NavAppBar() {
       .then(() => {
         onAuthStateChanged(auth, (user) => {
           if (user) {
-            console.log("Usuario autenticado:", user);
+            null
           } else {
-            console.log("No hay usuario autenticado.");
-            localStorage.setItem('usuarioActual', JSON.stringify(null)); 
+            localStorage.setItem('usuarioActual', JSON.stringify(null));
             localStorage.setItem('isLoggedIn', JSON.stringify(false));
             setIsLoggedIn(false);
             setAnchorEl(null);
             setMobileMoreAnchorEl(null);
             setAnclaMenuCarr(null);
+            setOrdenCarro([]);
             navigate('/');
           }
         });
@@ -316,7 +332,12 @@ export default function NavAppBar() {
           </MenuItem>
         ))
       ) : (
-        <MenuItem>Sin productos seleccionados.</MenuItem>
+        <MenuItem>
+          <Box sx={{ margin: 'auto' }}>
+            Sin productos seleccionados.
+          </Box>
+        </MenuItem>
+
       )}
 
       {hayItemsCarro && (

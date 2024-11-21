@@ -30,7 +30,6 @@ export const BadgeUser = () => {
   
     // Si 'isLoggedInLS' es un valor válido (booleano), actualizar el estado de 'badgeIn'
     if (isLoggedInLS !== null) {
-      console.log("badgeUser", isLoggedInLS);
       setBadgeIn(isLoggedInLS === true); // Asegúrate de que sea un valor booleano
     }
   }, [isLoggedIn]); // Dependencia: el useEffect se ejecutará cuando 'isLoggedIn' cambie

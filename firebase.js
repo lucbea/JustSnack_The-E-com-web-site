@@ -22,10 +22,10 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 setPersistence(auth, browserLocalPersistence)
-  .then(() => {
-    console.log("el usuario persiste")
-    // Aquí puedes hacer cosas relacionadas con la autenticación
-  })
+  // .then(() => {
+  //   // console.alert("el usuario persiste")
+  //   // localStorage.setItem('usuarioActual', JSON.stringify(user.uid));
+  // })
   .catch((error) => {
     console.error("Error al establecer la persistencia:", error);
   });

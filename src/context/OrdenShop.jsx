@@ -2,27 +2,27 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { DataBDContext } from "./DataBd";
-import { query, where, getDocs, collection, deleteDoc, doc, setDoc } from "firebase/firestore";
+import { query, where, getDocs, collection, deleteDoc, doc, setDoc, getDoc } from "firebase/firestore";
 import { getAuth } from 'firebase/auth';
 import { db } from "../../firebase";
 
 export const OrdenShopContext = createContext();
 
 export const IsUserLogged = () => {
-    if (!isLoggedIn) {
-        navigate('/signin');
-        setAnclaMenuCarr(null);
-        setBtnIniciarCompra();
-        let userLSJson = localStorage.getItem('usuarioActual', JSON.stringify(user));
-        if (userLSJson) {
-            userLS = JSON.parse(userLSJson);
-        }
-        if (!(userLS.userId)) {
-            console.error("El usuario no está definido o no tiene un ID.");
-            return;
-        }
-        return;
-    }
+    // if (!isLoggedIn) {
+    //     navigate('/signin');
+    //     setAnclaMenuCarr(null);
+    //     setBtnIniciarCompra();
+    //     let userLSJson = localStorage.getItem('usuarioActual', JSON.stringify(user));
+    //     if (userLSJson) {
+    //         userLS = JSON.parse(userLSJson);
+    //     }
+    //     if (!(userLS.userId)) {
+    //         console.error("El usuario no está definido o no tiene un ID.");
+    //         return;
+    //     }
+    //     return;
+    // }
 }
 
 export const OrdenShopProvider = ({ children }) => {
@@ -52,6 +52,24 @@ export const OrdenShopProvider = ({ children }) => {
     const [mjeCarroPend, setMjeCarroPend] = useState (false)
     let userLS;
 
+    const handleUserFB = async (userId) => {        
+        try {
+            const docRef = doc(db, "users", userId); 
+            const docSnap = await getDoc(docRef);            
+            if (docSnap.exists()) {
+                setUser({
+                    userId: docSnap.data().userId, 
+                    nombre: docSnap.data().nombre,
+                    apellido: docSnap.data().apellido,
+                    notificaciones: docSnap.data().notificaciones,
+                    email: docSnap.data().email
+                  });
+            } 
+            cargarCarroLS(docSnap.data().userId)
+        } catch (error) {
+            console.error("Error al obtener el documento de usuario:", error);
+        }
+    }; 
 
     const handleIniciarCompra = () => {
         if (!isLoggedIn) {
@@ -168,7 +186,12 @@ export const OrdenShopProvider = ({ children }) => {
 
     const carroLS = (carroGuardar) => {
         if (agregarCarro || quitarCarro || modifItemCarro || vaciarCarro) {
-            localStorage.setItem(user.userId, JSON.stringify(carroGuardar));
+            if (vaciarCarro) {
+                localStorage.removeItem(user.userId);
+            } else {
+                isLoggedIn ? localStorage.setItem(user.userId, JSON.stringify(carroGuardar)) : null;
+            }
+            
         } 
     }
     
@@ -182,7 +205,6 @@ export const OrdenShopProvider = ({ children }) => {
         else {
             setMjeCarroPend(false)
         }
-       
     }
 
     useEffect(() => {
@@ -216,11 +238,10 @@ export const OrdenShopProvider = ({ children }) => {
     }, [ordenCarro])
 
 
-
     return (
         <OrdenShopContext.Provider value={{
             agregarCarro, setAgregarCarro, anchorEl, setAnchorEl, anclaMenuCarr, setAnclaMenuCarr, mobileMoreAnchorEl, setMobileMoreAnchorEl, cantItems, setCantItems, cantMaxStock, setCantMaxStock, hayItemsCarro, setHayItemsCarro, btnIniciarCompra, setBtnIniciarCompra, modifItemCarro, setModifItemCarro, mostrarProduct, setMostrarProduct, ordenCarro, setOrdenCarro, quitarCarro, setQuitarCarro, showProducts, setShowProducts, totalCarro, setTotalCarro, vaciarCarro, setVaciarCarro,
-            handleIniciarCompra, handleConfirmarPedido, handlePerfil, user, setUser, isLoggedIn, setIsLoggedIn, handleIncrement, handleModifCantItem, notFoundSearch, setNotFoundSearch, auxShowCarro, setAuxShowCarro, productIdVolverLoggedIn, setProductIdVolverLoggedIn, mjeHabilitarCarro, setMjeHabilitarCarro, carroLS, cargarCarroLS, mjeCarroPend, setMjeCarroPend
+            handleIniciarCompra, handleConfirmarPedido, handlePerfil, user, setUser, isLoggedIn, setIsLoggedIn, handleIncrement, handleModifCantItem, notFoundSearch, setNotFoundSearch, auxShowCarro, setAuxShowCarro, productIdVolverLoggedIn, setProductIdVolverLoggedIn, mjeHabilitarCarro, setMjeHabilitarCarro, carroLS, cargarCarroLS, mjeCarroPend, setMjeCarroPend, handleUserFB,
         }}  >
             {children}
         </OrdenShopContext.Provider>
