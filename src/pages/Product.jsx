@@ -15,13 +15,16 @@ export const Product = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const stSpinner = StyleSpinner({ theme });
-    const { setHayItemsCarro, setAgregarCarro, setQuitarCarro, setModifItemCarro, setVaciarCarro, ordenCarro, mostrarProduct, setMostrarProduct, handleIncrement, cantMaxStock , setProductIdVolverLoggedIn, mjeHabilitarCarro, setMjeHabilitarCarro, user, carroLS} = useContext(OrdenShopContext)
+    const { setHayItemsCarro, setAgregarCarro, setQuitarCarro, setModifItemCarro, setVaciarCarro, ordenCarro, mostrarProduct, setMostrarProduct, handleIncrement, cantMaxStock , setProductIdVolverLoggedIn, setMjeHabilitarCarro } = useContext(OrdenShopContext)
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [mensajeAgregado, setMensajeAgregado] = useState(false);  
+
 
     useEffect(() => {
         localStorage.setItem('404', JSON.stringify(false));
     }, []);
+
 
     const TriangleAvatar = styled(Box)(({ theme }) => ({
         display: 'flex',
@@ -40,6 +43,7 @@ export const Product = () => {
         paddingTop: '10px',
         boxShadow: theme.palette.primary.sombraBox,
     }));
+
 
     useEffect(() => {
         if (mostrarProduct && mostrarProduct.id === id) {
@@ -68,7 +72,6 @@ export const Product = () => {
         }
     }, [id, mostrarProduct, setMostrarProduct]);
 
-    
 
     const revisarInicioSesion = (productId) => {
         const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
@@ -81,49 +84,52 @@ export const Product = () => {
             navigate("/signIn");
         }
     }
-   
 
-const handleAgregarCarro = (product) => {
-    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
-    revisarInicioSesion(product.id);
-    if (isLoggedIn) {
-        const agregado = ordenCarro.filter((item) => item.id === product.id);
-        if (agregado.length > 0) {
-            handleIncrement(product)
+
+    const handleAgregarCarro = (product) => {
+        const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
+        revisarInicioSesion(product.id);
+        if (isLoggedIn) {
+            const agregado = ordenCarro.filter((item) => item.id === product.id);
+            if (agregado.length > 0) {
+                handleIncrement(product);
+            } else {
+                if (product.stock > 0) {
+                    product.cantidadPedida = 1;
+                    product.totalItem = product.precio;
+                    setQuitarCarro();
+                    setModifItemCarro();
+                    setVaciarCarro(false);
+                    setHayItemsCarro(true);
+                    setAgregarCarro(product);
+                }
+            }
+            setMensajeAgregado(true);
+            setTimeout(() => {
+                setMensajeAgregado(false);
+            }, 1000);
         } else {
-            if (product.stock > 0) {
-                            product.cantidadPedida = 1;
-                            product.totalItem = product.precio;
-                            setQuitarCarro();
-                            setModifItemCarro();
-                            setVaciarCarro(false);
-                            setHayItemsCarro(true);
-                            setAgregarCarro(product);
-                        }
+            setMjeHabilitarCarro(true);
+            setProductIdVolverLoggedIn(product.id);
+            navigate("/signIn");
         }
-    } else {
-        setMjeHabilitarCarro(true);
-        setProductIdVolverLoggedIn(product.id);
-        navigate("/signIn");
     }
-}
-if (loading) {
-    return <Box sx={{ ...stSpinner.boxMesagge }}>Cargando...
-        <Box sx={{ ...stSpinner.contentSpinner }}>
-            <img src={spinner} alt="Loading spinner"
-                style={{ ...stSpinner.imgSpinner }} />
-        </Box>
-    </Box>;
-} else {
-    if (!product) {
-        return (
-            <Box sx={{ minWidth: '249px', marginTop: '180px' }}>
-                <h2>Producto no encontrado</h2>
+    if (loading) {
+        return <Box sx={{ ...stSpinner.boxMesagge }}>Cargando...
+            <Box sx={{ ...stSpinner.contentSpinner }}>
+                <img src={spinner} alt="Loading spinner"
+                    style={{ ...stSpinner.imgSpinner }} />
             </Box>
-        );
+        </Box>;
+    } else {
+        if (!product) {
+            return (
+                <Box sx={{ minWidth: '249px', marginTop: '180px' }}>
+                    <h2>Producto no encontrado</h2>
+                </Box>
+            );
+        }
     }
-}
-
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -192,8 +198,9 @@ if (loading) {
                         }}>{product.nombre}</p>
                         <span style={{ fontSize: '20px', marginBottom: '0px', marginTop: '5px', fontSize: '20px', paddingLeft: '5px', fontWeight: 900 }}>x</span>
                         <span style={{ fontSize: '20px', marginBottom: '0px', marginTop: '5px', paddingLeft: '5px', fontWeight: 900 }}>{product.presentacion}</span>
-                        <Box sx={{ fontSize: { xs: '10px', sm: '14px' } }}> <p style={{ fontSize: 'inherit', marginTop: '0px', marginBottom: '25px' }}>SKU: {product.id}</p></Box>
-
+                        <Box sx={{ fontSize: { xs: '10px', sm: '14px' } }}> <p style={{ fontSize: 'inherit', marginTop: '0px', marginBottom: '25px' }}>
+                            SKU: {product.id}</p>
+                        </Box>
                         <Box sx={{ fontSize: { xs: '12px', sm: '15px' } }}>
                             <p style={{ marginBottom: '8px' }}>{product.descripcion}</p>
                         </Box>
@@ -204,11 +211,10 @@ if (loading) {
                 <Box
                     sx={{
                         width: '100%',
-                        display: { xs: 'flex', sm: 'flex', md: 'flex' },
+                        display: { xs: 'flex', sm: 'flex', md: 'block' },
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         marginInline: '0px',
-
                         marginBottom: '10px',
                         flexDirection: 'column',
                         fontSize: { xs: '12px', sm: '13px' },
@@ -222,30 +228,46 @@ if (loading) {
                                 <p style={{ color: theme.palette.primary.rojo, fontSize: 'inherit', fontWeight: 900 }}>No hay más productos para la venta</p>
                             </Box>
                         }
-                        <IconButton
-                            sx={{
-                                width: '56px',
-                                height: '56px',
-                                color: theme.palette.primary.verde,
-                                fontSize: { xs: '30px', sm: '40px' },
-                                marginInline: { xs: '10px', sm: '40px' },
-                                '&:focus': {
-                                    outline: '0px solid #00000000'
-                                },
-                                '&:focus-visible': {
-                                    outline: '0px solid #00000000'
-                                },
-                            }}
-                            aria-label="add to favorites"
-                            onClick={() => handleAgregarCarro(product)}
-                            disabled={product.stock < 1}
-                        >
-                            <BsCartPlus
+                        <Box>
+                            <IconButton
                                 sx={{
-                                    outline: 'none',
+                                    width: '56px',
+                                    height: '56px',
+                                    color: theme.palette.primary.verde,
+                                    fontSize: { xs: '30px', sm: '40px' },
+                                    position: 'relative',
+                                    '&:focus': {
+                                        outline: '0px solid #00000000'
+                                    },
+                                    '&:focus-visible': {
+                                        outline: '0px solid #00000000'
+                                    },
                                 }}
-                            />
-                        </IconButton>
+                                aria-label="add to favorites"
+                                onClick={() => handleAgregarCarro(product)}
+                                disabled={product.stock < 1}
+                            >
+                                <BsCartPlus
+                                    sx={{
+                                        outline: 'none',
+                                    }}
+                                />
+                                 {mensajeAgregado && (
+                                <Box sx={{
+                                    position: 'absolute',
+                                    top: '65px',
+                                    right: '-50px',
+                                    transform: 'translate(-50%, -50%)',
+                                    color: theme.palette.primary.rojo,
+                                    fontSize: '14px',
+                                    fontWeight: 800,
+                                    zIndex: 10, 
+                                }}>
+                                    Agregado!
+                                </Box>
+                            )}
+                            </IconButton>
+                        </Box>
                     </Box>
                 </Box>
             </Box>
