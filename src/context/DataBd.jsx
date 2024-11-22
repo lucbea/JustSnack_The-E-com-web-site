@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { v4 as uuidv4 } from 'uuid';
@@ -8,7 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
 export const DataBDContext = createContext();
 
 export const DataBDProvider = ({ children }) => {
-  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
 

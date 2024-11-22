@@ -21,11 +21,6 @@ export const Product = () => {
     const [mensajeAgregado, setMensajeAgregado] = useState(false);  
 
 
-    useEffect(() => {
-        localStorage.setItem('404', JSON.stringify(false));
-    }, []);
-
-
     const TriangleAvatar = styled(Box)(({ theme }) => ({
         display: 'flex',
         flexDirection: 'column',
@@ -221,7 +216,7 @@ export const Product = () => {
                     }}
                 >
                     <p style={{ fontSize: 'inherit', marginBlock: '8px' }}>{product.descripcionLarga}</p>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', position: 'relative', fontSize: { xs: '20px', sm: '28px' }, marginInline: { xs: '10px', sm: '40px' }, marginTop: '20px' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', position: 'relative', fontSize: { xs: '18px', sm: '28px' }, paddingInline: { xs: '1px', sm: '30px', md:'50px' }, marginTop: '20px' }}>
                         <p style={{ fontSize: 'inherit', fontWeight: 700, marginBlock: '8px', paddingLeft: '20px' }}>Precio: ${product.precio}</p>
                         {cantMaxStock &&
                             <Box sx={{ position: 'absolute', top: '45px', right: '15px', color: 'red', height: '30px', fontSize: { xs: '10px', sm: '14px' } }}>
@@ -269,6 +264,18 @@ export const Product = () => {
                             </IconButton>
                         </Box>
                     </Box>
+                </Box>
+                <Box
+                   onClick={() => navigate("/productos")} 
+                    sx={{
+                        cursor: 'pointer',
+                        fontWeight: 500,
+                        ':hover': {
+                            fontWeight: 800, 
+                        },
+                    }}
+                >
+                    Volver a Productos
                 </Box>
             </Box>
         </Box>

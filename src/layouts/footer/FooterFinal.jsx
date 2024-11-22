@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ThemeCustom } from "../../context/ThemeCustom";
@@ -83,15 +83,7 @@ function CopyrightLB({ theme }) {
 export default function FooterFinal() {
   const theme = ThemeCustom();
   const stFooter = StyleFooter({ theme });
-  const { isLoggedIn,  handleLogout } = useContext(OrdenShopContext);
-  // const navigate = useNavigate();  
-
   
-  // const handleCerrarSesion = () => {
-  //   handleLogout();  
-  //   navigate('/');  
-  // };
- 
   return (
     <>
       <Box
