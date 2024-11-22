@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -15,7 +15,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FormHelperText from '@mui/material/FormHelperText';
 import { ThemeCustom } from "../../context/ThemeCustom";
 import { ComponentCustom } from '../../context/ComponentCustom';
-import { OrdenShopContext } from '../../context/OrdenShop';
 import { CiLock } from "react-icons/ci";
 
 const defaultTheme = createTheme();
@@ -24,7 +23,6 @@ export default function SignUp() {
   const theme = ThemeCustom();
   const component = ComponentCustom();
   const navigate = useNavigate();
-  // const { user, setUser } = useContext(OrdenShopContext);
 
   const [values, setValues] = useState({
     nombre: '',

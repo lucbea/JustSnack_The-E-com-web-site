@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Box, Paper } from '@mui/material';
 import { db } from '../../../firebase';
 import { collection, query, where, getDocs, getDoc, doc } from 'firebase/firestore';
@@ -11,7 +10,6 @@ import { StyleSpinner } from '../../hook/StyleSpinner';
 
 export const UserOrders = () => {
     const theme = ThemeCustom();
-    const navigate = useNavigate();
     const stUsOrd = StyleUserOrders({ theme });
     const stSpinner = StyleSpinner({ theme });
     const [orders, setOrders] = useState([]);

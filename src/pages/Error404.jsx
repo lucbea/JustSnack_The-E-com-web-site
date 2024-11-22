@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
 import { Box } from '@mui/material';
 import Emoji404 from '../assets/emoji404.png';
 
 export const Error404 = () => {
-    useEffect(() => {
-        localStorage.setItem('404', JSON.stringify(true));
-    }, []);
+   
     return (
         <Box sx={{ paddingTop: '20px', margin: 'auto', textAlign: 'center' }}>
             <h2>Uuups!</h2>

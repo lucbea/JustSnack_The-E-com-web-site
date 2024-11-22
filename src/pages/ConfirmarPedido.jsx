@@ -16,10 +16,6 @@ export const ConfirmarPedido = () => {
 
   const [showTable, setShowTable] = useState(false);
 
-  useEffect (() => {
-    localStorage.setItem('404', JSON.stringify(false));
-  }, []);
-
   useEffect(() => {
     if (isLoggedIn) {
       setShowTable(true);
@@ -101,5 +97,3 @@ export const ConfirmarPedido = () => {
     </>
   );
 };
-
-

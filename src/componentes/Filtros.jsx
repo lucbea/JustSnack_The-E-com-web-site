@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { collection, query, getDocs, where } from "firebase/firestore";
 import { db } from '../../firebase';
 import Box from '@mui/material/Box';
